@@ -7,20 +7,27 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
+    <TextView
+        android:id="@+id/tvPendingSales"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_entry"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_margin="30dp"
+        android:background="#441811E0"
+        android:padding="20dp"
+        android:text="Pending Sales"
+        android:textSize="30dp" />
 
     <TextView
+        android:id="@+id/tvSales"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:layout_margin="30dp"
+        android:background="#441811E0"
+        android:padding="20dp"
+        android:text="Sales"
+        android:textSize="30dp" />
+
 
 </LinearLayout>

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">SalesTracking</string>
     <string name="new_entry">New Entry</string>
+    <string name="sales_product">Sales Product</string>
+    <string name="sales_target">Sales Target</string>
+    <string name="target_complete">Target Complete</string>
+    <string name="check_in">Check In</string>
+    <string name="submit">Submit</string>
 </resources>
