@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -46,13 +47,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 public class CheckInActivity extends AppCompatActivity implements OnMapReadyCallback {
     private final int FINE_LOCATION_PERMISSION = 1;
     LocationRequest mLocationRequest;
     int LOCATION_INTERVAL = 30 * 1000; // 30 sec
     int FAST_INTERVAL = 10 * 1000; // 10 sec
-    double latitude;
-    double longitude;
+    double latitude,getlat;
+    double longitude,getlong;
     LocationCallback locationCallback;
     FusedLocationProviderClient fusedLocationProviderClient;
     boolean mRequestingLocationUpdates = false;
@@ -65,6 +68,8 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
     @BindView(R.id.tvYourLocation)
     TextView tvYourLocation;
+    @BindView(R.id.tvLocation)
+    TextView tvLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,14 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_check_in);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            String message = bundle.getString("LatLong");
+           getlat=bundle.getDouble("Lat");
+           getlong=bundle.getDouble("log");
+            tvLocation.setText(String.valueOf(getlat)+ " "+ String.valueOf(getlong));
+        } else tvLocation.setText(" ");
 
         checkPermission();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -285,21 +298,44 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
-        Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
-        intent.putExtra("message", tvYourLocation.getText());
-        startActivity(intent);
-        startActivity(intent);
+
+        if (isValidated())
+
+        {
+            Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
+            intent.putExtra("message", tvYourLocation.getText());
+            startActivity(intent);
+        }
+
+
     }
 
     private boolean isValidated() {
         if (longitude == 0 || latitude == 0) {
-           /* Toasty.error(getApplicationContext(),
-                    "could not detect your location!", Toast.LENGTH_SHORT, true).show();*/
+           Toast.makeText(CheckInActivity.this,
+                    "could not detect your location!", LENGTH_SHORT).show();
             return false;
         }
+       // Checking if location is near office premises
+            Location officeLocation = new Location("");
+            officeLocation.setLatitude(getlat);
+            officeLocation.setLongitude(getlong);
 
+            Location myLocation = new Location("");
+            myLocation.setLongitude(longitude);
+            myLocation.setLatitude(latitude);
 
-        return true;
+            float distanceInMeters = officeLocation.distanceTo(myLocation);
+        Log.d("tag", "Validation"+distanceInMeters);
+            if (distanceInMeters > 100) {
+          /*  Toast(g, "You are not in office range! " +
+                    "Please try again near office premises", Toast.LENGTH_SHORT, true).show();*/
+
+                Toast.makeText(CheckInActivity.this,"You are out of range! " +
+                        "Please try again near premises", LENGTH_SHORT ).show();
+                return false;
+            }
+            return true;
     }
 
 

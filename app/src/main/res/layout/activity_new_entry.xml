@@ -8,12 +8,14 @@
     tools:context=".NewEntryActivity">
 
     <EditText
+        android:id="@+id/etProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="@string/sales_product" />
 
     <EditText
+        android:id="@+id/etSalesTarget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -21,6 +23,7 @@
         android:inputType="number" />
 
     <EditText
+        android:id="@+id/etTarget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -30,6 +33,11 @@
 
     <TextView
         android:id="@+id/tvYourLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -44,5 +52,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit" />
+
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
