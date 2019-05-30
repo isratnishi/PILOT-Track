@@ -10,41 +10,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.opus_bd.salestracking.Model.GeocodingLocation;
+import com.opus_bd.salestracking.Model.MessageResponse;
+import com.opus_bd.salestracking.Model.SalesModel;
 import com.opus_bd.salestracking.R;
+import com.opus_bd.salestracking.RetrofitService.RetrofitClientInstance;
+import com.opus_bd.salestracking.RetrofitService.RetrofitService;
+import com.opus_bd.salestracking.Utils.SharedPrefManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NewEntryActivity extends AppCompatActivity {
     @BindView(R.id.btnCheckIn)
     Button btnCheckIn;
     @BindView(R.id.tvYourLocation)
     TextView tvYourLocation;
-    @BindView(R.id.tvLocation)
-    TextView tvLocation;
     @BindView(R.id.etProduct)
-    EditText etProduct;
+    TextView etProduct;
     @BindView(R.id.etSalesTarget)
-    EditText etSalesTarget;
+    TextView etSalesTarget;
     @BindView(R.id.etTarget)
-    EditText etTarget;
-    double latitude, passLat, passLog;
-    double longitude;
+    TextView etTarget;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    @BindView(R.id.tv1)
-    TextView tv1;
-    @BindView(R.id.tv2)
-    TextView tv2;
-    @BindView(R.id.tv3)
-    TextView tv3;
-    @BindView(R.id.tv4)
-    TextView tv4;
+    SalesModel model = new SalesModel();
 
+    String location, target;
+    int site, product, salesperson;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,79 +52,59 @@ public class NewEntryActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            String message = bundle.getString("message");
-            tvYourLocation.setText(message);
-        } else tvYourLocation.setText(" ");
+            location = bundle.getString("message");
+            product = bundle.getInt("productid");
+            site = bundle.getInt("siteid");
+            target = bundle.getString("target");
+            salesperson = bundle.getInt("spid");
 
+        }
+        tvYourLocation.setText(location);
+        etSalesTarget.setText(target);
+        etProduct.setText(product);
 
-        String address = tvYourLocation.getText().toString();
+    }
 
-        GeocodingLocation locationAddress = new GeocodingLocation();
-        locationAddress.getAddressFromLocation(address,
-                getApplicationContext(), new GeocoderHandler());
+    private void submitToServer() {
+        model.setSiteId(Integer.valueOf(site));
+        model.setLocation(tvYourLocation.getText().toString());
+        model.setTarget(target);
+        model.setProductId(product);
+        model.setTargetmeet(etTarget.getText().toString());
+        model.setSalespersonId(salesperson);
 
+        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+        String token = SharedPrefManager.getInstance(NewEntryActivity.this).getUser();
+        if (token != null) {
+            Call<MessageResponse> addCompany = retrofitService.saveVisit(token, model);
+            addCompany.enqueue(new Callback<MessageResponse>() {
+                @Override
+                public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                    // showProgressBar(false);
+                    if (response.body() != null) {
+                        Toast.makeText(NewEntryActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
 
-        // Opening sharedPreferences in Private mode.
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+                    }
+                }
 
-        // Opening sharedPreferences in edit mode using editor.
-        editor = sharedPreferences.edit();
+                @Override
+                public void onFailure(Call<MessageResponse> call, Throwable t) {
+                    //showProgressBar(false);
+                    Toast.makeText(NewEntryActivity.this, "Fail to connect ", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Not registered! Please sign in to continue", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
     }
 
     @OnClick(R.id.btnCheckIn)
     public void btnCheckIn() {
-        Intent intent = new Intent(NewEntryActivity.this, CheckInActivity.class);
-        //intent.putExtra("LatLong",tvLocation.getText().toString());
-
-        intent.putExtra("Lat", latitude);
-        intent.putExtra("log", longitude);
-        startActivity(intent);
+        submitToServer();
     }
 
-    private class GeocoderHandler extends Handler {
-        @Override
-        public void handleMessage(Message message) {
-            String locationAddress;
-
-            switch (message.what) {
-                case 1:
-                    Bundle bundle = message.getData();
-                    latitude = bundle.getDouble("Lat");
-                    longitude = bundle.getDouble("log");
-                    break;
-                default:
-                    locationAddress = null;
-            }
-            /*  tvLocation.setText(String.valueOf(latitude)+"   "+String.valueOf(longitude));*/
-        }
-    }
-
-    public void StoreListToSharedPreferences() {
-
-        editor.putString("ProductName", etProduct.getText().toString());
-        editor.putString("SalesTarget", etSalesTarget.getText().toString());
-        editor.putString("Target", etTarget.getText().toString());
-        editor.putString("Location", tvYourLocation.getText().toString());
-
-        editor.apply();
-
-
-    }
-
-    // Creating method to Show values from sharedPreferences.
-    public void RetrieveListFromSharedPreferences() {
-
-        tv1.setText(sharedPreferences.getString("ProductName", etProduct.getText().toString()));
-        tv2.setText(sharedPreferences.getString("SalesTarget", etSalesTarget.getText().toString()));
-        tv3.setText(sharedPreferences.getString("Target", etTarget.getText().toString()));
-        tv4.setText(sharedPreferences.getString("Location", tvYourLocation.getText().toString()));
-
-    }
-
-    @OnClick(R.id.btnSubmit)
-    public void btnSubmit(){
-        StoreListToSharedPreferences();
-        RetrieveListFromSharedPreferences();
-    }
 }
 

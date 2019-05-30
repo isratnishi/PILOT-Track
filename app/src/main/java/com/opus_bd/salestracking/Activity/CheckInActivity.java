@@ -10,7 +10,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +40,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.opus_bd.salestracking.Model.GeocodingLocation;
+import com.opus_bd.salestracking.Model.SalesModel;
 import com.opus_bd.salestracking.R;
+import com.opus_bd.salestracking.Utils.Utilities;
 
 import java.util.List;
 import java.util.Locale;
@@ -50,12 +55,13 @@ import butterknife.OnClick;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class CheckInActivity extends AppCompatActivity implements OnMapReadyCallback {
+    public final static String EXTRA_MODEL = "id";
     private final int FINE_LOCATION_PERMISSION = 1;
     LocationRequest mLocationRequest;
     int LOCATION_INTERVAL = 30 * 1000; // 30 sec
     int FAST_INTERVAL = 10 * 1000; // 10 sec
-    double latitude,getlat;
-    double longitude,getlong;
+    double latitude, getlat;
+    double longitude, getlong;
     LocationCallback locationCallback;
     FusedLocationProviderClient fusedLocationProviderClient;
     boolean mRequestingLocationUpdates = false;
@@ -65,11 +71,13 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     int statusID;
     @BindView(R.id.attendance_button)
     Button attendButton;
-
+    SalesModel salesModel;
     @BindView(R.id.tvYourLocation)
     TextView tvYourLocation;
     @BindView(R.id.tvLocation)
     TextView tvLocation;
+    String location, target;
+    int site, product, salesperson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +85,23 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_check_in);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
+
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            String message = bundle.getString("LatLong");
-           getlat=bundle.getDouble("Lat");
-           getlong=bundle.getDouble("log");
-            tvLocation.setText(String.valueOf(getlat)+ " "+ String.valueOf(getlong));
-        } else tvLocation.setText(" ");
+            location = bundle.getString("message");
+            product = bundle.getInt("productid");
+            site = bundle.getInt("siteid");
+            target = bundle.getString("target");
+            salesperson = bundle.getInt("spid");
+
+
+        }
+        Utilities.showLogcatMessage(" Item " + location + " " + site + "   " + product + "  " + salesperson);
+        GeocodingLocation locationAddress = new GeocodingLocation();
+        locationAddress.getAddressFromLocation(location,
+                getApplicationContext(), new GeocoderHandler());
+
 
         checkPermission();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -135,6 +152,24 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         } catch (Exception ignored) {
         }
         return "";
+    }
+
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    getlat = bundle.getDouble("Lat");
+                    getlong = bundle.getDouble("log");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            tvLocation.setText(String.valueOf(getlat) + " " + String.valueOf(getlong));
+        }
     }
 
     private void checkPermission() {
@@ -299,11 +334,13 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
 
-        if (isValidated())
-
-        {
+        if (isValidated()) {
             Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
             intent.putExtra("message", tvYourLocation.getText());
+            intent.putExtra("spid", salesperson);
+            intent.putExtra("siteid", site);
+            intent.putExtra("target", target);
+            intent.putExtra("productid", product);
             startActivity(intent);
         }
 
@@ -312,30 +349,30 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
     private boolean isValidated() {
         if (longitude == 0 || latitude == 0) {
-           Toast.makeText(CheckInActivity.this,
+            Toast.makeText(CheckInActivity.this,
                     "could not detect your location!", LENGTH_SHORT).show();
             return false;
         }
-       // Checking if location is near office premises
-            Location officeLocation = new Location("");
-            officeLocation.setLatitude(getlat);
-            officeLocation.setLongitude(getlong);
+        // Checking if location is near office premises
+        Location officeLocation = new Location("");
+        officeLocation.setLatitude(getlat);
+        officeLocation.setLongitude(getlong);
 
-            Location myLocation = new Location("");
-            myLocation.setLongitude(longitude);
-            myLocation.setLatitude(latitude);
+        Location myLocation = new Location("");
+        myLocation.setLongitude(longitude);
+        myLocation.setLatitude(latitude);
 
-            float distanceInMeters = officeLocation.distanceTo(myLocation);
-        Log.d("tag", "Validation"+distanceInMeters);
-            if (distanceInMeters > 100) {
+        float distanceInMeters = officeLocation.distanceTo(myLocation);
+        Log.d("tag", "Validation" + distanceInMeters);
+        if (distanceInMeters > 100) {
           /*  Toast(g, "You are not in office range! " +
                     "Please try again near office premises", Toast.LENGTH_SHORT, true).show();*/
 
-                Toast.makeText(CheckInActivity.this,"You are out of range! " +
-                        "Please try again near premises", LENGTH_SHORT ).show();
-                return false;
-            }
-            return true;
+            Toast.makeText(CheckInActivity.this, "You are out of range! " +
+                    "Please try again near premises", LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
 

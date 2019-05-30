@@ -46,7 +46,8 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="32dp" />
+            tools:layout_editor_absoluteY="32dp"
+            android:visibility="gone" />
 
         <fragment
             android:id="@+id/map"

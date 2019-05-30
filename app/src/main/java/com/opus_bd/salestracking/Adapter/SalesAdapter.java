@@ -61,8 +61,8 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         }
 
         public void set(final SalesModel item) {
-            tvSalesProduct.setText(String.valueOf(item.getProductName()));
-            tvSalesTarget.setText(String.valueOf(item.getSalesTarget()));
+       /*     tvSalesProduct.setText(String.valueOf(item.getProductName()));
+            tvSalesTarget.setText(String.valueOf(item.getSalesTarget()));*/
             tvTraget.setText(String.valueOf(item.getTarget()));
             tvLocation.setText(String.valueOf(item.getLocation()));
         }
