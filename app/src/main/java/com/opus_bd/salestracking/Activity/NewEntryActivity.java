@@ -19,6 +19,7 @@ import com.opus_bd.salestracking.R;
 import com.opus_bd.salestracking.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.salestracking.RetrofitService.RetrofitService;
 import com.opus_bd.salestracking.Utils.SharedPrefManager;
+import com.opus_bd.salestracking.Utils.Utilities;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,6 +81,8 @@ public class NewEntryActivity extends AppCompatActivity {
             addCompany.enqueue(new Callback<MessageResponse>() {
                 @Override
                 public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+
+                    Utilities.showLogcatMessage("  " + response.body().getStatus());
                     // showProgressBar(false);
                     if (response.body() != null) {
                         Toast.makeText(NewEntryActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();

@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClientInstance {
 
     //  private static final String BASE_URL = "http://f9c17d7c.ngrok.io/winkel/public/";
-    private static final String BASE_URL = "http://2b645c7f.ngrok.io/SalesTrack/public/";
+    private static final String BASE_URL = "http://d341de7a.ngrok.io/SalesTrack/public/";
     private static Retrofit retrofit;
     private static Gson gson = new GsonBuilder()
             .setLenient()

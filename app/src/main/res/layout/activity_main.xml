@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_gravity="center"
+    android:gravity="center">
 
     <TextView
         android:id="@+id/tvPendingSales"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center"
         android:layout_margin="30dp"
         android:background="#441811E0"
         android:padding="20dp"
@@ -20,7 +22,8 @@
 
     <TextView
         android:id="@+id/tvSales"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="30dp"

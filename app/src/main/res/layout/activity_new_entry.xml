@@ -7,6 +7,14 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/sales_product"
+        android:textSize="15sp"
+        android:textColor="@android:color/black" />
+
+    <TextView
         android:id="@+id/etProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,20 +22,33 @@
         android:hint="@string/sales_product" />
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/sales_target"
+        android:textSize="15sp"
+        android:textColor="@android:color/black" />
+
+    <TextView
         android:id="@+id/etSalesTarget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="@string/sales_target"
         android:inputType="number" />
 
-
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Location"
+        android:textSize="15sp"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/tvYourLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="location" />
 
     <TextView
@@ -35,6 +56,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/target_complete"
+        android:textSize="15sp"
+        android:textColor="@android:color/black" />
     <EditText
         android:id="@+id/etTarget"
         android:layout_width="match_parent"
@@ -47,6 +75,7 @@
         android:id="@+id/btnCheckIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submit" />
+        android:text="@string/submit"
+        android:layout_gravity="end" />
 
 </LinearLayout>

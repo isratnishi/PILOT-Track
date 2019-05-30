@@ -334,7 +334,15 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
 
-        if (isValidated()) {
+        Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
+        intent.putExtra("message", tvYourLocation.getText());
+        intent.putExtra("spid", salesperson);
+        intent.putExtra("siteid", site);
+        intent.putExtra("target", target);
+        intent.putExtra("productid", product);
+        startActivity(intent);
+
+       /* if (isValidated()) {
             Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
             intent.putExtra("message", tvYourLocation.getText());
             intent.putExtra("spid", salesperson);
@@ -342,7 +350,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
             intent.putExtra("target", target);
             intent.putExtra("productid", product);
             startActivity(intent);
-        }
+        }*/
 
 
     }
