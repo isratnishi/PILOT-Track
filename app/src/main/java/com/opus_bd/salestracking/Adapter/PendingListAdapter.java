@@ -78,12 +78,8 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
             btnCheckIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    S
                     Intent intent = new Intent(context, CheckInActivity.class);
-                    intent.putExtra("message", tvPendingSalesLocation.getText());
-                    intent.putExtra("spid", item.getSalespersonId());
-                    intent.putExtra("siteid", item.getSiteId());
-                    intent.putExtra("target", item.getTarget());
-                    intent.putExtra("productid", item.getProductId());
                     context.startActivity(intent);
                 }
             });
