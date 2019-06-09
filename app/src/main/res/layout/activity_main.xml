@@ -8,29 +8,45 @@
     android:layout_gravity="center"
     android:gravity="center">
 
-    <TextView
-        android:id="@+id/tvPendingSales"
-        android:layout_width="match_parent"
+    <android.support.v7.widget.CardView
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
         android:layout_margin="30dp"
-        android:background="#441811E0"
-        android:padding="20dp"
-        android:text="Pending Sales"
-        android:textSize="30dp" />
+        app:cardCornerRadius="14dp"
+        app:cardElevation="5dp"
+        app:cardBackgroundColor="#9C27B0">
 
-    <TextView
-        android:id="@+id/tvSales"
-        android:gravity="center"
-        android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvPendingSales"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="Pending Sales"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        app:cardBackgroundColor="#9C27B0"
         android:layout_margin="30dp"
-        android:background="#441811E0"
-        android:padding="20dp"
-        android:text="Sales"
-        android:textSize="30dp" />
+        app:cardCornerRadius="14dp"
+        app:cardElevation="5dp">
+
+        <TextView
+            android:id="@+id/tvSales"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="Sales"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
+    </android.support.v7.widget.CardView>
 
 
 </LinearLayout>

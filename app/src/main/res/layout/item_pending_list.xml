@@ -4,96 +4,82 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="5dp"
-    app:cardElevation="3dp">
+    app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:weightSum="4">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
+                style="@style/ItemPendingList"
                 android:layout_weight="1"
                 android:text="Site Name: "
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:text="Location: "
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:text="Target: "
-                android:textSize="20dp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:weightSum="4">
+                android:textColor="@color/colorPrimaryDark" />
 
             <TextView
                 android:id="@+id/tvPendingSalesSite"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:textSize="20dp" />
+                android:text="Location: "
+                android:textColor="@color/colorPrimaryDark" />
 
             <TextView
                 android:id="@+id/tvPendingSalesLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:textSize="20dp" />
+                android:text="Target: "
+                android:textColor="@color/colorPrimaryDark" />
 
             <TextView
                 android:id="@+id/tvPendingSalesTraget"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btnCheckIn"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                android:text="@string/check_in" />
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCheckIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textColor="@android:color/white"
+            android:background="#0C610C"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:text="@string/check_in"
+            android:textSize="12dp" />
 
 
     </LinearLayout>
