@@ -144,42 +144,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             }
                         } else if (response.body().getError() == null) {
                             SharedPrefManager.getInstance(LoginActivity.this).clearID();
-                            SharedPrefManager.getInstance(LoginActivity.this).saveUser(userModel);
-                            Utilities.showLogcatMessage(" email" + userModel);
-                            Toast.makeText(LoginActivity.this, "Successfully Logged in!", Toast.LENGTH_SHORT).show();
-                            finish();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        }
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(LoginActivity.this, "Something went Wrong! Please try again later", Toast.LENGTH_SHORT).show();
-
-                    Utilities.showLogcatMessage("response " + e.toString());
-                }
-               // showProgressBar(false);
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-               // showProgressBar(false);
-                Toast.makeText(LoginActivity.this, "Fail to connect " + t.toString(), Toast.LENGTH_SHORT).show();
-                Utilities.showLogcatMessage("response " + t.toString());
-            }
-        });
-    }
-
-    private boolean validatedForm() {
-        if (TextUtils.isEmpty(mEmailView.getText().toString())) {
-            mEmailView.setError(getResources().getString(R.string.field_null_error));
-            Toast.makeText(this, "Contact field can not be empty!", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (TextUtils.isEmpty(mPasswordView.getText().toString())) {
-            mPasswordView.setError(getResources().getString(R.string.field_null_error));
-            Toast.makeText(this, "Password field can not be empty!", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+                            public void saveUser (UserModel userModel){
+                                SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                                        Context.MODE_PRIVATE);
 
         return true;
     }

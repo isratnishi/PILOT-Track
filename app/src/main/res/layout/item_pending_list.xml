@@ -26,7 +26,8 @@
             <TextView
                 android:id="@+id/tvPendingSalesSite"
                 style="@style/ItemPendingList"
-                android:layout_weight="2" />
+                android:layout_weight="2"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 
@@ -45,7 +46,8 @@
             <TextView
                 android:id="@+id/tvPendingSalesLocation"
                 style="@style/ItemPendingList"
-                android:layout_weight="2" />
+                android:layout_weight="2"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 
@@ -64,7 +66,8 @@
             <TextView
                 android:id="@+id/tvPendingSalesTraget"
                 style="@style/ItemPendingList"
-                android:layout_weight="2" />
+                android:layout_weight="2"
+                android:textColor="@android:color/black" />
 
         </LinearLayout>
 
