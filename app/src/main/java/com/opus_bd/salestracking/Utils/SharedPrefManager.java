@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.opus_bd.salestracking.Model.SalesModel;
 import com.opus_bd.salestracking.Model.UserModel;
 
 import java.util.ArrayList;
@@ -42,15 +41,6 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    public void saveVisit(SalesModel salesModel) {
-        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(salesModel);
-        editor.putString(KEY_TOKEN, json);
-        editor.apply();
-    }
     public void clearID() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);
