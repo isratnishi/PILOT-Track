@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.opus_bd.salestracking.Activity.LoginActivity;
 import com.opus_bd.salestracking.Activity.NewEntryActivity;
+import com.opus_bd.salestracking.Activity.SalesActivity;
 import com.opus_bd.salestracking.Model.MessageEvent;
 import com.opus_bd.salestracking.Model.MessageResponse;
 import com.opus_bd.salestracking.Model.ProductModel;
@@ -126,6 +129,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         deleteSaleVisit(id);
+                        EventBus.getDefault().post(new MessageEvent(true));
                     }
                 });
 
@@ -134,6 +138,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
             public void onClick(DialogInterface dialog, int which) {
 
                 dialog.dismiss();
+                EventBus.getDefault().post(new MessageEvent(true));
             }
         });
 
@@ -153,13 +158,16 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
                 if (response.body() != null) {
                     Toast.makeText(context, response.body().getStatus(), Toast.LENGTH_SHORT).show();
                     EventBus.getDefault().post(new MessageEvent(true));
+                    Intent intent = new Intent(context, SalesActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
                 }
             }
 
             @Override
             public void onFailure(Call<MessageResponse> call, Throwable t) {
                 //showProgressBar(false);
-                Toast.makeText(context, "Fail to connect ", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "Fail to connect ", Toast.LENGTH_SHORT).show();
             }
         });
     }

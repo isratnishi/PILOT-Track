@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SalesTracking</string>
+    <string name="app_name">Sales Tracking</string>
     <string name="new_entry">New Entry</string>
     <string name="sales_product">Sales Product</string>
     <string name="sales_target">Sales Target</string>
@@ -20,4 +20,14 @@
         completions."
     </string>
     <string name="field_null_error">Field Can not be empty</string>
+    <string name="home">Home</string>
+    <string name="pending_list">Pending list</string>
+    <string name="sales_list">Sales List</string>
+    <string name="logout">Logout</string>
+    <string name="your_location">Your Location</string>
+    <string name="site_name">Site Name</string>
+    <string name="target_meet">Target Meet:</string>
+    <string name="delete">Delete</string>
+    <string name="location">Location:</string>
+    <string name="target">Target:</string>
 </resources>

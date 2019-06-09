@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SharedPrefManager {
-    public static final String SHARED_PREF_NAME = "winkel";
+    public static final String SHARED_PREF_NAME = "SalesTrack";
     private static SharedPrefManager mInstance;
     private Context mCtx;
     private static final String KEY_ORDERS = "orders";
@@ -44,6 +44,11 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    public void clearToken() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove(KEY_TOKEN).apply();
+    }
     public void saveVisit(SalesModel salesModel) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);

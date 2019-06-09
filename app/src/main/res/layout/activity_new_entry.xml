@@ -6,76 +6,118 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/sales_product"
-        android:textSize="15sp"
-        android:textColor="@android:color/black" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="@string/sales_product" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/sales_target"
-        android:textSize="15sp"
-        android:textColor="@android:color/black" />
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="@string/sales_product"
+                android:textColor="@color/colorPrimaryDark" />
 
-    <TextView
-        android:id="@+id/tvSalesTarget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:inputType="number" />
+            <TextView
+                android:id="@+id/tvProduct"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Location"
-        android:textSize="15sp"
-        android:textColor="@android:color/black" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvYourLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="location" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-    <TextView
-        android:id="@+id/tvLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="@string/site_name"
+                android:textColor="@color/colorPrimaryDark" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/target_complete"
-        android:textSize="15sp"
-        android:textColor="@android:color/black" />
-    <EditText
-        android:id="@+id/etTarget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="@string/target_complete"
-        android:inputType="number" />
+            <TextView
+                android:id="@+id/tvSiteName"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="@string/sales_target"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tvSalesTarget"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="@string/location"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tvYourLocation"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="@string/target_complete"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <EditText
+                android:id="@+id/etTarget"
+                style="@style/ItemPendingList"
+                android:layout_weight="2"
+                android:hint="@string/target_complete"
+                android:inputType="number"
+                android:padding="10dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/btnCheckIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submit"
-        android:layout_gravity="end" />
+        android:layout_gravity="end"
+        android:text="@string/submit" />
 
 </LinearLayout>

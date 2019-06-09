@@ -3,6 +3,7 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="6dp">
 
@@ -20,7 +21,7 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Site Name: "
+                android:text="@string/site_name"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
@@ -39,7 +40,7 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Location: "
+                android:text="@string/location"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
@@ -58,7 +59,7 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Target: "
+                android:text="@string/target"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
@@ -71,7 +72,7 @@
         <Button
             android:id="@+id/btnCheckIn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="end"
             android:textColor="@android:color/white"
             android:background="#0C610C"

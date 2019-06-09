@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import com.opus_bd.salestracking.Model.GeocodingLocation;
 import com.opus_bd.salestracking.Model.MessageResponse;
 import com.opus_bd.salestracking.Model.ProductModel;
 import com.opus_bd.salestracking.Model.SalesModel;
+import com.opus_bd.salestracking.Model.SiteModel;
 import com.opus_bd.salestracking.R;
 import com.opus_bd.salestracking.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.salestracking.RetrofitService.RetrofitService;
@@ -40,6 +43,8 @@ public class NewEntryActivity extends AppCompatActivity {
     TextView tvProduct;
     @BindView(R.id.tvSalesTarget)
     TextView tvSalesTarget;
+    @BindView(R.id.tvSiteName)
+    TextView tvSiteName;
     @BindView(R.id.etTarget)
     EditText etTarget;
 
@@ -66,6 +71,7 @@ public class NewEntryActivity extends AppCompatActivity {
         model = gson.fromJson(visit, SalesModel.class);
 
         tvYourLocation.setText(location);
+        getSiteName(model.getSiteId());
         getProductName(model.getProductId());
         tvSalesTarget.setText(model.getTarget());
 
@@ -149,10 +155,65 @@ public class NewEntryActivity extends AppCompatActivity {
         });
     }
 
+    public void getSiteName(int id) {
+        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+        String token = SharedPrefManager.getInstance(this).getUser();
+        Call<SiteModel> registrationRequest = retrofitService.getSiteName(token, id);
+        registrationRequest.enqueue(new Callback<SiteModel>() {
+            @Override
+            public void onResponse(Call<SiteModel> call, @NonNull Response<SiteModel> response) {
+                tvSiteName.setText(response.body().getSiteName());
+            }
+
+            @Override
+            public void onFailure(Call<SiteModel> call, Throwable t) {
+                Utilities.showLogcatMessage("error " + t.toString());
+            }
+        });
+    }
+
     @OnClick(R.id.btnCheckIn)
     public void btnCheckIn() {
         submitToServer();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.logout) {
+            SharedPrefManager.getInstance(this).clearToken();
+            Toast.makeText(this, "Logged out successfully!!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+            startActivity(intent);
+        }
+        if (id == R.id.home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+            startActivity(intent);
+        }
+        if (id == R.id.pendingList) {
+            Intent intent = new Intent(this, PendingSalesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+            startActivity(intent);
+        }
+        if (id == R.id.salesList) {
+            Intent intent = new Intent(this, SalesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
 

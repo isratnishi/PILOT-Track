@@ -20,18 +20,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.SalesActivity" />
+        <activity
+            android:name=".Activity.SalesActivity"
+            android:label="Sales List" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activity.MainActivity">
+        <activity
+            android:name=".Activity.MainActivity"
+            android:label="Home">
 
         </activity>
-        <activity android:name=".Activity.CheckInActivity" />
-        <activity android:name=".Activity.NewEntryActivity" />
-        <activity android:name=".Activity.PendingSalesActivity" />
+        <activity
+            android:name=".Activity.CheckInActivity"
+            android:label="Check In" />
+        <activity
+            android:name=".Activity.NewEntryActivity"
+            android:label="Entry" />
+        <activity
+            android:name=".Activity.PendingSalesActivity"
+            android:label="Pending List" />
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
