@@ -21,6 +21,7 @@ public class SharedPrefManager {
     public static final String KEY_State = "state";
     private static final String KEY_TOKEN = "token";
     private static final String KEY_VISIT = "visit";
+    private static final String KEY_ID = "id";
 
     private SharedPrefManager(Context context) {
         mCtx = context;
@@ -53,11 +54,26 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    public void saveID(int id) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_ID, id);
+        editor.apply();
+    }
+
+    public int getID() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(KEY_ID, 0);
+    }
+
     public String getVisit() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_VISIT, null);
     }
+
     public void clearID() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);

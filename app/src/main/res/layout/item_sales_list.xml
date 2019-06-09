@@ -69,6 +69,14 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_gravity="end"
+            android:textColor="#B31111"
+            android:id="@+id/tvSalesDelete"
+            style="@style/ItemPendingList" />
     </LinearLayout>
 
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.opus_bd.salestracking.Model.GeocodingLocation;
 import com.opus_bd.salestracking.Model.MessageResponse;
+import com.opus_bd.salestracking.Model.ProductModel;
 import com.opus_bd.salestracking.Model.SalesModel;
 import com.opus_bd.salestracking.R;
 import com.opus_bd.salestracking.RetrofitService.RetrofitClientInstance;
@@ -44,6 +46,7 @@ public class NewEntryActivity extends AppCompatActivity {
     SalesModel model = new SalesModel();
 
     String location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +66,7 @@ public class NewEntryActivity extends AppCompatActivity {
         model = gson.fromJson(visit, SalesModel.class);
 
         tvYourLocation.setText(location);
-        tvProduct.setText(String.valueOf(model.getProductId()));
+        getProductName(model.getProductId());
         tvSalesTarget.setText(model.getTarget());
 
     }
@@ -85,6 +88,8 @@ public class NewEntryActivity extends AppCompatActivity {
 
                     if (response.body() != null) {
                         Toast.makeText(NewEntryActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                        int id = model.getId();
+                        deleteSaleVisit(id);
                         startActivity(new Intent(NewEntryActivity.this, MainActivity.class));
 
                     }
@@ -102,6 +107,46 @@ public class NewEntryActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+    }
+
+    private void deleteSaleVisit(int id) {
+        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+        String token = SharedPrefManager.getInstance(NewEntryActivity.this).getUser();
+        Call<MessageResponse> deleteSaleVisit = retrofitService.deleteSaleVisit(token, id);
+
+        deleteSaleVisit.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+
+                if (response.body() != null) {
+                    Toast.makeText(NewEntryActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                //showProgressBar(false);
+                Toast.makeText(NewEntryActivity.this, "Fail to connect ", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void getProductName(int id) {
+        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+        String token = SharedPrefManager.getInstance(this).getUser();
+        Call<ProductModel> registrationRequest = retrofitService.getProductName(token, id);
+        registrationRequest.enqueue(new Callback<ProductModel>() {
+            @Override
+            public void onResponse(Call<ProductModel> call, @NonNull Response<ProductModel> response) {
+                tvProduct.setText(response.body().getProductName());
+            }
+
+            @Override
+            public void onFailure(Call<ProductModel> call, Throwable t) {
+                Utilities.showLogcatMessage("error " + t.toString());
+            }
+        });
     }
 
     @OnClick(R.id.btnCheckIn)

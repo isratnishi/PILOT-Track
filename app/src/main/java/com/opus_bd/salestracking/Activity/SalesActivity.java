@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.opus_bd.salestracking.Adapter.PendingListAdapter;
 import com.opus_bd.salestracking.Adapter.SalesAdapter;
+import com.opus_bd.salestracking.Model.MessageEvent;
 import com.opus_bd.salestracking.Model.SalesModel;
 import com.opus_bd.salestracking.Model.UserModel;
 import com.opus_bd.salestracking.R;
@@ -20,6 +21,10 @@ import com.opus_bd.salestracking.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.salestracking.RetrofitService.RetrofitService;
 import com.opus_bd.salestracking.Utils.SharedPrefManager;
 import com.opus_bd.salestracking.Utils.Utilities;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,18 @@ public class SalesActivity extends AppCompatActivity {
     RecyclerView rvSalesList;
     SalesAdapter salesAdapter;
     private ArrayList<SalesModel> locationNameArrayList = new ArrayList<>();
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +82,8 @@ public class SalesActivity extends AppCompatActivity {
         registrationRequest.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, @NonNull Response<UserModel> response) {
-
                 int id = response.body().getId();
+                SharedPrefManager.getInstance(SalesActivity.this).saveID(id);
                 getSaleVisit(id);
 
 
@@ -105,6 +122,15 @@ public class SalesActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        Utilities.showLogcatMessage(" Event Bus");
+        if (event.isUpdate()) {
+            int i = SharedPrefManager.getInstance(this).getID();
+            getSaleVisit(i);
         }
     }
 }

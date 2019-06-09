@@ -2,7 +2,9 @@ package com.opus_bd.salestracking.RetrofitService;
 
 
 import com.opus_bd.salestracking.Model.MessageResponse;
+import com.opus_bd.salestracking.Model.ProductModel;
 import com.opus_bd.salestracking.Model.SalesModel;
+import com.opus_bd.salestracking.Model.SiteModel;
 import com.opus_bd.salestracking.Model.UserModel;
 import com.opus_bd.salestracking.Model.UserResponse;
 
@@ -29,6 +31,18 @@ public interface RetrofitService {
     @POST("api/saveVisit ")
     Call<MessageResponse> saveVisit(@Header("Authorization") String token, @Body SalesModel salesModel);
 
+    @POST("api/deleteSaleVisit/{id} ")
+    Call<MessageResponse> deleteSaleVisit(@Header("Authorization") String token, @Path("id") int id);
+
+    @POST("api/deleteSale/{id} ")
+    Call<MessageResponse> deleteSale(@Header("Authorization") String token, @Path("id") int id);
+
     @GET("api/getSaleVisit/{id}")
     Call<List<SalesModel>> getSaleVisit(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("api/getSiteName/{id}")
+    Call<SiteModel> getSiteName(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("api/getProductName/{id}")
+    Call<ProductModel> getProductName(@Header("Authorization") String token, @Path("id") int id);
 }
