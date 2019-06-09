@@ -28,4 +28,7 @@ public interface RetrofitService {
 
     @POST("api/saveVisit ")
     Call<MessageResponse> saveVisit(@Header("Authorization") String token, @Body SalesModel salesModel);
+
+    @GET("api/getSaleVisit/{id}")
+    Call<List<SalesModel>> getSaleVisit(@Header("Authorization") String token, @Path("id") int id);
 }

@@ -1,108 +1,110 @@
 package com.opus_bd.salestracking.Activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.opus_bd.salestracking.Adapter.PendingListAdapter;
+import com.opus_bd.salestracking.Adapter.SalesAdapter;
+import com.opus_bd.salestracking.Model.SalesModel;
+import com.opus_bd.salestracking.Model.UserModel;
 import com.opus_bd.salestracking.R;
+import com.opus_bd.salestracking.RetrofitService.RetrofitClientInstance;
+import com.opus_bd.salestracking.RetrofitService.RetrofitService;
+import com.opus_bd.salestracking.Utils.SharedPrefManager;
+import com.opus_bd.salestracking.Utils.Utilities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SalesActivity extends AppCompatActivity {
 
-  /*  public static final String ARG_ITEM_ID = "favorite_list";
-
-    ListView favoriteList;
-    SharedPreferences sharedPreferences;
-
-    List<Product> favorites;
-    ProductListAdapter productListAdapter;*/
+    @BindView(R.id.rvSalesList)
+    RecyclerView rvSalesList;
+    SalesAdapter salesAdapter;
+    private ArrayList<SalesModel> locationNameArrayList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales);
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
+        Gson gson = new Gson();
+        String token = SharedPrefManager.getInstance(this).getUser();
+        UserModel obj = gson.fromJson(token, UserModel.class);
+        String email = obj.getEmail();
+        getUser(email);
+        intRecyclerView();
+
     }
 
-   /* sharedPreferences = new SharedPreferences();
-        favorites = sharedPreference.getFavorites(activity);
+    public void intRecyclerView() {
+        salesAdapter = new SalesAdapter(locationNameArrayList, this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rvSalesList.setLayoutManager(layoutManager);
+        rvSalesList.setAdapter(salesAdapter);
+    }
 
-        if (favorites == null) {
-            showAlert(getResources().getString(R.string.no_favorites_items),
-                    getResources().getString(R.string.no_favorites_msg));
-        } else {
+    public void getUser(String email) {
+        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+        String token = SharedPrefManager.getInstance(this).getUser();
+        Call<UserModel> registrationRequest = retrofitService.getUser(token, email);
+        registrationRequest.enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, @NonNull Response<UserModel> response) {
 
-            if (favorites.size() == 0) {
-                showAlert(
-                        getResources().getString(R.string.no_favorites_items),
-                        getResources().getString(R.string.no_favorites_msg));
+                int id = response.body().getId();
+                getSaleVisit(id);
+
+
             }
 
-            favoriteList = (ListView) view.findViewById(R.id.list_product);
-            if (favorites != null) {
-                productListAdapter = new ProductListAdapter(activity, favorites);
-                favoriteList.setAdapter(productListAdapter);
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                Utilities.showLogcatMessage("error " + t.toString());
+            }
+        });
+    }
 
-                favoriteList.setOnItemClickListener(new OnItemClickListener() {
+    public void getSaleVisit(int id) {
+        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+        String token = SharedPrefManager.getInstance(this).getUser();
 
-                    public void onItemClick(AdapterView<?> parent, View arg1,
-                                            int position, long arg3) {
-
+        if (token != null) {
+            Call<List<SalesModel>> registrationRequest = retrofitService.getSaleVisit(token, id);
+            registrationRequest.enqueue(new Callback<List<SalesModel>>() {
+                @Override
+                public void onResponse(Call<List<SalesModel>> call, @NonNull Response<List<SalesModel>> response) {
+                    if (response.body() != null) {
+                        locationNameArrayList.clear();
+                        locationNameArrayList.addAll(response.body());
+                        salesAdapter.notifyDataSetChanged();
                     }
-                });
+                }
 
-                favoriteList
-                        .setOnItemLongClickListener(new OnItemLongClickListener() {
-
-                            @Override
-                            public boolean onItemLongClick(
-                                    AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                                ImageView button = (ImageView) view
-                                        .findViewById(R.id.imgbtn_favorite);
-
-                                String tag = button.getTag().toString();
-                                if (tag.equalsIgnoreCase("grey")) {
-                                    sharedPreference.addFavorite(activity,
-                                            favorites.get(position));
-                                    Toast.makeText(
-                                            activity,
-                                            activity.getResources().getString(
-                                                    R.string.add_favr),
-                                            Toast.LENGTH_SHORT).show();
-
-                                    button.setTag("red");
-                                    button.setImageResource(R.drawable.heart_red);
-                                } else {
-                                    sharedPreference.removeFavorite(activity,
-                                            favorites.get(position));
-                                    button.setTag("grey");
-                                    button.setImageResource(R.drawable.heart_grey);
-                                    productListAdapter.remove(favorites
-                                            .get(position));
-                                    Toast.makeText(
-                                            activity,
-                                            activity.getResources().getString(
-                                                    R.string.remove_favr),
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                                return true;
-                            }
-                        });
-            }
+                @Override
+                public void onFailure(Call<List<SalesModel>> call, Throwable t) {
+                    Utilities.showLogcatMessage("error " + t.toString());
+                }
+            });
+        } else {
+            Toast.makeText(this, "Not registered! Please sign in to continue", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
-        return view;
     }
-
-
-    @Override
-    public void onResume() {
-        getActivity().setTitle(R.string.favorites);
-        getActivity().getActionBar().setTitle(R.string.favorites);
-        super.onResume();
-    }*/
 }

@@ -43,6 +43,7 @@ import com.google.android.gms.tasks.Task;
 import com.opus_bd.salestracking.Model.GeocodingLocation;
 import com.opus_bd.salestracking.Model.SalesModel;
 import com.opus_bd.salestracking.R;
+import com.opus_bd.salestracking.Utils.SharedPrefManager;
 import com.opus_bd.salestracking.Utils.Utilities;
 
 import java.util.List;
@@ -89,15 +90,10 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            location = bundle.getString("message");
-            product = bundle.getInt("productid");
-            site = bundle.getInt("siteid");
-            target = bundle.getString("target");
-            salesperson = bundle.getInt("spid");
-
+            location = bundle.getString("Location");
+            Utilities.showLogcatMessage(location);
 
         }
-        Utilities.showLogcatMessage(" Item " + location + " " + site + "   " + product + "  " + salesperson);
         GeocodingLocation locationAddress = new GeocodingLocation();
         locationAddress.getAddressFromLocation(location,
                 getApplicationContext(), new GeocoderHandler());
@@ -333,24 +329,17 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
-
         Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
-        intent.putExtra("message", tvYourLocation.getText());
-        intent.putExtra("spid", salesperson);
-        intent.putExtra("siteid", site);
-        intent.putExtra("target", target);
-        intent.putExtra("productid", product);
+        intent.putExtra("Location", tvYourLocation.getText());
         startActivity(intent);
 
-       /* if (isValidated()) {
-            Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
-            intent.putExtra("message", tvYourLocation.getText());
-            intent.putExtra("spid", salesperson);
-            intent.putExtra("siteid", site);
-            intent.putExtra("target", target);
-            intent.putExtra("productid", product);
-            startActivity(intent);
-        }*/
+//
+//        if (isValidated()) {
+//            Utilities.showLogcatMessage(" Visit " + SharedPrefManager.getInstance(CheckInActivity.this).getVisit());
+//            Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
+//            intent.putExtra("Location",tvYourLocation.getText());
+//            startActivity(intent);
+//        }
 
 
     }

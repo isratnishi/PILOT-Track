@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.opus_bd.salestracking.Model.GeocodingLocation;
 import com.opus_bd.salestracking.Model.MessageResponse;
 import com.opus_bd.salestracking.Model.SalesModel;
@@ -33,17 +34,16 @@ public class NewEntryActivity extends AppCompatActivity {
     Button btnCheckIn;
     @BindView(R.id.tvYourLocation)
     TextView tvYourLocation;
-    @BindView(R.id.etProduct)
-    TextView etProduct;
-    @BindView(R.id.etSalesTarget)
-    TextView etSalesTarget;
+    @BindView(R.id.tvProduct)
+    TextView tvProduct;
+    @BindView(R.id.tvSalesTarget)
+    TextView tvSalesTarget;
     @BindView(R.id.etTarget)
-    TextView etTarget;
+    EditText etTarget;
 
     SalesModel model = new SalesModel();
 
-    String location, target;
-    int site, product, salesperson;
+    String location;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,39 +53,39 @@ public class NewEntryActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            location = bundle.getString("message");
-            product = bundle.getInt("productid");
-            site = bundle.getInt("siteid");
-            target = bundle.getString("target");
-            salesperson = bundle.getInt("spid");
+            location = bundle.getString("Location");
+            Utilities.showLogcatMessage(location);
 
         }
+
+        Gson gson = new Gson();
+        String visit = SharedPrefManager.getInstance(NewEntryActivity.this).getVisit();
+        model = gson.fromJson(visit, SalesModel.class);
+
         tvYourLocation.setText(location);
-        etSalesTarget.setText(target);
-        etProduct.setText(product);
+        tvProduct.setText(String.valueOf(model.getProductId()));
+        tvSalesTarget.setText(model.getTarget());
 
     }
 
     private void submitToServer() {
-        model.setSiteId(Integer.valueOf(site));
-        model.setLocation(tvYourLocation.getText().toString());
-        model.setTarget(target);
-        model.setProductId(product);
-        model.setTargetmeet(etTarget.getText().toString());
-        model.setSalespersonId(salesperson);
 
+        Utilities.showLogcatMessage(String.valueOf(model.getProductId()));
+        model.setTargetmeet(etTarget.getText().toString());
+        model.setLocation(tvYourLocation.getText().toString());
         RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(NewEntryActivity.this).getUser();
         if (token != null) {
-            Call<MessageResponse> addCompany = retrofitService.saveVisit(token, model);
-            addCompany.enqueue(new Callback<MessageResponse>() {
+
+            Call<MessageResponse> saveVisit = retrofitService.saveVisit(token, model);
+
+            saveVisit.enqueue(new Callback<MessageResponse>() {
                 @Override
                 public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
 
-                    Utilities.showLogcatMessage("  " + response.body().getStatus());
-                    // showProgressBar(false);
                     if (response.body() != null) {
                         Toast.makeText(NewEntryActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NewEntryActivity.this, MainActivity.class));
 
                     }
                 }

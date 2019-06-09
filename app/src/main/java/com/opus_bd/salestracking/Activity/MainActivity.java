@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.tvSales)
     public void tvSales() {
 
-        Intent intent = new Intent(MainActivity.this, NewEntryActivity.class);
+        Intent intent = new Intent(MainActivity.this, SalesActivity.class);
         startActivity(intent);
     }
 }

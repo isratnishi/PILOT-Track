@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.opus_bd.salestracking.Activity.CheckInActivity;
 import com.opus_bd.salestracking.Model.SalesModel;
 import com.opus_bd.salestracking.R;
+import com.opus_bd.salestracking.Utils.SharedPrefManager;
+import com.opus_bd.salestracking.Utils.Utilities;
 
 import java.util.List;
 
@@ -78,12 +80,10 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
             btnCheckIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SharedPrefManager.getInstance(context).saveVisit(item);
+
                     Intent intent = new Intent(context, CheckInActivity.class);
-                    intent.putExtra("message", tvPendingSalesLocation.getText());
-                    intent.putExtra("spid", item.getSalespersonId());
-                    intent.putExtra("siteid", item.getSiteId());
-                    intent.putExtra("target", item.getTarget());
-                    intent.putExtra("productid", item.getProductId());
+                    intent.putExtra("Location", tvPendingSalesLocation.getText());
                     context.startActivity(intent);
                 }
             });

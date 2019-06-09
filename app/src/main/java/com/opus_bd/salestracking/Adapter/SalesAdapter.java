@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> {
     private Context context;
-    List<SalesModel> salesModelList;
+    private List<SalesModel> salesModelList;
 
     @NonNull
     @Override
@@ -29,6 +29,11 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_sales_list, parent, false);
         return new SalesAdapter.ViewHolder(v);
+    }
+
+    public SalesAdapter(List<SalesModel> items, Context context) {
+        this.salesModelList = items;
+        this.context = context;
     }
 
     @Override
@@ -50,8 +55,6 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         TextView tvSalesProduct;
         @BindView(R.id.tvSalesTarget)
         TextView tvSalesTarget;
-        @BindView(R.id.tvTraget)
-        TextView tvTraget;
         @BindView(R.id.tvLocation)
         TextView tvLocation;
 
@@ -61,10 +64,9 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         }
 
         public void set(final SalesModel item) {
-       /*     tvSalesProduct.setText(String.valueOf(item.getProductName()));
-            tvSalesTarget.setText(String.valueOf(item.getSalesTarget()));*/
-            tvTraget.setText(String.valueOf(item.getTarget()));
-            tvLocation.setText(String.valueOf(item.getLocation()));
+            tvSalesProduct.setText(String.valueOf(item.getProductId()));
+            tvSalesTarget.setText(item.getTargetmeet());
+            tvLocation.setText(item.getLocation());
         }
     }
 }
