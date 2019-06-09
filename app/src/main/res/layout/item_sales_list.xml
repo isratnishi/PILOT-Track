@@ -11,23 +11,19 @@
 
         <TextView
             android:id="@+id/tvSalesProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/ItemSalesList" />
 
         <TextView
             android:id="@+id/tvSalesTarget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/ItemSalesList" />
 
         <TextView
             android:id="@+id/tvTraget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/ItemSalesList" />
 
         <TextView
             android:id="@+id/tvLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/ItemSalesList" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
