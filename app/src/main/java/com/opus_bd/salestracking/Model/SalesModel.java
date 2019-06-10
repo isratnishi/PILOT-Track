@@ -11,12 +11,18 @@ public class SalesModel {
     @SerializedName("site_id")
     @Expose
     private Integer siteId;
+    @SerializedName("site_name")
+    @Expose
+    private String siteName;
     @SerializedName("salesperson_id")
     @Expose
     private Integer salespersonId;
     @SerializedName("product_id")
     @Expose
     private Integer productId;
+    @SerializedName("product_name")
+    @Expose
+    private String productName;
     @SerializedName("location")
     @Expose
     private String location;
@@ -106,4 +112,19 @@ public class SalesModel {
         this.updatedAt = updatedAt;
     }
 
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 }

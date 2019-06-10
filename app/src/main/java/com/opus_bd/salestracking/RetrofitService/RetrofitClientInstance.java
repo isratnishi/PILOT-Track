@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
-    private static final String BASE_URL = "http://acd126f4.ngrok.io/SalesTrack/public/";
+    private static final String BASE_URL = "http://8b83ec09.ngrok.io/SalesTrack/public/";
     private static Retrofit retrofit;
     private static Gson gson = new GsonBuilder()
             .setLenient()

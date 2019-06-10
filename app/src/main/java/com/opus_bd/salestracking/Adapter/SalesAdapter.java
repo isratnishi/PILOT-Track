@@ -44,8 +44,6 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
     private List<SalesModel> salesModelList;
 
 
-    TextView tvSalesProduct;
-
     @NonNull
     @Override
     public SalesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
@@ -81,18 +79,20 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         TextView tvLocation;
         @BindView(R.id.tvSalesDelete)
         TextView tvSalesDelete;
+        @BindView(R.id.tvSalesProduct)
+        TextView tvSalesProduct;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            tvSalesProduct = (TextView) itemView.findViewById(R.id.tvSalesProduct);
         }
 
         public void set(final SalesModel item) {
-            getProductName(item.getProductId());
+            //getProductName(item.getProductId());
             tvSalesTarget.setText(item.getTargetmeet());
             tvLocation.setText(item.getLocation());
+            tvSalesProduct.setText(item.getProductName());
+            Utilities.showLogcatMessage(" Product Name : " + item.getProductName());
             tvSalesDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,7 +110,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
         registrationRequest.enqueue(new Callback<ProductModel>() {
             @Override
             public void onResponse(Call<ProductModel> call, @NonNull Response<ProductModel> response) {
-                tvSalesProduct.setText(response.body().getProductName());
+                // tvSalesProduct.setText(response.body().getProductName());
             }
 
             @Override
@@ -130,6 +130,9 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.ViewHolder> 
                     public void onClick(DialogInterface arg0, int arg1) {
                         deleteSaleVisit(id);
                         EventBus.getDefault().post(new MessageEvent(true));
+                        Intent intent = new Intent(context, SalesActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
                     }
                 });
 

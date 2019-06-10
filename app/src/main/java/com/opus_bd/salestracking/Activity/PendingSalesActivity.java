@@ -35,15 +35,6 @@ public class PendingSalesActivity extends AppCompatActivity {
     RecyclerView rvPendingList;
     PendingListAdapter pendingListAdapter;
     private ArrayList<SalesModel> locationNameArrayList = new ArrayList<>();
-    int SPID;
-
-    public void setSPID(int SPID) {
-        this.SPID = SPID;
-    }
-
-    public int getSPID() {
-        return SPID;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +67,6 @@ public class PendingSalesActivity extends AppCompatActivity {
 
                 int id = response.body().getId();
                 getAllList(id);
-
-
             }
 
             @Override

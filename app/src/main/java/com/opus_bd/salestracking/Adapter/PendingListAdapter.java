@@ -32,12 +32,6 @@ import retrofit2.Response;
 public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.ItemViewHolder> {
     private final Context context;
     private List<SalesModel> items;
-    private boolean visibleProfit = false;
-    TextView tvPendingSalesSite;
-    public void setVisibleProfit(boolean visibleProfit) {
-        this.visibleProfit = visibleProfit;
-    }
-
     public PendingListAdapter(List<SalesModel> items, Context context) {
         this.items = items;
         this.context = context;
@@ -71,6 +65,8 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
         TextView tvPendingSalesLocation;
         @BindView(R.id.tvPendingSalesTraget)
         TextView tvPendingSalesTraget;
+        @BindView(R.id.tvPendingSalesSite)
+        TextView tvPendingSalesSite;
         @BindView(R.id.btnCheckIn)
         Button btnCheckIn;
 
@@ -78,13 +74,14 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
         public ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            tvPendingSalesSite = (TextView) itemView.findViewById(R.id.tvPendingSalesSite);
+
         }
 
         public void set(final SalesModel item) {
-            getSiteName(item.getSiteId());
+            //getSiteName(item.getSiteId());
             tvPendingSalesLocation.setText(item.getLocation());
             tvPendingSalesTraget.setText(item.getTarget());
+            tvPendingSalesSite.setText(item.getSiteName());
             btnCheckIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,14 +97,16 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
         }
     }
 
-    public void getSiteName(int id) {
+   /* public void getSiteName(int id) {
         RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(context).getUser();
-        Call<SiteModel> registrationRequest = retrofitService.getSiteName(token, id);
-        registrationRequest.enqueue(new Callback<SiteModel>() {
+        Call<SiteModel> getSiteName = retrofitService.getSiteName(token, id);
+        getSiteName.enqueue(new Callback<SiteModel>() {
             @Override
             public void onResponse(Call<SiteModel> call, @NonNull Response<SiteModel> response) {
                 tvPendingSalesSite.setText(response.body().getSiteName());
+
+                Utilities.showLogcatMessage(" Site Name : " + tvPendingSalesSite.getText());
             }
 
             @Override
@@ -115,5 +114,5 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
                 Utilities.showLogcatMessage("error " + t.toString());
             }
         });
-    }
+    }*/
 }
