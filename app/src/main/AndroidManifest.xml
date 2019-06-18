@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.opus_bd.salestracking">
+    package="com.opus_bd.pilot">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activity.SalesActivity"
+            android:name="com.opus_bd.pilot.Activity.SalesActivity"
             android:label="Sales List" />
 
         <meta-data
@@ -29,20 +29,20 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activity.MainActivity"
+            android:name="com.opus_bd.pilot.Activity.MainActivity"
             android:label="Home">
 
         </activity>
         <activity
-            android:name=".Activity.CheckInActivity"
+            android:name="com.opus_bd.pilot.Activity.CheckInActivity"
             android:label="Check In" />
         <activity
-            android:name=".Activity.NewEntryActivity"
+            android:name="com.opus_bd.pilot.Activity.NewEntryActivity"
             android:label="Entry" />
         <activity
-            android:name=".Activity.PendingSalesActivity"
+            android:name="com.opus_bd.pilot.Activity.PendingSalesActivity"
             android:label="Pending List" />
-        <activity android:name=".Activity.LoginActivity">
+        <activity android:name="com.opus_bd.pilot.Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

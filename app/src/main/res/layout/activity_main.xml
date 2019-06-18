@@ -4,26 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_gravity="center"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="User Name"
+        android:textColor="@android:color/black"
+        android:textSize="15dp" />
 
     <android.support.v7.widget.CardView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
+        app:cardBackgroundColor="#9C27B0"
         app:cardCornerRadius="14dp"
-        app:cardElevation="5dp"
-        app:cardBackgroundColor="#9C27B0">
+        app:cardElevation="5dp">
 
         <TextView
-            android:id="@+id/tvPendingSales"
+            android:id="@+id/tvCheckIN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="20dp"
-            android:text="Pending Sales"
+            android:text="Pending CheckIN"
             android:textColor="@android:color/white"
             android:textSize="15dp" />
     </android.support.v7.widget.CardView>
@@ -31,19 +43,39 @@
     <android.support.v7.widget.CardView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#9C27B0"
         android:layout_margin="30dp"
+        app:cardBackgroundColor="#9C27B0"
         app:cardCornerRadius="14dp"
         app:cardElevation="5dp">
 
         <TextView
-            android:id="@+id/tvSales"
+            android:id="@+id/tvCheckOUT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="20dp"
-            android:text="Sales"
+            android:text="Pending CheckOUT"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:cardBackgroundColor="#9C27B0"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="5dp">
+
+        <TextView
+            android:id="@+id/tvRoute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="Route list"
             android:textColor="@android:color/white"
             android:textSize="15dp" />
     </android.support.v7.widget.CardView>
