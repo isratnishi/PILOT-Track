@@ -1,7 +1,8 @@
-package com.opus_bd.pilot.Activity;
-
+package com.opus_bd.pilot.Dialog;
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -15,11 +16,16 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +40,6 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -42,15 +47,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.opus_bd.pilot.Activity.CheckInActivity;
+import com.opus_bd.pilot.Activity.NewEntryActivity;
 import com.opus_bd.pilot.Model.GeocodingLocation;
-import com.opus_bd.pilot.Model.MessageResponse;
-import com.opus_bd.pilot.Model.PilotCheckIn;
 import com.opus_bd.pilot.Model.SalesModel;
 import com.opus_bd.pilot.R;
-import com.opus_bd.pilot.RetrofitService.RetrofitClientInstance;
-import com.opus_bd.pilot.RetrofitService.RetrofitService;
-import com.opus_bd.pilot.Utils.SharedPrefManager;
-import com.opus_bd.pilot.Utils.Utilities;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Locale;
@@ -58,13 +61,15 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class CheckInActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapDialog extends DialogFragment {
+       /* private View rootView;
+        private TextView tvYourLocation;
+        private Fragment map;
+        private Button attendance_button;
+
     public final static String EXTRA_MODEL = "id";
     private final int FINE_LOCATION_PERMISSION = 1;
     LocationRequest mLocationRequest;
@@ -79,74 +84,110 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     Marker friendMarker;
     private final int REQUEST_CHECK_SETTINGS = 10;
     int statusID;
-    @BindView(R.id.attendance_button)
-    Button attendButton;
-    SalesModel salesModel;
-    @BindView(R.id.tvYourLocation)
-    TextView tvYourLocation;
-    String location, date;
-    String loc;
+
+    String location, target;
     int site, product, salesperson;
-PilotCheckIn pilotCheckIn=new PilotCheckIn();
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_in);
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ButterKnife.bind(this);
+        public void setCustomerModel(CustomerModel customerModel) {
+            this.customerModel = customerModel;
+        }
 
-        Bundle bundle = getIntent().getExtras();
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            initViews();
+            final AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                    .setView(rootView)
+                    .setCancelable(true)
+                    .setPositiveButton("Add", null)
+                    .setNegativeButton("Cancel", null)
+                    .create();
+            alertDialog.setCanceledOnTouchOutside(true);
+            alertDialog.setCancelable(true);
+            alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    onDialogShow(alertDialog);
+                }
+            });
+            return alertDialog;
+        }
 
-        if (bundle != null) {
-            location = bundle.getString("Location");
-            site=bundle.getInt("SCID");
-            date=bundle.getString("Date");
-            Utilities.showLogcatMessage(" SCID  c"+site+ location+date);
+        private void initViews() {
+
+            rootView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.activity_check_in, null, false);
+            attendButton = rootView.findViewById(R.id.attendButton);
+            etPhone = rootView.findViewById(R.id.etPhone);
+            etEmail = rootView.findViewById(R.id.etEmail);
+            etBalance = rootView.findViewById(R.id.etBalance);
+            progressbar = rootView.findViewById(R.id.progressbar);
+            rootLayout = rootView.findViewById(R.id.rootLayout);
+
+
 
         }
-        GeocodingLocation locationAddress = new GeocodingLocation();
+
+        private void onDialogShow(AlertDialog dialog) {
+            Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    submitToServer();
+                }
+            });
+
+            Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+            negativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+        }
+
+    GeocodingLocation locationAddress = new GeocodingLocation();
         locationAddress.getAddressFromLocation(location,
-                getApplicationContext(), new GeocoderHandler());
+    getApplicationContext(), new GeocoderHandler());
 
 
-        checkPermission();
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+    checkPermission();
+    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+            .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(
                 new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            updateLocationCamera();
-                            String checkInLocation = getAddressFromLatLong(getApplicationContext(), latitude, longitude);
-                            //   tvYourLocation.setText(" Location1"+checkInLocation);
-                            Log.d("tag", " Location" + checkInLocation);
-                        }
-                    }
-                });
+        @Override
+        public void onSuccess(Location location) {
+            if (location != null) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                updateLocationCamera();
+                String checkInLocation = getAddressFromLatLong(getApplicationContext(), latitude, longitude);
+                //   tvYourLocation.setText(" Location1"+checkInLocation);
+                Log.d("tag", " Location" + checkInLocation);
+            }
+        }
+    });
 
         fusedLocationProviderClient.getLastLocation().addOnFailureListener(
                 new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+        @Override
+        public void onFailure(@NonNull Exception e) {
 
-                    }
-                }
-        );
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                onLocationChanged(locationResult.getLastLocation());
-            }
-        };
-        getPeriodicLocationUpdates();
+        }
     }
+        );
+    locationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            onLocationChanged(locationResult.getLastLocation());
+        }
+    };
+    getPeriodicLocationUpdates();
+}
 
     public static String getAddressFromLatLong(Context context, double lat, double lng) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -160,23 +201,23 @@ PilotCheckIn pilotCheckIn=new PilotCheckIn();
         return "";
     }
 
-    private class GeocoderHandler extends Handler {
-        @Override
-        public void handleMessage(Message message) {
-            String locationAddress;
+private class GeocoderHandler extends Handler {
+    @Override
+    public void handleMessage(Message message) {
+        String locationAddress;
 
-            switch (message.what) {
-                case 1:
-                    Bundle bundle = message.getData();
-                    getlat = bundle.getDouble("Lat");
-                    getlong = bundle.getDouble("log");
-                    break;
-                default:
-                    locationAddress = null;
-            }
-            //tvYourLocation.setText(String.valueOf(getlat) + " " + String.valueOf(getlong));
+        switch (message.what) {
+            case 1:
+                Bundle bundle = message.getData();
+                getlat = bundle.getDouble("Lat");
+                getlong = bundle.getDouble("log");
+                break;
+            default:
+                locationAddress = null;
         }
+        tvLocation.setText(String.valueOf(getlat) + " " + String.valueOf(getlong));
     }
+}
 
     private void checkPermission() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -215,8 +256,8 @@ PilotCheckIn pilotCheckIn=new PilotCheckIn();
                                 @Override
                                 public void onSuccess(Location location) {
                                     if (location != null) {
-                                       /* latitude = location.getLatitude();
-                                        longitude = location.getLongitude();*/
+                                       *//* latitude = location.getLatitude();
+                                        longitude = location.getLongitude();*//*
                                         updateLocationCamera();
                                         //  Log.d(Constants.LOGTAG, location.getLatitude() + " " + location.getLongitude());
                                     }
@@ -295,7 +336,6 @@ PilotCheckIn pilotCheckIn=new PilotCheckIn();
     }
 
     public void onLocationChanged(Location location) {
-
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
@@ -306,9 +346,8 @@ PilotCheckIn pilotCheckIn=new PilotCheckIn();
         //
 
         Log.d("tag", " Location1" + checkInLocation);
-       tvYourLocation.setText(checkInLocation);
-       loc = tvYourLocation.getText().toString();
-                updateLocationCamera();
+        tvYourLocation.setText(checkInLocation);
+        updateLocationCamera();
         //Utils.showLogMessage(msg);
     }
 
@@ -341,50 +380,21 @@ PilotCheckIn pilotCheckIn=new PilotCheckIn();
 
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
-        Utilities.showLogcatMessage(" Button");
-        submitToServer();
+        Intent intent = new Intent(, NewEntryActivity.class);
+        intent.putExtra("Location", tvYourLocation.getText());
+        startActivity(intent);
 
-    }
-    private void submitToServer() {
 //
-      Utilities.showLogcatMessage(tvYourLocation.getText().toString());
-
-        pilotCheckIn.setLocation(loc);
-        pilotCheckIn.setCheckType("CheckIN");
-        pilotCheckIn.setShipName(" ");
-        pilotCheckIn.setEntryTime(" ");
-        pilotCheckIn.setBeatName(" ");
-        pilotCheckIn.setPilotID(SharedPrefManager.getInstance(CheckInActivity.this).getID());
-        pilotCheckIn.setScheduleID(site);
-        pilotCheckIn.setEntryDate(date);
+//        if (isValidated()) {
+//            Utilities.showLogcatMessage(" Visit " + SharedPrefManager.getInstance(CheckInActivity.this).getVisit());
+//            Intent intent = new Intent(CheckInActivity.this, NewEntryActivity.class);
+//            intent.putExtra("Location",tvYourLocation.getText());
+//            startActivity(intent);
+//        }
 
 
-        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
-        String token = SharedPrefManager.getInstance(CheckInActivity.this).getUser();
-        Utilities.showLogcatMessage(" Response"+ pilotCheckIn.getEntryDate());
-
-
-            Call<MessageResponse> saveVisit = retrofitService.postPilotCheckApi(token, pilotCheckIn);
-
-            saveVisit.enqueue(new Callback<MessageResponse>() {
-                @Override
-                public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
-                    Utilities.showLogcatMessage(" Response1" +response.body());
-
-                        Utilities.showLogcatMessage(" Response2");
-                      //  Toast.makeText(CheckInActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(CheckInActivity.this, MainActivity.class));
-
-                }
-
-                @Override
-                public void onFailure(Call<MessageResponse> call, Throwable t) {
-                    //showProgressBar(false);
-                    Toast.makeText(CheckInActivity.this, "Fail to connect ", Toast.LENGTH_SHORT).show();
-                    Utilities.showLogcatMessage(t.toString());
-                }
-            });
     }
+
     private boolean isValidated() {
         if (longitude == 0 || latitude == 0) {
             Toast.makeText(CheckInActivity.this,
@@ -403,8 +413,8 @@ PilotCheckIn pilotCheckIn=new PilotCheckIn();
         float distanceInMeters = officeLocation.distanceTo(myLocation);
         Log.d("tag", "Validation" + distanceInMeters);
         if (distanceInMeters > 100) {
-          /*  Toast(g, "You are not in office range! " +
-                    "Please try again near office premises", Toast.LENGTH_SHORT, true).show();*/
+          *//*  Toast(g, "You are not in office range! " +
+                    "Please try again near office premises", Toast.LENGTH_SHORT, true).show();*//*
 
             Toast.makeText(CheckInActivity.this, "You are out of range! " +
                     "Please try again near premises", LENGTH_SHORT).show();
@@ -432,45 +442,7 @@ PilotCheckIn pilotCheckIn=new PilotCheckIn();
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
+    }*/
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.logout) {
-            SharedPrefManager.getInstance(this).clearToken();
-            Toast.makeText(this, "Logged out successfully!!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
-        if (id == R.id.home) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
-        if (id == R.id.pendingList) {
-            Intent intent = new Intent(this, PendingSalesActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
-        if (id == R.id.salesList) {
-            Intent intent = new Intent(this, SalesActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
-
-

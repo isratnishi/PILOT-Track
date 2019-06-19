@@ -3,6 +3,7 @@ package com.opus_bd.pilot.RetrofitService;
 
 import com.opus_bd.pilot.Model.CheckinModel;
 import com.opus_bd.pilot.Model.MessageResponse;
+import com.opus_bd.pilot.Model.PilotCheckIn;
 import com.opus_bd.pilot.Model.ProductModel;
 import com.opus_bd.pilot.Model.SalesModel;
 import com.opus_bd.pilot.Model.ScheduleByDateModel;
@@ -26,26 +27,36 @@ public interface RetrofitService {
   /*  @POST("api/AppsLoginPost")
     Call<UserModel> login(@Body UserModel userModel);*/
 
-    @POST("api/AppsLoginPost")
+    @POST("global/api/AppsLoginPost")
     Call<UserResponse> login(@Body UserModel userModel);
 
-    @GET("api/GETScheduleByPilotID/{id}")
+    @GET("global/api/GETScheduleByPilotID/{id}")
     Call<List<ScheduleModel>> getvisitList(@Header("Authorization") String token, @Path("id") int id);
+
+
+    @GET("global/api/GetAspNetUsersDataByApi/{scheduleID}")
+    Call<ScheduleByDateModel> gETScheduleByshipName(@Header("Authorization") String token, @Path("scheduleID") int id);
+
 
     @GET("api/PilotCheckApi/{id}")
     Call<List<CheckinModel>> getCheckIn(@Header("Authorization") String token, @Path("id") int id);
 
-    @GET("api/GETScheduleByscheduleDate/{scheduleDate}")
+    @POST("global/api/PilotCheckApi")
+    Call<MessageResponse> postPilotCheckApi(@Header("Authorization") String token, @Body PilotCheckIn pilotCheckIn);
+
+    @GET("global/api/GETScheduleByscheduleDate/{scheduleDate}")
     Call<List<ScheduleByDateModel>> gETScheduleByscheduleDate(@Header("Authorization") String token, @Path("scheduleDate") String scheduleDate);
 
-    @GET("api/GetAspNetUsersDataByApi/{userName}")
+    @GET("global/api/GetAspNetUsersDataByApi/{userName}")
     Call<UserModel> getUser(@Header("Authorization") String token, @Path("email") String userName);
 
-    @GET("api/GetAspNetUsersDataByApi/{userName}")
+    @GET("global/api/GetAspNetUsersDataByApi/{userName}")
     Call<UserInfo> getUserInfo(@Header("Authorization") String token, @Path("userName") String userName);
+
 
     @POST("api/saveVisit ")
     Call<MessageResponse> saveVisit(@Header("Authorization") String token, @Body SalesModel salesModel);
+
 
     @POST("api/deleteSaleVisit/{id} ")
     Call<MessageResponse> deleteSaleVisit(@Header("Authorization") String token, @Path("id") int id);

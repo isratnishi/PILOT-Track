@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class APIClientInterface {
-    private static final String BASE_URL = "http://103.106.237.12:90/global/";
+    private static final String BASE_URL = "http://103.106.237.12:90/";
     private static Retrofit retrofit;
     public static Retrofit getClient() {
         if (retrofit == null) {

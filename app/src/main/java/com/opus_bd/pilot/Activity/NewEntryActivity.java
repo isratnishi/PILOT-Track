@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.opus_bd.pilot.Model.MessageResponse;
+import com.opus_bd.pilot.Model.PilotCheckIn;
 import com.opus_bd.pilot.Model.ProductModel;
 import com.opus_bd.pilot.Model.SalesModel;
 import com.opus_bd.pilot.Model.SiteModel;
@@ -46,7 +47,7 @@ public class NewEntryActivity extends AppCompatActivity {
     SalesModel model = new SalesModel();
 
     String location;
-
+    PilotCheckIn pilotCheckIn=new PilotCheckIn();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,25 +74,26 @@ public class NewEntryActivity extends AppCompatActivity {
     }
 
     private void submitToServer() {
-
-        Utilities.showLogcatMessage(String.valueOf(model.getProductId()));
-        model.setTargetmeet(etTarget.getText().toString());
-        model.setLocation(tvYourLocation.getText().toString());
+//
+        //Utilities.showLogcatMessage(tvYourLocation.getText().toString());
+       // pilotCheckIn.setLocation(loc);
+        pilotCheckIn.setCheckType("CheckIN");
+        pilotCheckIn.setPilotID(SharedPrefManager.getInstance(NewEntryActivity.this).getID());
+       // pilotCheckIn.setScheduleID(site);
+       // pilotCheckIn.setEntryDate(date);
         RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(NewEntryActivity.this).getUser();
         if (token != null) {
 
-            Call<MessageResponse> saveVisit = retrofitService.saveVisit(token, model);
+            Call<MessageResponse> saveVisit = retrofitService.postPilotCheckApi(token, pilotCheckIn);
 
             saveVisit.enqueue(new Callback<MessageResponse>() {
                 @Override
                 public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
 
                     if (response.body() != null) {
-                        Toast.makeText(NewEntryActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
-                        int id = model.getId();
-                        deleteSaleVisit(id);
-                        startActivity(new Intent(NewEntryActivity.this, MainActivity.class));
+                       // Toast.makeText(CheckInActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                       // startActivity(new Intent(CheckInActivity.this, MainActivity.class));
 
                     }
                 }
@@ -99,7 +101,7 @@ public class NewEntryActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<MessageResponse> call, Throwable t) {
                     //showProgressBar(false);
-                    Toast.makeText(NewEntryActivity.this, "Fail to connect ", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CheckInActivity.this, "Fail to connect ", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {

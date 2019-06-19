@@ -3,6 +3,7 @@ package com.opus_bd.pilot.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.opus_bd.pilot.Model.UserInfo;
 import com.opus_bd.pilot.Model.UserModel;
 import com.opus_bd.pilot.R;
+import com.opus_bd.pilot.RetrofitService.APIClientInterface;
+import com.opus_bd.pilot.RetrofitService.RetrofitService;
 import com.opus_bd.pilot.Utils.Constants;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
 import com.opus_bd.pilot.Utils.Utilities;
@@ -20,6 +24,9 @@ import com.opus_bd.pilot.Utils.Utilities;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tvUserName)
@@ -42,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         String email = obj.getName();
         tvUserName.setText(email);
 
+        getUser(email);
         Utilities.showLogcatMessage(" Email " + email);
 
       /*  if (bundle != null) {
@@ -55,7 +63,38 @@ public class MainActivity extends AppCompatActivity {
         userModel = gson.fromJson(json, UserModel.class);
        tvUserName.setText(userModel.getEmail());*/
     }
+    public void getUser(String userName) {
+        RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
+        String token = SharedPrefManager.getInstance(this).getUser();
+        Call<UserInfo> registrationRequest = retrofitService.getUserInfo(token, userName);
+        registrationRequest.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, @NonNull Response<UserInfo> response) {
 
+                try {
+                    if(response.body()!=null)
+                    {
+                        Utilities.showLogcatMessage(" Email " + response.body().getEmail());
+                        Utilities.showLogcatMessage(" Id" + response.body().getId());
+
+                        int id = response.body().getPilotID();
+                        SharedPrefManager.getInstance(MainActivity.this).saveID(id);
+                        // getAllList(id);
+                        tvUserName.setText(response.body().getUserName());
+                    }
+
+                    else Utilities.showLogcatMessage(" Responce Null");
+                }
+                catch (Exception e){}
+
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+                Utilities.showLogcatMessage("error " + t.toString());
+            }
+        });
+    }
     @OnClick(R.id.tvCheckIN)
     public void tvPendingSales() {
 
