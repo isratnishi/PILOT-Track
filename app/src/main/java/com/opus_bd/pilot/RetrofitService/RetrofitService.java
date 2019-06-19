@@ -5,6 +5,7 @@ import com.opus_bd.pilot.Model.CheckinModel;
 import com.opus_bd.pilot.Model.MessageResponse;
 import com.opus_bd.pilot.Model.ProductModel;
 import com.opus_bd.pilot.Model.SalesModel;
+import com.opus_bd.pilot.Model.ScheduleByDateModel;
 import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.Model.SiteModel;
 import com.opus_bd.pilot.Model.UserInfo;
@@ -33,6 +34,9 @@ public interface RetrofitService {
 
     @GET("api/PilotCheckApi/{id}")
     Call<List<CheckinModel>> getCheckIn(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("api/GETScheduleByscheduleDate/{scheduleDate}")
+    Call<List<ScheduleByDateModel>> gETScheduleByscheduleDate(@Header("Authorization") String token, @Path("scheduleDate") String scheduleDate);
 
     @GET("api/GetAspNetUsersDataByApi/{userName}")
     Call<UserModel> getUser(@Header("Authorization") String token, @Path("email") String userName);

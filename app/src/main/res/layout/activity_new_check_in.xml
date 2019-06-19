@@ -123,7 +123,7 @@
                 </RelativeLayout>
 
                 <Spinner
-                    android:id="@+id/project_name_spinner"
+                    android:id="@+id/ship_name_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
