@@ -81,9 +81,9 @@ public class SalesActivity extends AppCompatActivity {
         registrationRequest.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, @NonNull Response<UserModel> response) {
-                int id = response.body().getId();
-                SharedPrefManager.getInstance(SalesActivity.this).saveID(id);
-                getSaleVisit(id);
+                //int id = response.body().getId();
+              //  SharedPrefManager.getInstance(SalesActivity.this).saveID(id);
+               getSaleVisit(2);
 
 
             }

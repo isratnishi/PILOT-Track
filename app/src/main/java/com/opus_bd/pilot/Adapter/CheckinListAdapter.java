@@ -11,7 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.opus_bd.pilot.Activity.CheckInActivity;
-import com.opus_bd.pilot.Model.SalesModel;
+import com.opus_bd.pilot.Model.CheckinModel;
+import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
 
@@ -20,10 +21,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.ItemViewHolder> {
+public class CheckinListAdapter extends RecyclerView.Adapter<CheckinListAdapter.ItemViewHolder> {
     private final Context context;
-    private List<SalesModel> items;
-    public PendingListAdapter(List<SalesModel> items, Context context) {
+    private List<CheckinModel> items;
+    public CheckinListAdapter(List<CheckinModel> items, Context context) {
         this.items = items;
         this.context = context;
     }
@@ -38,7 +39,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        SalesModel item = items.get(position);
+        CheckinModel item = items.get(position);
         holder.set(item);
     }
 
@@ -52,12 +53,12 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tvPendingSalesLocation)
-        TextView tvPendingSalesLocation;
-        @BindView(R.id.tvPendingSalesTraget)
-        TextView tvPendingSalesTraget;
-        @BindView(R.id.tvPendingSalesSite)
-        TextView tvPendingSalesSite;
+        @BindView(R.id.tvScheduleNo)
+        TextView tvScheduleNo;
+        @BindView(R.id.tvGroupName)
+        TextView tvGroupName;
+        @BindView(R.id.tvShipName)
+        TextView tvShipName;
         @BindView(R.id.btnCheckIn)
         Button btnCheckIn;
 
@@ -68,19 +69,19 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
         }
 
-        public void set(final SalesModel item) {
+        public void set(final CheckinModel item) {
             //getSiteName(item.getSiteId());
-            tvPendingSalesLocation.setText(item.getLocation());
-            tvPendingSalesTraget.setText(item.getTarget());
-            tvPendingSalesSite.setText(item.getSiteName());
+            tvScheduleNo.setText(item.getCheckType());
+            tvGroupName.setText(item.getEntryTime());
+            tvShipName.setText(item.getLocation());
             btnCheckIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPrefManager.getInstance(context).saveVisit(item);
+                    //SharedPrefManager.getInstance(context).saveVisit(item);
 
-                    Intent intent = new Intent(context, CheckInActivity.class);
-                    intent.putExtra("Location", tvPendingSalesLocation.getText());
-                    context.startActivity(intent);
+              /*      Intent intent = new Intent(context, CheckInActivity.class);
+                    intent.putExtra("Location", tvScheduleNo.getText());
+                    context.startActivity(intent);*/
                 }
             });
 

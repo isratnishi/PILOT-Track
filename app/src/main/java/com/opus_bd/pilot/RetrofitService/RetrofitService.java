@@ -1,10 +1,13 @@
 package com.opus_bd.pilot.RetrofitService;
 
 
+import com.opus_bd.pilot.Model.CheckinModel;
 import com.opus_bd.pilot.Model.MessageResponse;
 import com.opus_bd.pilot.Model.ProductModel;
 import com.opus_bd.pilot.Model.SalesModel;
+import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.Model.SiteModel;
+import com.opus_bd.pilot.Model.UserInfo;
 import com.opus_bd.pilot.Model.UserModel;
 import com.opus_bd.pilot.Model.UserResponse;
 
@@ -19,14 +22,23 @@ import retrofit2.http.Path;
 
 
 public interface RetrofitService {
+  /*  @POST("api/AppsLoginPost")
+    Call<UserModel> login(@Body UserModel userModel);*/
+
     @POST("api/AppsLoginPost")
     Call<UserResponse> login(@Body UserModel userModel);
 
-    @GET("api/getVisit/{id}")
-    Call<List<SalesModel>> getvisitList(@Header("Authorization") String token, @Path("id") int id);
+    @GET("api/GETScheduleByPilotID/{id}")
+    Call<List<ScheduleModel>> getvisitList(@Header("Authorization") String token, @Path("id") int id);
 
-    @GET("api/getUser/{email}")
-    Call<UserModel> getUser(@Header("Authorization") String token, @Path("email") String email);
+    @GET("api/PilotCheckApi/{id}")
+    Call<List<CheckinModel>> getCheckIn(@Header("Authorization") String token, @Path("id") int id);
+
+    @GET("api/GetAspNetUsersDataByApi/{userName}")
+    Call<UserModel> getUser(@Header("Authorization") String token, @Path("email") String userName);
+
+    @GET("api/GetAspNetUsersDataByApi/{userName}")
+    Call<UserInfo> getUserInfo(@Header("Authorization") String token, @Path("userName") String userName);
 
     @POST("api/saveVisit ")
     Call<MessageResponse> saveVisit(@Header("Authorization") String token, @Body SalesModel salesModel);

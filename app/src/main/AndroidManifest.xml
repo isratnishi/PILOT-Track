@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.opus_bd.pilot">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -20,8 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.NewCheckINActivity"></activity>
+        <activity android:name=".Activity.RouteActivity" />
         <activity
-            android:name="com.opus_bd.pilot.Activity.SalesActivity"
+            android:name=".Activity.SalesActivity"
             android:label="Sales List" />
 
         <meta-data
@@ -29,26 +30,23 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.opus_bd.pilot.Activity.MainActivity"
-            android:label="Home">
-
-        </activity>
+            android:name=".Activity.MainActivity"
+            android:label="Home" />
         <activity
-            android:name="com.opus_bd.pilot.Activity.CheckInActivity"
+            android:name=".Activity.CheckInActivity"
             android:label="Check In" />
         <activity
-            android:name="com.opus_bd.pilot.Activity.NewEntryActivity"
+            android:name=".Activity.NewEntryActivity"
             android:label="Entry" />
         <activity
-            android:name="com.opus_bd.pilot.Activity.PendingSalesActivity"
+            android:name=".Activity.PendingSalesActivity"
             android:label="Pending List" />
-        <activity android:name="com.opus_bd.pilot.Activity.LoginActivity">
+        <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

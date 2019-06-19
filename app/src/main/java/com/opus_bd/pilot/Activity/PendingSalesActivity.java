@@ -8,13 +8,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.opus_bd.pilot.Adapter.PendingListAdapter;
-import com.opus_bd.pilot.Model.SalesModel;
+import com.opus_bd.pilot.Adapter.PendingCheckinListAdapter;
+import com.opus_bd.pilot.Model.ScheduleModel;
+import com.opus_bd.pilot.Model.UserInfo;
 import com.opus_bd.pilot.Model.UserModel;
 import com.opus_bd.pilot.R;
+import com.opus_bd.pilot.RetrofitService.APIClientInterface;
 import com.opus_bd.pilot.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.pilot.RetrofitService.RetrofitService;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
@@ -32,8 +35,10 @@ import retrofit2.Response;
 public class PendingSalesActivity extends AppCompatActivity {
     @BindView(R.id.rvPendingList)
     RecyclerView rvPendingList;
-    PendingListAdapter pendingListAdapter;
-    private ArrayList<SalesModel> locationNameArrayList = new ArrayList<>();
+    @BindView(R.id.tvUserName)
+    TextView tvUserName;
+    PendingCheckinListAdapter pendingListAdapter;
+    private ArrayList<ScheduleModel> locationNameArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,47 +48,60 @@ public class PendingSalesActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String token = SharedPrefManager.getInstance(this).getUser();
         UserModel obj = gson.fromJson(token, UserModel.class);
-        String email = obj.getEmail();
+        String email = obj.getName();
         getUser(email);
         intRecyclerView();
 
     }
 
     public void intRecyclerView() {
-        pendingListAdapter = new PendingListAdapter(locationNameArrayList, this);
+        pendingListAdapter = new PendingCheckinListAdapter(locationNameArrayList, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvPendingList.setLayoutManager(layoutManager);
         rvPendingList.setAdapter(pendingListAdapter);
     }
 
-    public void getUser(String email) {
-        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+    public void getUser(String userName) {
+        RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
-        Call<UserModel> registrationRequest = retrofitService.getUser(token, email);
-        registrationRequest.enqueue(new Callback<UserModel>() {
+        Call<UserInfo> registrationRequest = retrofitService.getUserInfo(token, userName);
+        registrationRequest.enqueue(new Callback<UserInfo>() {
             @Override
-            public void onResponse(Call<UserModel> call, @NonNull Response<UserModel> response) {
+            public void onResponse(Call<UserInfo> call, @NonNull Response<UserInfo> response) {
 
-                int id = response.body().getId();
-                getAllList(id);
+                try {
+                    if(response.body()!=null)
+                    {
+                        Utilities.showLogcatMessage(" Email " + response.body().getEmail());
+                        Utilities.showLogcatMessage(" Id" + response.body().getId());
+
+                        int id = response.body().getPilotID();
+                      // getAllList(id);
+                        tvUserName.setText(response.body().getUserName());
+                    }
+
+                    else Utilities.showLogcatMessage(" Responce Null");
+                }
+                catch (Exception e){}
+
             }
 
             @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
+            public void onFailure(Call<UserInfo> call, Throwable t) {
                 Utilities.showLogcatMessage("error " + t.toString());
             }
         });
     }
 
     public void getAllList(int id) {
-        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+        RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
 
         if (token != null) {
-            Call<List<SalesModel>> registrationRequest = retrofitService.getvisitList(token, id);
-            registrationRequest.enqueue(new Callback<List<SalesModel>>() {
+            Call<List<ScheduleModel>> registrationRequest = retrofitService.getvisitList(token, id);
+            registrationRequest.enqueue(new Callback<List<ScheduleModel>>() {
                 @Override
-                public void onResponse(Call<List<SalesModel>> call, @NonNull Response<List<SalesModel>> response) {
+                public void onResponse(Call<List<ScheduleModel>> call, @NonNull Response<List<ScheduleModel>> response) {
                     if (response.body() != null) {
                         locationNameArrayList.clear();
                         locationNameArrayList.addAll(response.body());
@@ -92,7 +110,7 @@ public class PendingSalesActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<List<SalesModel>> call, Throwable t) {
+                public void onFailure(Call<List<ScheduleModel>> call, Throwable t) {
                     Utilities.showLogcatMessage("error " + t.toString());
                 }
             });

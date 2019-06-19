@@ -3,4 +3,10 @@
     <color name="colorPrimary">#9C27B0</color>
     <color name="colorPrimaryDark">#49057E</color>
     <color name="colorAccent">#B0F44336</color>
+    <color name="colorAccent2">#63a4ff</color>
+
+    <color name="tabs_default_color">#228B22</color>
+    <color name="sign_in_text_color">#228B22</color>
+    <color name="month_background">@color/colorAccent2</color>
+    <color name="date_background">#e6e6e6</color>
 </resources>

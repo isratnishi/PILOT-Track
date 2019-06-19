@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.opus_bd.pilot.Model.SalesModel;
+import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.Model.UserModel;
 
 public class SharedPrefManager {
@@ -44,7 +45,7 @@ public class SharedPrefManager {
                 Context.MODE_PRIVATE);
         sharedPreferences.edit().remove(KEY_TOKEN).apply();
     }
-    public void saveVisit(SalesModel salesModel) {
+    public void saveVisit(ScheduleModel salesModel) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
