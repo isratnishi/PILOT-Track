@@ -42,11 +42,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 import com.opus_bd.pilot.Model.GeocodingLocation;
 import com.opus_bd.pilot.Model.MessageResponse;
+import com.opus_bd.pilot.Model.MessageResponseInt;
+import com.opus_bd.pilot.Model.PilotCheckBodyM;
 import com.opus_bd.pilot.Model.PilotCheckIn;
 import com.opus_bd.pilot.Model.SalesModel;
 import com.opus_bd.pilot.R;
+import com.opus_bd.pilot.RetrofitService.APIClientInterface;
 import com.opus_bd.pilot.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.pilot.RetrofitService.RetrofitService;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
@@ -85,9 +89,9 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     @BindView(R.id.tvYourLocation)
     TextView tvYourLocation;
     String location, date;
-    String loc;
+    String loc,check;
     int site, product, salesperson;
-PilotCheckIn pilotCheckIn=new PilotCheckIn();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -342,43 +346,57 @@ PilotCheckIn pilotCheckIn=new PilotCheckIn();
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
         Utilities.showLogcatMessage(" Button");
+
         submitToServer();
 
     }
     private void submitToServer() {
 //
-      Utilities.showLogcatMessage(tvYourLocation.getText().toString());
-
-        pilotCheckIn.setLocation(loc);
-        pilotCheckIn.setCheckType("CheckIN");
-        pilotCheckIn.setShipName(" ");
-        pilotCheckIn.setEntryTime(" ");
-        pilotCheckIn.setBeatName(" ");
-        pilotCheckIn.setPilotID(SharedPrefManager.getInstance(CheckInActivity.this).getID());
-        pilotCheckIn.setScheduleID(site);
-        pilotCheckIn.setEntryDate(date);
-
-
-        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(CheckInActivity.this).getUser();
-        Utilities.showLogcatMessage(" Response"+ pilotCheckIn.getEntryDate());
 
 
-            Call<MessageResponse> saveVisit = retrofitService.postPilotCheckApi(token, pilotCheckIn);
+      int pilot=SharedPrefManager.getInstance(CheckInActivity.this).getID();
+        PilotCheckIn pilotCheckIn=new PilotCheckIn(pilot,site,"Checkin","ShipName","CTG-Payra",date,"9:58",loc);
+     // Utilities.showLogcatMessage(" "+pilotCheckIn.toString());
+        PilotCheckBodyM body=new PilotCheckBodyM(2,
+                7,"Checkin","ShipName","CTG-Payra","June202019",
+                "9:58","1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA");
 
-            saveVisit.enqueue(new Callback<MessageResponse>() {
+        RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
+
+        Utilities.showLogcatMessage(" Response"+ pilotCheckIn.toString());
+        Gson gson=new Gson();
+
+
+            Call<String> saveVisit = retrofitService.postPilotCheckApi(token, body);
+
+            saveVisit.enqueue(new Callback<String>() {
                 @Override
-                public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                public void onResponse(Call<String> call, Response<String> response) {
                     Utilities.showLogcatMessage(" Response1" +response.body());
+                    try {
+                        if(response.body()!=null){
+                            Utilities.showLogcatMessage(" Response2");
+                            // Toast.makeText(CheckInActivity.this, "Saved Succesfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CheckInActivity.this, response.body(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(CheckInActivity.this, MainActivity.class));
+                        }
+                        else {
+                           // response.body().getStatus();
+                        }
+                    }
+                    catch (Exception e)
+                    {
 
-                        Utilities.showLogcatMessage(" Response2");
-                      //  Toast.makeText(CheckInActivity.this, response.body().getStatus(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(CheckInActivity.this, MainActivity.class));
+                        Utilities.showLogcatMessage(" Error "+e);
+                    }
+
+
 
                 }
 
                 @Override
-                public void onFailure(Call<MessageResponse> call, Throwable t) {
+                public void onFailure(Call<String> call, Throwable t) {
                     //showProgressBar(false);
                     Toast.makeText(CheckInActivity.this, "Fail to connect ", Toast.LENGTH_SHORT).show();
                     Utilities.showLogcatMessage(t.toString());

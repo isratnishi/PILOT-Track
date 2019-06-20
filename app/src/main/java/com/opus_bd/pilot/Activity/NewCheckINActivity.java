@@ -476,11 +476,13 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
 
     public void addShipNameSpinnerData(final List<ScheduleByDateModel> body) {
         // String[] truckNumberArray = shipNames.toArray(new String[shipNames.size()]);
-        Toast.makeText(context, "data size " + body.size(), Toast.LENGTH_SHORT).show();
+       //
+        // Toast.makeText(context, "data size " + body.size(), Toast.LENGTH_SHORT).show();
         List<String> shipList = new ArrayList<>();
         shipList.add("Select Ship");
         for (int i = 0; i < body.size(); i++) {
             shipList.add(body.get(i).getShipName());
+
         }
 
 
@@ -492,7 +494,7 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i > 0) {
                     SELECTED_SHIP_ID = "" + body.get(i - 1).getShipName();
-                    Toast.makeText(context, "selected ship " + SELECTED_SHIP_ID, Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(context, "selected ship " + SELECTED_SHIP_ID, Toast.LENGTH_SHORT).show();
                     tvStartPort.setText(body.get(i - 1).getStartPort());
                     tvEndPort.setText(body.get(i - 1).getEndPort());
                 } else {
@@ -509,7 +511,7 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
     }
 
     public void addScheduleNameSpinnerData(final List<ScheduleByDateModel> body) {
-        Toast.makeText(context, "data size " + body.size(), Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(context, "data size " + body.size(), Toast.LENGTH_SHORT).show();
         List<String> scheduleList = new ArrayList<>();
         scheduleList.add("Select Schedule");
         for (int i = 0; i < body.size(); i++) {
@@ -525,7 +527,7 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i > 0) {
                     SELECTED_SCHEDULE_ID = body.get(i - 1).getScheduleID();
-                    Toast.makeText(context, "selected Schedule " + SELECTED_SCHEDULE_ID, Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(context, "selected Schedule " + SELECTED_SCHEDULE_ID, Toast.LENGTH_SHORT).show();
                     gETScheduleByshipName(SELECTED_SCHEDULE_ID);
                 } else {
                     SELECTED_SCHEDULE_ID = 0;

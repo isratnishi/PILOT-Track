@@ -73,7 +73,7 @@ public class NewEntryActivity extends AppCompatActivity {
 
     }
 
-    private void submitToServer() {
+   /* private void submitToServer() {
 //
         //Utilities.showLogcatMessage(tvYourLocation.getText().toString());
        // pilotCheckIn.setLocation(loc);
@@ -110,7 +110,7 @@ public class NewEntryActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-    }
+    }*/
 
     private void deleteSaleVisit(int id) {
         RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
@@ -171,7 +171,7 @@ public class NewEntryActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnCheckIn)
     public void btnCheckIn() {
-        submitToServer();
+        //submitToServer();
     }
 
 

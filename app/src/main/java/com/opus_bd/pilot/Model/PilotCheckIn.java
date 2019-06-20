@@ -92,5 +92,31 @@ private int pilotID;
         this.location = location;
     }
 
+    public PilotCheckIn(int pilotID, int scheduleID, String checkType, String shipName, String beatName, String entryDate, String entryTime, String location) {
+        this.pilotID = pilotID;
+        this.scheduleID = scheduleID;
+        this.checkType = checkType;
+        this.shipName = shipName;
+        this.beatName = beatName;
+        this.entryDate = entryDate;
+        this.entryTime = entryTime;
+        this.location = location;
+    }
 
+    public PilotCheckIn() {
+    }
+
+    @Override
+    public String toString() {
+        return "PilotCheckIn{" +
+                "pilotID=" + pilotID +
+                ", scheduleID=" + scheduleID +
+                ", checkType='" + checkType + '\'' +
+                ", shipName='" + shipName + '\'' +
+                ", beatName='" + beatName + '\'' +
+                ", entryDate='" + entryDate + '\'' +
+                ", entryTime='" + entryTime + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

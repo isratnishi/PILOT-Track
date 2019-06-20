@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.NewCheckINActivity"></activity>
+        <activity android:name=".Activity.NewCheckINActivity"
+            android:label="Check In"></activity>
         <activity android:name=".Activity.RouteActivity" />
         <activity
             android:name=".Activity.SalesActivity"

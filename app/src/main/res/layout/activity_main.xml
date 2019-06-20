@@ -11,8 +11,30 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center">
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:src="@drawable/biwta_logo"/>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:cardBackgroundColor="#9C27B0"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="5dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="Welcome"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
+    </android.support.v7.widget.CardView>
     <TextView
         android:id="@+id/tvUserName"
         android:layout_width="match_parent"
@@ -22,7 +44,7 @@
         android:padding="20dp"
         android:text="User Name"
         android:textColor="@android:color/black"
-        android:textSize="15dp" />
+        android:textSize="22dp" />
 
     <android.support.v7.widget.CardView
         android:layout_width="150dp"
@@ -30,7 +52,8 @@
         android:layout_margin="30dp"
         app:cardBackgroundColor="#9C27B0"
         app:cardCornerRadius="14dp"
-        app:cardElevation="5dp">
+        app:cardElevation="5dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tvCheckIN"
@@ -50,7 +73,8 @@
         android:layout_margin="30dp"
         app:cardBackgroundColor="#9C27B0"
         app:cardCornerRadius="14dp"
-        app:cardElevation="5dp">
+        app:cardElevation="5dp"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/tvCheckOUT"
@@ -61,7 +85,8 @@
             android:padding="20dp"
             android:text="Pending CheckOUT"
             android:textColor="@android:color/white"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            />
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -70,7 +95,8 @@
         android:layout_margin="30dp"
         app:cardBackgroundColor="#9C27B0"
         app:cardCornerRadius="14dp"
-        app:cardElevation="5dp">
+        app:cardElevation="5dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tvRoute"

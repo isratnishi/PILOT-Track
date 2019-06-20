@@ -3,6 +3,8 @@ package com.opus_bd.pilot.RetrofitService;
 
 import com.opus_bd.pilot.Model.CheckinModel;
 import com.opus_bd.pilot.Model.MessageResponse;
+import com.opus_bd.pilot.Model.MessageResponseInt;
+import com.opus_bd.pilot.Model.PilotCheckBodyM;
 import com.opus_bd.pilot.Model.PilotCheckIn;
 import com.opus_bd.pilot.Model.ProductModel;
 import com.opus_bd.pilot.Model.SalesModel;
@@ -42,7 +44,7 @@ public interface RetrofitService {
     Call<List<CheckinModel>> getCheckIn(@Header("Authorization") String token, @Path("id") int id);
 
     @POST("global/api/PilotCheckApi")
-    Call<MessageResponse> postPilotCheckApi(@Header("Authorization") String token, @Body PilotCheckIn pilotCheckIn);
+    Call<String> postPilotCheckApi(@Header("Authorization") String token, @Body PilotCheckBodyM pilotCheckIn);
 
     @GET("global/api/GETScheduleByscheduleDate/{scheduleDate}")
     Call<List<ScheduleByDateModel>> gETScheduleByscheduleDate(@Header("Authorization") String token, @Path("scheduleDate") String scheduleDate);
@@ -73,3 +75,5 @@ public interface RetrofitService {
     @GET("api/getProductName/{id}")
     Call<ProductModel> getProductName(@Header("Authorization") String token, @Path("id") int id);
 }
+
+
