@@ -30,4 +30,9 @@
     <string name="delete">Delete</string>
     <string name="location">Location:</string>
     <string name="target">Target:</string>
+    <string name="check_prompt">Select One</string>
+    <string-array name="Check">
+    <item>Check In</item>
+    <item>Check Out </item>
+    </string-array>
 </resources>

@@ -79,7 +79,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     Button attendButton;
     @BindView(R.id.tvYourLocation)
     TextView tvYourLocation;
-    String location, date;
+    String location, date,time,Check;
     String loc, shipName;
     int scheduleName;
 
@@ -96,9 +96,13 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
             scheduleName = bundle.getInt("SCID");
             date = bundle.getString("Date");
             shipName = bundle.getString("ShipName");
+            time = bundle.getString("Time");
+            Check = bundle.getString("Check");
             Utilities.showLogcatMessage(" SCID  c" + scheduleName + location + date);
 
         }
+
+        attendButton.setText(Check);
         GeocodingLocation locationAddress = new GeocodingLocation();
         locationAddress.getAddressFromLocation(location,
                 getApplicationContext(), new GeocoderHandler());
@@ -341,7 +345,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
         String token = SharedPrefManager.getInstance(CheckInActivity.this).getUser();
         int pilot = SharedPrefManager.getInstance(CheckInActivity.this).getID();
-        PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, "Checkin", shipName, "CTG-Payra", date, "9:58", loc);
+        PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, Check, shipName, "CTG-Payra", date, time, loc);
         ApiClient.getApiInterface().postPilotCheckApi(token, body).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

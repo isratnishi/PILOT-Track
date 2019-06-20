@@ -83,19 +83,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 public class NewCheckINActivity extends AppCompatActivity {
     @BindView(R.id.tvSelectDate)
     TextView tvSelectDate;
-    @BindView(R.id.tvSHip)
-    TextView tvSHip;
-    @BindView(R.id.tvshed)
-    TextView tvshed;
     @BindView(R.id.tvEndPort)
     TextView tvEndPort;
     @BindView(R.id.tvStartPort)
     TextView tvStartPort;
-    @BindView(R.id.tvLocation)
-    TextView tvLocation;
     @BindView(R.id.from_day_button)
     Button fromDateButton;
     @BindView(R.id.from_year_month_button)
@@ -104,36 +100,20 @@ public class NewCheckINActivity extends AppCompatActivity {
     Spinner ship_name_spinner;
     @BindView(R.id.schedule_name_spinner)
     Spinner schedule_name_spinner;
+    @BindView(R.id.CheckType_spinner)
+    Spinner CheckType_spinner;
     int mYear, mMonth, mDay;
     Context context = this;
     private Gson gson;
+    String check;
     //   SessionManager sessionManager;
     Calendar receiverDateCalender = Calendar.getInstance();
-    String datefromate;
-    ArrayList<String> shipNames = new ArrayList<>();
+    String datefromate, timeFormate;
     ArrayList<ScheduleByDateModel> shipmodel = new ArrayList<>();
-    ArrayList<String> scheduleNames = new ArrayList<>();
-    ArrayList<ScheduleByDateModel> schedulemodel = new ArrayList<>();
 
     public String SELECTED_SHIP_ID;
     public int SELECTED_SCHEDULE_ID;
-    String SELECTED_SCHEDULE_NAME;
-    String location, target;
 
-    public final static String EXTRA_MODEL = "id";
-    private final int FINE_LOCATION_PERMISSION = 1;
-    LocationRequest mLocationRequest;
-    int LOCATION_INTERVAL = 30 * 1000; // 30 sec
-    int FAST_INTERVAL = 10 * 1000; // 10 sec
-    double latitude, getlat;
-    double longitude, getlong;
-    LocationCallback locationCallback;
-    FusedLocationProviderClient fusedLocationProviderClient;
-    boolean mRequestingLocationUpdates = false;
-    private GoogleMap mMap;
-    Marker friendMarker;
-    private final int REQUEST_CHECK_SETTINGS = 10;
-    int statusID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +140,11 @@ public class NewCheckINActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeFromDate();
             }
-        }); }
+        });
+
+        CheckType_spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+              }
+
     private void initializeGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
@@ -183,13 +167,14 @@ public class NewCheckINActivity extends AppCompatActivity {
                         receiverDateCalender.set(Calendar.MINUTE, tempCalender.get(Calendar.MINUTE));
                         receiverDateCalender.set(Calendar.SECOND, tempCalender.get(Calendar.SECOND));
 
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd", Locale.ENGLISH);
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd hh mm ss a", Locale.ENGLISH);
                         String[] dateValues = formatter.format(receiverDateCalender.getTime()).split(" ");
                         if (dateValues.length >= 3) {
                             fromDateButton.setText(dateValues[2]);
                             fromYearMonthMonthButton.setText(dateValues[1] + "\n" + dateValues[0]);
                             datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
-                           Utilities.showLogcatMessage(" Date "+datefromate);
+                            Utilities.showLogcatMessage(" time " + dateValues[3] + "" + dateValues[4] + "" + dateValues[5]);
+                            timeFormate = dateValues[3] + ":" + dateValues[4];
                             getScheduleAllList(datefromate);
                             getShipAllList(datefromate);
 
@@ -202,14 +187,15 @@ public class NewCheckINActivity extends AppCompatActivity {
     }
 
     private void initializeFromDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd hh mm ss a", Locale.ENGLISH);
         String[] dateValues = formatter.format(receiverDateCalender.getTime()).split(" ");
         if (dateValues.length >= 3) {
             fromDateButton.setText(dateValues[2]);
             fromYearMonthMonthButton.setText(dateValues[1] + "\n" + dateValues[0]);
             datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
-            Utilities.showLogcatMessage(" Date "+datefromate);
-
+            Utilities.showLogcatMessage(" Date " + datefromate);
+            Utilities.showLogcatMessage(" time " + dateValues[3] + "" + dateValues[4] + "" + dateValues[5]);
+            timeFormate = dateValues[3] + ":" + dateValues[4];
             getScheduleAllList(datefromate);
             getShipAllList(datefromate);
 
@@ -217,7 +203,7 @@ public class NewCheckINActivity extends AppCompatActivity {
     }
 
     public void addShipNameSpinnerData(final List<ScheduleByDateModel> body) {
-      List<String> shipList = new ArrayList<>();
+        List<String> shipList = new ArrayList<>();
         shipList.add("Select Ship");
         for (int i = 0; i < body.size(); i++) {
             shipList.add(body.get(i).getShipName());
@@ -249,7 +235,7 @@ public class NewCheckINActivity extends AppCompatActivity {
     }
 
     public void addScheduleNameSpinnerData(final List<ScheduleByDateModel> body) {
-      List<String> scheduleList = new ArrayList<>();
+        List<String> scheduleList = new ArrayList<>();
         scheduleList.add("Select Schedule");
         for (int i = 0; i < body.size(); i++) {
             scheduleList.add(body.get(i).getScheduleNo());
@@ -276,6 +262,7 @@ public class NewCheckINActivity extends AppCompatActivity {
             }
         });
     }
+
     public void getShipAllList(String date) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
@@ -300,7 +287,7 @@ public class NewCheckINActivity extends AppCompatActivity {
 
             );
         } else {
-            Toast.makeText(this, "Not registered! Please sign in to continue", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not registered! Please sign in to continue", LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -331,7 +318,7 @@ public class NewCheckINActivity extends AppCompatActivity {
 
             );
         } else {
-            Toast.makeText(this, "Not registered! Please sign in to continue", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not registered! Please sign in to continue", LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -360,21 +347,35 @@ public class NewCheckINActivity extends AppCompatActivity {
 
             );
         } else {
-            Toast.makeText(this, "Not registered! Please sign in to continue", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not registered! Please sign in to continue", LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
     }
+    private class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            check = parent.getItemAtPosition(position).toString();
+            Toast.makeText(NewCheckINActivity.this, " c " + check, LENGTH_SHORT).show();
+        }
 
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
     @OnClick(R.id.save_button)
     public void save_button() {
         Intent intent = new Intent(this, CheckInActivity.class);
         intent.putExtra("Location", tvStartPort.getText());
         intent.putExtra("SCID", SELECTED_SCHEDULE_ID);
         intent.putExtra("ShipName", SELECTED_SHIP_ID);
-        intent.putExtra("Date",datefromate);
+        intent.putExtra("Date", datefromate);
+        intent.putExtra("Time", timeFormate);
+        intent.putExtra("Check", check);
         startActivity(intent);
     }
+
 
 }

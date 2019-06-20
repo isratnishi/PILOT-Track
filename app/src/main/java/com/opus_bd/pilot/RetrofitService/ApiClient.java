@@ -13,13 +13,12 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
 
-    // private static final String BASE_URL = "http://dactarbaritest.dactarbari.com/api/";
     private static final String BASE_URL = "http://103.106.237.12:90/";
 
     private static Retrofit retrofit = null;
 
     private static Retrofit getClient() {
-        if (retrofit==null) {
+        if (retrofit == null) {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(3, TimeUnit.MINUTES)
                     .readTimeout(30, TimeUnit.SECONDS)
@@ -35,7 +34,7 @@ public class ApiClient {
         return retrofit;
     }
 
-    public static ApiInterface getApiInterface(){
+    public static ApiInterface getApiInterface() {
         return getClient().create(ApiInterface.class);
     }
 }

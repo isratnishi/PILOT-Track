@@ -56,11 +56,7 @@ public interface RetrofitService {
     Call<UserInfo> getUserInfo(@Header("Authorization") String token, @Path("userName") String userName);
 
 
-    @POST("api/saveVisit ")
-    Call<MessageResponse> saveVisit(@Header("Authorization") String token, @Body SalesModel salesModel);
-
-
-    @POST("api/deleteSaleVisit/{id} ")
+   @POST("api/deleteSaleVisit/{id} ")
     Call<MessageResponse> deleteSaleVisit(@Header("Authorization") String token, @Path("id") int id);
 
     @POST("api/deleteSale/{id} ")

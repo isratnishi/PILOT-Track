@@ -247,58 +247,48 @@
                     android:gravity="center" />
             </LinearLayout>
 
-
+<!--check type-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvSHip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/tvshed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/ic_schedule"
+                        android:tint="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/tvCheckType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:gravity="center_vertical"
+                        android:text="Check Type"
+                        android:textSize="18sp" />
 
 
+                </RelativeLayout>
+
+                <Spinner
+                    android:id="@+id/CheckType_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:gravity="center"
+                    android:entries="@array/Check"
+                    android:prompt="@string/check_prompt"/>
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/tvYourLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                tools:layout_editor_absoluteX="32dp"
-                tools:layout_editor_absoluteY="32dp" />
-
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                tools:layout_editor_absoluteX="32dp"
-                tools:layout_editor_absoluteY="32dp"
-               />
-
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="20dp"
-                tools:context="com.example.locator.locatingfriends.MapsActivity"
-                tools:layout_editor_absoluteX="32dp"
-                tools:layout_editor_absoluteY="78dp"
-                />
         </LinearLayout>
 
 
