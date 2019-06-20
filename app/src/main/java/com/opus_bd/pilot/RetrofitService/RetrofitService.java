@@ -41,7 +41,7 @@ public interface RetrofitService {
 
 
     @GET("api/PilotCheckApi/{id}")
-    Call<List<CheckinModel>> getCheckIn(@Header("Authorization") String token, @Path("id") int id);
+    Call<List<PilotCheckBodyM>> getCheckIn(@Header("Authorization") String token, @Path("id") int id);
 
     @POST("global/api/PilotCheckApi")
     Call<String> postPilotCheckApi(@Header("Authorization") String token, @Body PilotCheckBodyM pilotCheckIn);

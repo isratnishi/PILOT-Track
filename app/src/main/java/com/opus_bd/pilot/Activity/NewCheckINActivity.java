@@ -147,8 +147,7 @@ public class NewCheckINActivity extends AppCompatActivity {
         mDay = receiverDateCalender.get(Calendar.DAY_OF_MONTH);
         initializeGson();
         initializeFromDate();
-        getShipAllList("20190618");
-        getScheduleAllList("20190618");
+
 
         fromDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,259 +160,7 @@ public class NewCheckINActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeFromDate();
             }
-        });
-       /* GeocodingLocation locationAddress = new GeocodingLocation();
-        locationAddress.getAddressFromLocation("Dhaka",
-                getApplicationContext(), new GeocoderHandler());
-
-
-        checkPermission();
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(NewCheckINActivity.this);
-
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(
-                new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            updateLocationCamera();
-                            String checkInLocation = getAddressFromLatLong(getApplicationContext(), latitude, longitude);
-                            //   tvYourLocation.setText(" Location1"+checkInLocation);
-                            Log.d("tag", " Location" + checkInLocation);
-                        }
-                    }
-                });
-
-        fusedLocationProviderClient.getLastLocation().addOnFailureListener(
-                new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                }
-        );
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                onLocationChanged(locationResult.getLastLocation());
-            }
-        };
-        getPeriodicLocationUpdates();*/
-
-
-
-
-
-
-
-
-/*Utilities.showLogcatMessage("   ship"+SELECTED_SHIP_ID);
-Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
-    }
-
-    /*  public static String getAddressFromLatLong(Context context, double lat, double lng) {
-          Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-          try {
-              List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-              Address obj = addresses.get(0);
-              return obj.getAddressLine(0);
-
-          } catch (Exception ignored) {
-          }
-          return "";
-      }
-
-      @Override
-      public void onPointerCaptureChanged(boolean hasCapture) {
-
-      }
-
-      @Override
-      public void onMapReady(GoogleMap googleMap) {
-
-      }
-
-      private class GeocoderHandler extends Handler {
-          @Override
-          public void handleMessage(Message message) {
-              String locationAddress;
-
-              switch (message.what) {
-                  case 1:
-                      Bundle bundle = message.getData();
-                      getlat = bundle.getDouble("Lat");
-                      getlong = bundle.getDouble("log");
-                      break;
-                  default:
-                      locationAddress = null;
-              }
-              tvLocation.setText(String.valueOf(getlat) + " " + String.valueOf(getlong));
-          }
-      }
-
-      private void checkPermission() {
-          if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-              if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                      PackageManager.PERMISSION_GRANTED &&
-                      ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                              != PackageManager.PERMISSION_GRANTED) {
-
-                  ActivityCompat.requestPermissions(this,
-                          new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                                  Manifest.permission.ACCESS_COARSE_LOCATION},
-                          FINE_LOCATION_PERMISSION);
-                  return;
-              }
-          }
-      }
-
-      @Override
-      public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                             @NonNull int[] grantResults) {
-          switch (requestCode) {
-              case FINE_LOCATION_PERMISSION: {
-                  if (grantResults.length > 0
-                          && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                      if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                              != PackageManager.PERMISSION_GRANTED
-                              && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                              != PackageManager.PERMISSION_GRANTED) {
-
-                          return;
-                      }
-
-                      fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-                      fusedLocationProviderClient.getLastLocation().addOnSuccessListener(
-                              new OnSuccessListener<Location>() {
-                                  @Override
-                                  public void onSuccess(Location location) {
-                                      if (location != null) {
-                                         *//* latitude = location.getLatitude();
-                                        longitude = location.getLongitude();*//*
-                                        updateLocationCamera();
-                                        //  Log.d(Constants.LOGTAG, location.getLatitude() + " " + location.getLongitude());
-                                    }
-                                }
-                            });
-
-                    fusedLocationProviderClient.getLastLocation().addOnFailureListener(
-                            new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-
-                                }
-                            }
-                    );
-
-                    getPeriodicLocationUpdates();
-                }
-                break;
-            }
-            default:
-                break;
-        }
-    }
-
-    private void getPeriodicLocationUpdates() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(LOCATION_INTERVAL);
-        mLocationRequest.setFastestInterval(FAST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
-        LocationSettingsRequest locationSettingsRequest = builder.build();
-
-        SettingsClient client = LocationServices.getSettingsClient(this);
-        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
-
-        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
-            @Override
-            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-
-            }
-        });
-
-        task.addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (e instanceof ResolvableApiException) {
-                    // Location settings are not satisfied, but this can be fixed
-                    // by showing the user a dialog.
-                    try {
-                        // Show the dialog by calling startResolutionForResult(),
-                        // and check the result in onActivityResult().
-                        ResolvableApiException resolvable = (ResolvableApiException) e;
-                        resolvable.startResolutionForResult(NewCheckINActivity.this,
-                                REQUEST_CHECK_SETTINGS);
-                    } catch (IntentSender.SendIntentException sendEx) {
-                        // Ignore the error.
-                    }
-                }
-            }
-        });
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED) {
-
-                return;
-            }
-        }
-
-        fusedLocationProviderClient.requestLocationUpdates(mLocationRequest, locationCallback,
-                Looper.myLooper());
-    }
-
-    public void onLocationChanged(Location location) {
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-
-        String checkInLocation = getAddressFromLatLong(getApplicationContext(), latitude, longitude);
-        //
-
-        Log.d("tag", " Location1" + checkInLocation);
-        tvLocation.setText(checkInLocation);
-        updateLocationCamera();
-        //Utils.showLogMessage(msg);
-    }
-
-    private void updateLocationCamera() {
-        LatLng coordinate = new LatLng(latitude, longitude);
-       mMap.clear();
-        friendMarker = mMap.addMarker(new MarkerOptions().position(coordinate).title("Your Location"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 12));
-    }
-
-    private void stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (fusedLocationProviderClient != null) {
-            stopLocationUpdates();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mRequestingLocationUpdates) {
-            getPeriodicLocationUpdates();
-        }
-    }*/
+        }); }
     private void initializeGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
@@ -436,22 +183,18 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
                         receiverDateCalender.set(Calendar.MINUTE, tempCalender.get(Calendar.MINUTE));
                         receiverDateCalender.set(Calendar.SECOND, tempCalender.get(Calendar.SECOND));
 
-                        SimpleDateFormat formatter = new SimpleDateFormat("MMMM d yyyy", Locale.ENGLISH);
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd", Locale.ENGLISH);
                         String[] dateValues = formatter.format(receiverDateCalender.getTime()).split(" ");
                         if (dateValues.length >= 3) {
-                            fromDateButton.setText(dateValues[1]);
-                            fromYearMonthMonthButton.setText(dateValues[0] + "\n" + dateValues[2]);
-
-
-                        }
-
-                        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy MM dd", Locale.ENGLISH);
-                        String[] dateValues1 = formatter2.format(receiverDateCalender.getTime()).split(" ");
-                        if (dateValues1.length >= 3) {
-
+                            fromDateButton.setText(dateValues[2]);
+                            fromYearMonthMonthButton.setText(dateValues[1] + "\n" + dateValues[0]);
                             datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
-                            Utilities.showLogcatMessage(" date " + dateValues[0] + "" + dateValues[1] + "" + dateValues[2]);
+                           Utilities.showLogcatMessage(" Date "+datefromate);
+                            getScheduleAllList(datefromate);
+                            getShipAllList(datefromate);
+
                         }
+
                     }
                 }, mYear, mMonth, mDay);
         mDatePicker.setTitle("Select Date");
@@ -459,26 +202,22 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
     }
 
     private void initializeFromDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MMMM d yyyy", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd", Locale.ENGLISH);
         String[] dateValues = formatter.format(receiverDateCalender.getTime()).split(" ");
         if (dateValues.length >= 3) {
-            fromDateButton.setText(dateValues[1]);
-            fromYearMonthMonthButton.setText(dateValues[0] + "\n" + dateValues[2]);
-        }
-        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy mm dd", Locale.ENGLISH);
-        String[] dateValues1 = formatter2.format(receiverDateCalender.getTime()).split(" ");
-        if (dateValues1.length >= 3) {
-
+            fromDateButton.setText(dateValues[2]);
+            fromYearMonthMonthButton.setText(dateValues[1] + "\n" + dateValues[0]);
             datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
+            Utilities.showLogcatMessage(" Date "+datefromate);
+
+            getScheduleAllList(datefromate);
+            getShipAllList(datefromate);
 
         }
     }
 
     public void addShipNameSpinnerData(final List<ScheduleByDateModel> body) {
-        // String[] truckNumberArray = shipNames.toArray(new String[shipNames.size()]);
-       //
-        // Toast.makeText(context, "data size " + body.size(), Toast.LENGTH_SHORT).show();
-        List<String> shipList = new ArrayList<>();
+      List<String> shipList = new ArrayList<>();
         shipList.add("Select Ship");
         for (int i = 0; i < body.size(); i++) {
             shipList.add(body.get(i).getShipName());
@@ -494,7 +233,6 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i > 0) {
                     SELECTED_SHIP_ID = "" + body.get(i - 1).getShipName();
-                 //   Toast.makeText(context, "selected ship " + SELECTED_SHIP_ID, Toast.LENGTH_SHORT).show();
                     tvStartPort.setText(body.get(i - 1).getStartPort());
                     tvEndPort.setText(body.get(i - 1).getEndPort());
                 } else {
@@ -511,8 +249,7 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
     }
 
     public void addScheduleNameSpinnerData(final List<ScheduleByDateModel> body) {
-      //  Toast.makeText(context, "data size " + body.size(), Toast.LENGTH_SHORT).show();
-        List<String> scheduleList = new ArrayList<>();
+      List<String> scheduleList = new ArrayList<>();
         scheduleList.add("Select Schedule");
         for (int i = 0; i < body.size(); i++) {
             scheduleList.add(body.get(i).getScheduleNo());
@@ -527,7 +264,6 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i > 0) {
                     SELECTED_SCHEDULE_ID = body.get(i - 1).getScheduleID();
-                //    Toast.makeText(context, "selected Schedule " + SELECTED_SCHEDULE_ID, Toast.LENGTH_SHORT).show();
                     gETScheduleByshipName(SELECTED_SCHEDULE_ID);
                 } else {
                     SELECTED_SCHEDULE_ID = 0;
@@ -539,9 +275,7 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
 
             }
         });
-
     }
-
     public void getShipAllList(String date) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
@@ -555,7 +289,6 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
                                                     shipmodel.clear();
                                                     shipmodel.addAll(response.body());
                                                     addShipNameSpinnerData(response.body());
-                                                    //tvStartPort.setText(response.body().get(0).getStartPort());
                                                 }
                                             }
 
@@ -573,37 +306,6 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
             startActivity(intent);
         }
     }
-
-  /*  public void addScheduleNameSpinnerData(final List<ScheduleByDateModel> body) {
-        // String[] truckNumberArray = shipNames.toArray(new String[shipNames.size()]);
-        Toast.makeText(context, "data size " + body.size(), Toast.LENGTH_SHORT).show();
-        List<String> scheduleList = new ArrayList<>();
-        scheduleList.add("Select Schedule");
-        for (int i = 0; i < body.size(); i++) {
-            scheduleList.add(body.get(i).getScheduleNo());
-        }
-
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, scheduleList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        schedule_name_spinner.setAdapter(dataAdapter);
-        schedule_name_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i > 0) {
-                    SELECTED_SCHEDULE_ID = body.get(i - 1).getScheduleID();
-                    Toast.makeText(context, "selected Schedule " + SELECTED_SCHEDULE_ID, Toast.LENGTH_SHORT).show();
-                } else {
-                    SELECTED_SCHEDULE_ID = 0;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }*/
 
     public void getScheduleAllList(String date) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
@@ -639,8 +341,6 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
     public void gETScheduleByshipName(int id) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
-
-
         if (token != null) {
             Call<ScheduleByDateModel> registrationRequest = retrofitService.gETScheduleByshipName(token, id);
             registrationRequest.enqueue(new Callback<ScheduleByDateModel>() {
@@ -672,6 +372,7 @@ Utilities.showLogcatMessage(" schedule"+SELECTED_SCHEDULE_ID);*/
         Intent intent = new Intent(this, CheckInActivity.class);
         intent.putExtra("Location", tvStartPort.getText());
         intent.putExtra("SCID", SELECTED_SCHEDULE_ID);
+        intent.putExtra("ShipName", SELECTED_SHIP_ID);
         intent.putExtra("Date",datefromate);
         startActivity(intent);
     }

@@ -78,22 +78,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
         mPasswordView = (EditText) findViewById(R.id.password);
-      /*  mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                   // attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });*/
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -114,12 +101,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         getLoaderManager().initLoader(0, null, this);
     }
 
-
-    private void saveUserInfo() {
-        //UserSingleton.getInstance().setUserName(mEmailView.getText().toString());
-
-        //Toast.makeText(this, SharedPrefManager.getInstance(this).getUser().getEmail(), Toast.LENGTH_SHORT).show();
-    }
     private void submitToServer() {
         //showProgressBar(true);
         final UserModel userModel = new UserModel(mEmailView.getText().toString(),
@@ -154,7 +135,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     Utilities.showLogcatMessage("response " + e.toString());
                 }
-                // showProgressBar(false);
             }
 
             @Override

@@ -50,6 +50,7 @@ public class PendingSalesActivity extends AppCompatActivity {
         UserModel obj = gson.fromJson(token, UserModel.class);
         String email = obj.getName();
         getUser(email);
+        getAllList(2);
         intRecyclerView();
 
     }

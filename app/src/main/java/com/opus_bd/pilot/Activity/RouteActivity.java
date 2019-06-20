@@ -6,12 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.opus_bd.pilot.Adapter.CheckinListAdapter;
 import com.opus_bd.pilot.Adapter.PendingCheckinListAdapter;
 import com.opus_bd.pilot.Model.CheckinModel;
+import com.opus_bd.pilot.Model.PilotCheckBodyM;
 import com.opus_bd.pilot.Model.ScheduleModel;
+import com.opus_bd.pilot.Model.UserModel;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.pilot.RetrofitService.RetrofitService;
@@ -28,10 +32,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RouteActivity extends AppCompatActivity {
+    @BindView(R.id.tvUserName)
+    TextView tvUserName;
     @BindView(R.id.rvPendingList)
     RecyclerView rvPendingList;
     CheckinListAdapter pendingListAdapter;
-    private ArrayList<CheckinModel> locationNameArrayList = new ArrayList<>();
+    private ArrayList<PilotCheckBodyM> locationNameArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +45,20 @@ public class RouteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_route);
         ButterKnife.bind(this);
 
-
+        Gson gson = new Gson();
+        String token = SharedPrefManager.getInstance(this).getUser();
+        UserModel obj = gson.fromJson(token, UserModel.class);
+        String email = obj.getName();
+        tvUserName.setText(email);
         intRecyclerView();
         getAllList(2);
     }
 
     public void intRecyclerView() {
         pendingListAdapter = new CheckinListAdapter(locationNameArrayList, this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         rvPendingList.setLayoutManager(layoutManager);
         rvPendingList.setAdapter(pendingListAdapter);
     }
@@ -60,11 +72,11 @@ public class RouteActivity extends AppCompatActivity {
         if (token != null) {
 
             Utilities.showLogcatMessage(" RESPONCE 3!");
-            Call<List<CheckinModel>> registrationRequest = retrofitService.getCheckIn(token, id);
+            Call<List<PilotCheckBodyM>> registrationRequest = retrofitService.getCheckIn(token, id);
             Utilities.showLogcatMessage(" RESPONCE 4!");
-            registrationRequest.enqueue(new Callback<List<CheckinModel>>() {
+            registrationRequest.enqueue(new Callback<List<PilotCheckBodyM>>() {
                 @Override
-                public void onResponse(Call<List<CheckinModel>> call, @NonNull Response<List<CheckinModel>> response) {
+                public void onResponse(Call<List<PilotCheckBodyM>> call, @NonNull Response<List<PilotCheckBodyM>> response) {
 
                     try {
                         if (response.body() != null) {
@@ -84,7 +96,7 @@ public class RouteActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<List<CheckinModel>> call, Throwable t) {
+                public void onFailure(Call<List<PilotCheckBodyM>> call, Throwable t) {
                     Utilities.showLogcatMessage("error " + t.toString());
                 }
             });

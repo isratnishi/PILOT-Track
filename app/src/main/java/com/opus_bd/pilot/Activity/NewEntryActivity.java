@@ -79,7 +79,7 @@ public class NewEntryActivity extends AppCompatActivity {
        // pilotCheckIn.setLocation(loc);
         pilotCheckIn.setCheckType("CheckIN");
         pilotCheckIn.setPilotID(SharedPrefManager.getInstance(NewEntryActivity.this).getID());
-       // pilotCheckIn.setScheduleID(site);
+       // pilotCheckIn.setScheduleID(scheduleName);
        // pilotCheckIn.setEntryDate(date);
         RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(NewEntryActivity.this).getUser();

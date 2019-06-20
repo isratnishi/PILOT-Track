@@ -40,11 +40,11 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Schedule No"
+                android:text="Bit Name:"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/tvScheduleNo"
+                android:id="@+id/tvBitName"
                 style="@style/ItemPendingList"
                 android:layout_weight="2" />
 
@@ -59,11 +59,11 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Group Name"
+                android:text="Location Name"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/tvGroupName"
+                android:id="@+id/tvLocationName"
                 style="@style/ItemPendingList"
                 android:layout_weight="2" />
 
@@ -80,7 +80,8 @@
             android:layout_weight="1"
             android:padding="8dp"
             android:text="@string/check_in"
-            android:textSize="12dp" />
+            android:textSize="12dp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

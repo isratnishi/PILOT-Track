@@ -33,16 +33,11 @@ public class MainActivity extends AppCompatActivity {
     TextView tvUserName;
     @BindView(R.id.fabNewEntry)
     FloatingActionButton fabNewEntry;
-    String userName;
-
-    //UserModel userModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        // Bundle bundle = getIntent().getExtras();
         Gson gson = new Gson();
         String token = SharedPrefManager.getInstance(this).getUser();
         UserModel obj = gson.fromJson(token, UserModel.class);
@@ -51,17 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         getUser(email);
         Utilities.showLogcatMessage(" Email " + email);
-
-      /*  if (bundle != null) {
-            userName = bundle.getString(Constants.USER_NAME);
-            tvUserName.setText(userName);
-
-        }*/
-    /*    Gson gson = new Gson(); String json = SharedPrefManager.getInstance(this).getUser();
-
-
-        userModel = gson.fromJson(json, UserModel.class);
-       tvUserName.setText(userModel.getEmail());*/
     }
     public void getUser(String userName) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);

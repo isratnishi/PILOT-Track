@@ -74,7 +74,7 @@
         app:cardBackgroundColor="#9C27B0"
         app:cardCornerRadius="14dp"
         app:cardElevation="5dp"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tvCheckOUT"
@@ -95,8 +95,7 @@
         android:layout_margin="30dp"
         app:cardBackgroundColor="#9C27B0"
         app:cardCornerRadius="14dp"
-        app:cardElevation="5dp"
-        android:visibility="gone">
+        app:cardElevation="5dp">
 
         <TextView
             android:id="@+id/tvRoute"

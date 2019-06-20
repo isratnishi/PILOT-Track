@@ -52,9 +52,9 @@ public class PendingCheckinListAdapter extends RecyclerView.Adapter<PendingCheck
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tvScheduleNo)
+        @BindView(R.id.tvLocationName)
         TextView tvScheduleNo;
-        @BindView(R.id.tvGroupName)
+        @BindView(R.id.tvBitName)
         TextView tvGroupName;
         @BindView(R.id.tvShipName)
         TextView tvShipName;

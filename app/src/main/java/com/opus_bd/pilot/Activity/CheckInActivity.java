@@ -42,17 +42,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
 import com.opus_bd.pilot.Model.GeocodingLocation;
-import com.opus_bd.pilot.Model.MessageResponse;
-import com.opus_bd.pilot.Model.MessageResponseInt;
 import com.opus_bd.pilot.Model.PilotCheckBodyM;
-import com.opus_bd.pilot.Model.PilotCheckIn;
 import com.opus_bd.pilot.Model.SalesModel;
 import com.opus_bd.pilot.R;
-import com.opus_bd.pilot.RetrofitService.APIClientInterface;
-import com.opus_bd.pilot.RetrofitService.RetrofitClientInstance;
-import com.opus_bd.pilot.RetrofitService.RetrofitService;
+import com.opus_bd.pilot.RetrofitService.ApiClient;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
 import com.opus_bd.pilot.Utils.Utilities;
 
@@ -69,7 +63,6 @@ import retrofit2.Response;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class CheckInActivity extends AppCompatActivity implements OnMapReadyCallback {
-    public final static String EXTRA_MODEL = "id";
     private final int FINE_LOCATION_PERMISSION = 1;
     LocationRequest mLocationRequest;
     int LOCATION_INTERVAL = 30 * 1000; // 30 sec
@@ -82,30 +75,28 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     private GoogleMap mMap;
     Marker friendMarker;
     private final int REQUEST_CHECK_SETTINGS = 10;
-    int statusID;
     @BindView(R.id.attendance_button)
     Button attendButton;
-    SalesModel salesModel;
     @BindView(R.id.tvYourLocation)
     TextView tvYourLocation;
     String location, date;
-    String loc,check;
-    int site, product, salesperson;
+    String loc, shipName;
+    int scheduleName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
             location = bundle.getString("Location");
-            site=bundle.getInt("SCID");
-            date=bundle.getString("Date");
-            Utilities.showLogcatMessage(" SCID  c"+site+ location+date);
+            scheduleName = bundle.getInt("SCID");
+            date = bundle.getString("Date");
+            shipName = bundle.getString("ShipName");
+            Utilities.showLogcatMessage(" SCID  c" + scheduleName + location + date);
 
         }
         GeocodingLocation locationAddress = new GeocodingLocation();
@@ -129,7 +120,6 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
                             longitude = location.getLongitude();
                             updateLocationCamera();
                             String checkInLocation = getAddressFromLatLong(getApplicationContext(), latitude, longitude);
-                            //   tvYourLocation.setText(" Location1"+checkInLocation);
                             Log.d("tag", " Location" + checkInLocation);
                         }
                     }
@@ -178,7 +168,6 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
                 default:
                     locationAddress = null;
             }
-            //tvYourLocation.setText(String.valueOf(getlat) + " " + String.valueOf(getlong));
         }
     }
 
@@ -219,11 +208,8 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
                                 @Override
                                 public void onSuccess(Location location) {
                                     if (location != null) {
-                                       /* latitude = location.getLatitude();
-                                        longitude = location.getLongitude();*/
                                         updateLocationCamera();
-                                        //  Log.d(Constants.LOGTAG, location.getLatitude() + " " + location.getLongitude());
-                                    }
+                                      }
                                 }
                             });
 
@@ -310,9 +296,9 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         //
 
         Log.d("tag", " Location1" + checkInLocation);
-       tvYourLocation.setText(checkInLocation);
-       loc = tvYourLocation.getText().toString();
-                updateLocationCamera();
+        tvYourLocation.setText(checkInLocation);
+        loc = tvYourLocation.getText().toString();
+        updateLocationCamera();
         //Utils.showLogMessage(msg);
     }
 
@@ -350,59 +336,31 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         submitToServer();
 
     }
+
     private void submitToServer() {
-//
+
         String token = SharedPrefManager.getInstance(CheckInActivity.this).getUser();
+        int pilot = SharedPrefManager.getInstance(CheckInActivity.this).getID();
+        PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, "Checkin", shipName, "CTG-Payra", date, "9:58", loc);
+        ApiClient.getApiInterface().postPilotCheckApi(token, body).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
 
-
-      int pilot=SharedPrefManager.getInstance(CheckInActivity.this).getID();
-        PilotCheckIn pilotCheckIn=new PilotCheckIn(pilot,site,"Checkin","ShipName","CTG-Payra",date,"9:58",loc);
-     // Utilities.showLogcatMessage(" "+pilotCheckIn.toString());
-        PilotCheckBodyM body=new PilotCheckBodyM(2,
-                7,"Checkin","ShipName","CTG-Payra","June202019",
-                "9:58","1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA");
-
-        RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
-
-        Utilities.showLogcatMessage(" Response"+ pilotCheckIn.toString());
-        Gson gson=new Gson();
-
-
-            Call<String> saveVisit = retrofitService.postPilotCheckApi(token, body);
-
-            saveVisit.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Utilities.showLogcatMessage(" Response1" +response.body());
-                    try {
-                        if(response.body()!=null){
-                            Utilities.showLogcatMessage(" Response2");
-                            // Toast.makeText(CheckInActivity.this, "Saved Succesfully", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(CheckInActivity.this, response.body(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(CheckInActivity.this, MainActivity.class));
-                        }
-                        else {
-                           // response.body().getStatus();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-
-                        Utilities.showLogcatMessage(" Error "+e);
-                    }
-
-
-
+                if (response.body() != null) {
+                    Toast.makeText(CheckInActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CheckInActivity.this, MainActivity.class));
                 }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    //showProgressBar(false);
-                    Toast.makeText(CheckInActivity.this, "Fail to connect ", Toast.LENGTH_SHORT).show();
-                    Utilities.showLogcatMessage(t.toString());
-                }
-            });
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(CheckInActivity.this, "failed mkl", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
+
     private boolean isValidated() {
         if (longitude == 0 || latitude == 0) {
             Toast.makeText(CheckInActivity.this,
