@@ -335,7 +335,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
-        Utilities.showLogcatMessage(" Button");
+        Utilities.showLogcatMessage(" Button ");
 
         submitToServer();
 

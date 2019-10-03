@@ -273,6 +273,7 @@ public class NewCheckINActivity extends AppCompatActivity {
                                             @Override
                                             public void onResponse(Call<List<ScheduleByDateModel>> call, @NonNull Response<List<ScheduleByDateModel>> response) {
                                                 if (response.body() != null) {
+                                                    Utilities.showLogcatMessage(" "+response.body());
                                                     shipmodel.clear();
                                                     shipmodel.addAll(response.body());
                                                     addShipNameSpinnerData(response.body());
@@ -297,16 +298,24 @@ public class NewCheckINActivity extends AppCompatActivity {
     public void getScheduleAllList(String date) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
-
+        Utilities.showLogcatMessage("getScheduleAllList 1");
         if (token != null) {
             Call<List<ScheduleByDateModel>> registrationRequest = retrofitService.gETScheduleByscheduleDate(token, date);
             registrationRequest.enqueue(new Callback<List<ScheduleByDateModel>>() {
                                             @Override
                                             public void onResponse(Call<List<ScheduleByDateModel>> call, @NonNull Response<List<ScheduleByDateModel>> response) {
+                                                Utilities.showLogcatMessage("getScheduleAllList 2"+response.body());
+
+
                                                 if (response.body() != null) {
+                                                    Utilities.showLogcatMessage("getScheduleAllList 3");
                                                     shipmodel.clear();
                                                     shipmodel.addAll(response.body());
                                                     addScheduleNameSpinnerData(response.body());
+                                                }
+                                                else {
+
+                                                    Utilities.showLogcatMessage("Responce Body null");
                                                 }
                                             }
 

@@ -4,18 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class UserModel {
-
     @SerializedName("id")
     @Expose
     private String id;
-
-
-    @SerializedName("Name")
-    @Expose
-    private String name;
-    @SerializedName("Password")
-    @Expose
-    private String password;
     @SerializedName("userName")
     @Expose
     private String userName;
@@ -34,45 +25,6 @@ public class UserModel {
     @SerializedName("pilotID")
     @Expose
     private Integer pilotID;
-    public Boolean getRememberMe() {
-        return rememberMe;
-    }
-
-    public void setRememberMe(Boolean rememberMe) {
-        this.rememberMe = rememberMe;
-    }
-
-    @SerializedName("RememberMe")
-    @Expose
-    private Boolean rememberMe;
-
-    @SerializedName("email_verified_at")
-    @Expose
-    private Object emailVerifiedAt;
-
-    public UserModel(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
-
-  /*  public UserModel(String name, String password, Boolean rememberMe) {
-        this.name = name;
-        this.password = password;
-        this.rememberMe = rememberMe;
-    }*/
-
-    public UserModel() {
-    }
-
-    @SerializedName("remember_token")
-    @Expose
-    private Object rememberToken;
-    @SerializedName("created_at")
-    @Expose
-    private String createdAt;
-    @SerializedName("updated_at")
-    @Expose
-    private String updatedAt;
 
     public String getId() {
         return id;
@@ -82,12 +34,12 @@ public class UserModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {
@@ -98,44 +50,55 @@ public class UserModel {
         this.email = email;
     }
 
-    public Object getEmailVerifiedAt() {
-        return emailVerifiedAt;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setEmailVerifiedAt(Object emailVerifiedAt) {
-        this.emailVerifiedAt = emailVerifiedAt;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getOrgID() {
+        return orgID;
     }
 
-    public void setPassword(String password) {
+    public void setOrgID(Integer orgID) {
+        this.orgID = orgID;
+    }
+
+    public Integer getUserTypeId() {
+        return userTypeId;
+    }
+
+    public void setUserTypeId(Integer userTypeId) {
+        this.userTypeId = userTypeId;
+    }
+
+    public Integer getPilotID() {
+        return pilotID;
+    }
+
+    public void setPilotID(Integer pilotID) {
+        this.pilotID = pilotID;
+    }
+
+ @SerializedName("Name")
+    @Expose
+    private String name;
+    @SerializedName("Password")
+    @Expose
+    private String password;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public UserModel(String name, String password) {
+        this.name = name;
         this.password = password;
     }
-
-    public Object getRememberToken() {
-        return rememberToken;
-    }
-
-    public void setRememberToken(Object rememberToken) {
-        this.rememberToken = rememberToken;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
 }

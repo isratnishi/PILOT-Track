@@ -22,7 +22,8 @@
     <string name="field_null_error">Field Can not be empty</string>
     <string name="home">Home</string>
     <string name="pending_list">Pending list</string>
-    <string name="sales_list">Sales List</string>
+    <string name="newEntry">New Entry</string>
+    <string name="route_list">Route List</string>
     <string name="logout">Logout</string>
     <string name="your_location">Your Location</string>
     <string name="site_name">Site Name</string>
@@ -32,7 +33,7 @@
     <string name="target">Target:</string>
     <string name="check_prompt">Select One</string>
     <string-array name="Check">
-    <item>Check In</item>
-    <item>Check Out </item>
+        <item>Check In</item>
+        <item>Check Out </item>
     </string-array>
 </resources>

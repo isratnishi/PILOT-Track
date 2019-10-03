@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.RequisitorActivity.CouponBuyActivity"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="Organization Name"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tvOrganizationName"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="Coupon Left"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tvCouponLeft"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="No. of Coupon"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <EditText
+                android:id="@+id/etNoofCoupon"
+                style="@style/ItemPendingList"
+                android:layout_weight="2"
+                android:inputType="number"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="Coupon Unit Price"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tvCouponUnitPrice"
+                style="@style/ItemPendingList"
+                android:text="400"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="Total Price"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:id="@+id/tvTotalPrice"
+                style="@style/ItemPendingList"
+                android:text="400"
+                android:layout_weight="2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                style="@style/ItemPendingList"
+                android:layout_weight="1"
+                android:text="Payment Ref"
+                android:textColor="@color/colorPrimaryDark" />
+            <EditText
+                android:id="@+id/etpaymentRef"
+                style="@style/ItemPendingList"
+                android:layout_weight="2" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnCheckIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="@string/submit" />
+</LinearLayout>

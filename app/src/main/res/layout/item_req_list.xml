@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
@@ -21,11 +22,11 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Ship Name"
+                android:text="Ship No: "
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/tvShipName"
+                android:id="@+id/tvshipNo"
                 style="@style/ItemPendingList"
                 android:layout_weight="2" />
 
@@ -40,11 +41,11 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Bit Name:"
+                android:text="Trip Start Date:"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/tvBitName"
+                android:id="@+id/tvtripStartDate"
                 style="@style/ItemPendingList"
                 android:layout_weight="2" />
 
@@ -59,11 +60,11 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Location Name"
+                android:text="Start Port:"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/tvLocationName"
+                android:id="@+id/tvstartPort"
                 style="@style/ItemPendingList"
                 android:layout_weight="2" />
 
@@ -78,31 +79,25 @@
             <TextView
                 style="@style/ItemPendingList"
                 android:layout_weight="1"
-                android:text="Check Type"
+                android:text="End Port:"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/tvCheckType"
+                android:id="@+id/tvendPort"
                 style="@style/ItemPendingList"
                 android:layout_weight="2" />
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnCheckIn"
+            android:id="@+id/btnCancle"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@android:color/white"
-            android:background="#0C610C"
-            android:layout_margin="20dp"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:text="@string/check_in"
-            android:textSize="12dp"
-            android:visibility="gone"/>
-
-
+            android:background="@color/colorAccent"
+            android:text="Cancle Req"
+            android:textColor="@android:color/white" />
     </LinearLayout>
+
 
 </android.support.v7.widget.CardView>

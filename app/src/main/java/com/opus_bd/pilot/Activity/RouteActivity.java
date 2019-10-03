@@ -48,10 +48,11 @@ public class RouteActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String token = SharedPrefManager.getInstance(this).getUser();
         UserModel obj = gson.fromJson(token, UserModel.class);
-        String email = obj.getName();
+        String email = obj.getUserName();
+        int id = obj.getPilotID();
         tvUserName.setText(email);
         intRecyclerView();
-        getAllList(2);
+        getAllList(id);
     }
 
     public void intRecyclerView() {
@@ -65,31 +66,23 @@ public class RouteActivity extends AppCompatActivity {
 
     public void getAllList(int id) {
 
-        Utilities.showLogcatMessage(" RESPONCE 1!");
         RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
-        Utilities.showLogcatMessage(" RESPONCE 2!");
         if (token != null) {
-
-            Utilities.showLogcatMessage(" RESPONCE 3!");
             Call<List<PilotCheckBodyM>> registrationRequest = retrofitService.getCheckIn(token, id);
-            Utilities.showLogcatMessage(" RESPONCE 4!");
             registrationRequest.enqueue(new Callback<List<PilotCheckBodyM>>() {
                 @Override
                 public void onResponse(Call<List<PilotCheckBodyM>> call, @NonNull Response<List<PilotCheckBodyM>> response) {
 
                     try {
                         if (response.body() != null) {
-                            Utilities.showLogcatMessage(" RESPONCE !");
                             locationNameArrayList.clear();
                             locationNameArrayList.addAll(response.body());
                             pendingListAdapter.notifyDataSetChanged();
                         }
-                        else Utilities.showLogcatMessage(" RESPONCE null");
+
                     }
                     catch (Exception e){
-
-                        Utilities.showLogcatMessage(" RESPONCE null"+e);
                     }
 
 

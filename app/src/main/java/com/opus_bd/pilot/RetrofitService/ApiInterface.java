@@ -1,6 +1,7 @@
 package com.opus_bd.pilot.RetrofitService;
 
 import com.opus_bd.pilot.Model.PilotCheckBodyM;
+import com.opus_bd.pilot.Model.RequisationPostModel;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -17,5 +18,6 @@ public interface ApiInterface {
     @POST("api/PilotCheckApi")
     Call<String> postPilotCheckApi(@Header("Authorization") String token, @Body PilotCheckBodyM pilotCheckIn);
 
-
+    @POST("global/api/GetRequisitionSave")
+    Call<String> GetRequisitionSave(@Body RequisationPostModel requisationPostModel);
 }

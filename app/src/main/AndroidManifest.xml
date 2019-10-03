@@ -19,8 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.NewCheckINActivity"
-            android:label="Check In"></activity>
+        <activity android:name=".Activity.RequisitorActivity.CompleteTripActivity"></activity>
+        <activity android:name=".Activity.RequisitorActivity.CancleReqActivity" />
+        <activity android:name=".Activity.RequisitorActivity.OngoingReqLIstActivity" />
+        <activity android:name=".Activity.RequisitorActivity.CouponBuyActivity" />
+        <activity android:name=".Activity.RequisitorActivity.RequisatorHomeActivity" />
+        <activity android:name=".Activity.RequisitorActivity.RequisationEntryActivity" />
+        <activity
+            android:name=".Activity.NewCheckINActivity"
+            android:label="Check In" />
         <activity android:name=".Activity.RouteActivity" />
         <activity
             android:name=".Activity.SalesActivity"

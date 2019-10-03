@@ -13,7 +13,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "http://103.106.237.12:90/";
+   // private static final String BASE_URL = "http://103.106.237.12:85/";
+    private static final String BASE_URL = "http://7c1e98f6.ngrok.io/";
 
     private static Retrofit retrofit = null;
 

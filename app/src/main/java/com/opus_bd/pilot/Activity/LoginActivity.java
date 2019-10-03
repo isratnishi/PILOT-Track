@@ -31,12 +31,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.opus_bd.pilot.Activity.RequisitorActivity.RequisatorHomeActivity;
 import com.opus_bd.pilot.Model.UserModel;
-import com.opus_bd.pilot.Model.UserResponse;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.pilot.RetrofitService.RetrofitService;
-import com.opus_bd.pilot.Utils.Constants;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
 import com.opus_bd.pilot.Utils.Utilities;
 
@@ -101,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         getLoaderManager().initLoader(0, null, this);
     }
 
-    private void submitToServer() {
+  /*  private void submitToServer() {
         //showProgressBar(true);
         final UserModel userModel = new UserModel(mEmailView.getText().toString(),
                 mPasswordView.getText().toString());
@@ -120,9 +119,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 Toast.makeText(LoginActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (response.body().getError() == null) {
+
                             SharedPrefManager.getInstance(LoginActivity.this).clearID();
                             SharedPrefManager.getInstance(LoginActivity.this).saveUser(userModel);
-                            Utilities.showLogcatMessage(" email" + userModel);
+                            Utilities.showLogcatMessage(" email" +  response.body().getUser());
                             Toast.makeText(LoginActivity.this, "Successfully Logged in!", Toast.LENGTH_SHORT).show();
                             finish();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -144,8 +144,51 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Utilities.showLogcatMessage("response " + t.toString());
             }
         });
-    }
+    }*/
+  private void submitToServer() {
+      //showProgressBar(true);
+      final UserModel userModel = new UserModel(mEmailView.getText().toString(),
+              mPasswordView.getText().toString());
 
+      RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
+      Call<UserModel> registrationRequest = retrofitService.login(userModel);
+      registrationRequest.enqueue(new Callback<UserModel>() {
+          @Override
+          public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+              try {
+                  if (response.body() != null) {
+                      SharedPrefManager.getInstance(LoginActivity.this).clearID();
+                      SharedPrefManager.getInstance(LoginActivity.this).saveUser(response.body());
+                      Utilities.showLogcatMessage(" email  " + SharedPrefManager.getInstance(LoginActivity.this).getUser() );
+                      Toast.makeText(LoginActivity.this, "Successfully Logged in!", Toast.LENGTH_SHORT).show();
+                      finish();
+                      if(response.body().getUserTypeId()==3)
+                      {
+                          startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                      }
+                      else {
+                          startActivity(new Intent(LoginActivity.this, RequisatorHomeActivity.class));
+                      }
+
+
+                  } else {
+                      Toast.makeText(LoginActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
+                  }
+              } catch (Exception e) {
+                  Toast.makeText(LoginActivity.this, "Something went Wrong! Please try again later", Toast.LENGTH_SHORT).show();
+
+                  Utilities.showLogcatMessage("response " + e.toString());
+              }
+          }
+
+          @Override
+          public void onFailure(Call<UserModel> call, Throwable t) {
+              // showProgressBar(false);
+              Toast.makeText(LoginActivity.this, "Fail to connect " + t.toString(), Toast.LENGTH_SHORT).show();
+              Utilities.showLogcatMessage("response " + t.toString());
+          }
+      });
+  }
     private boolean validatedForm() {
         if (TextUtils.isEmpty(mEmailView.getText().toString())) {
             mEmailView.setError(getResources().getString(R.string.field_null_error));

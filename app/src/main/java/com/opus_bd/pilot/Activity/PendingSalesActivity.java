@@ -14,11 +14,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.opus_bd.pilot.Adapter.PendingCheckinListAdapter;
 import com.opus_bd.pilot.Model.ScheduleModel;
-import com.opus_bd.pilot.Model.UserInfo;
 import com.opus_bd.pilot.Model.UserModel;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.RetrofitService.APIClientInterface;
-import com.opus_bd.pilot.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.pilot.RetrofitService.RetrofitService;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
 import com.opus_bd.pilot.Utils.Utilities;
@@ -48,8 +46,8 @@ public class PendingSalesActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String token = SharedPrefManager.getInstance(this).getUser();
         UserModel obj = gson.fromJson(token, UserModel.class);
-        String email = obj.getName();
-        getUser(email);
+        String email = obj.getUserName();
+      //  getUser(email);
         getAllList(2);
         intRecyclerView();
 
@@ -62,7 +60,7 @@ public class PendingSalesActivity extends AppCompatActivity {
         rvPendingList.setAdapter(pendingListAdapter);
     }
 
-    public void getUser(String userName) {
+  /*  public void getUser(String userName) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
         Call<UserInfo> registrationRequest = retrofitService.getUserInfo(token, userName);
@@ -92,14 +90,14 @@ public class PendingSalesActivity extends AppCompatActivity {
                 Utilities.showLogcatMessage("error " + t.toString());
             }
         });
-    }
+    }*/
 
     public void getAllList(int id) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
 
         if (token != null) {
-            Call<List<ScheduleModel>> registrationRequest = retrofitService.getvisitList(token, id);
+            Call<List<ScheduleModel>> registrationRequest = retrofitService.GETScheduleByPilotID(token, id);
             registrationRequest.enqueue(new Callback<List<ScheduleModel>>() {
                 @Override
                 public void onResponse(Call<List<ScheduleModel>> call, @NonNull Response<List<ScheduleModel>> response) {
