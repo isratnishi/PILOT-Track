@@ -42,9 +42,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.opus_bd.pilot.Activity.PilotActivity.MainActivity;
 import com.opus_bd.pilot.Model.GeocodingLocation;
 import com.opus_bd.pilot.Model.PilotCheckBodyM;
-import com.opus_bd.pilot.Model.SalesModel;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.RetrofitService.ApiClient;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
@@ -444,10 +444,10 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
             startActivity(intent);
         }
         if (id == R.id.salesList) {
-            Intent intent = new Intent(this, SalesActivity.class);
+           /* Intent intent = new Intent(this, SalesActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
-            startActivity(intent);
+            startActivity(intent);*/
         }
         return super.onOptionsItemSelected(item);
     }

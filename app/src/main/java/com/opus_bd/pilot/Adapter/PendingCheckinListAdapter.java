@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.opus_bd.pilot.Activity.CheckInActivity;
+import com.opus_bd.pilot.Model.ScheduleByIDModel.ScheduleByIDModel;
 import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
@@ -22,8 +23,8 @@ import butterknife.ButterKnife;
 
 public class PendingCheckinListAdapter extends RecyclerView.Adapter<PendingCheckinListAdapter.ItemViewHolder> {
     private final Context context;
-    private List<ScheduleModel> items;
-    public PendingCheckinListAdapter(List<ScheduleModel> items, Context context) {
+    private List<ScheduleByIDModel> items;
+    public PendingCheckinListAdapter(List<ScheduleByIDModel> items, Context context) {
         this.items = items;
         this.context = context;
     }
@@ -38,7 +39,7 @@ public class PendingCheckinListAdapter extends RecyclerView.Adapter<PendingCheck
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        ScheduleModel item = items.get(position);
+        ScheduleByIDModel item = items.get(position);
         holder.set(item);
     }
 
@@ -52,9 +53,10 @@ public class PendingCheckinListAdapter extends RecyclerView.Adapter<PendingCheck
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tvLocationName)
+        @BindView(R.id.tvScheduleDate)
+        TextView tvScheduleDate; @BindView(R.id.tvScheduleNo)
         TextView tvScheduleNo;
-        @BindView(R.id.tvBitName)
+        @BindView(R.id.tvGroupName)
         TextView tvGroupName;
         @BindView(R.id.tvShipName)
         TextView tvShipName;
@@ -68,15 +70,15 @@ public class PendingCheckinListAdapter extends RecyclerView.Adapter<PendingCheck
 
         }
 
-        public void set(final ScheduleModel item) {
-            //getSiteName(item.getSiteId());
-            tvScheduleNo.setText(item.getScheduleNo());
-            tvGroupName.setText(item.getGroupName());
+        public void set(final ScheduleByIDModel item) {
+            tvScheduleDate.setText(item.getSchedule().getScheduleDate());
+            tvScheduleNo.setText(item.getSchedule().getScheduleNo());
+            tvGroupName.setText(item.getSchedule().getGroupName());
             tvShipName.setText(item.getShipName());
             btnCheckIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPrefManager.getInstance(context).saveVisit(item);
+                    //SharedPrefManager.getInstance(context).saveVisit(item);
 
                     Intent intent = new Intent(context, CheckInActivity.class);
                     intent.putExtra("Location", tvScheduleNo.getText());
@@ -88,22 +90,4 @@ public class PendingCheckinListAdapter extends RecyclerView.Adapter<PendingCheck
         }
     }
 
-   /* public void getSiteName(int id) {
-        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
-        String token = SharedPrefManager.getInstance(context).getUser();
-        Call<SiteModel> getSiteName = retrofitService.getSiteName(token, id);
-        getSiteName.enqueue(new Callback<SiteModel>() {
-            @Override
-            public void onResponse(Call<SiteModel> call, @NonNull Response<SiteModel> response) {
-                tvPendingSalesSite.setText(response.body().getSiteName());
-
-                Utilities.showLogcatMessage(" Site Name : " + tvPendingSalesSite.getText());
-            }
-
-            @Override
-            public void onFailure(Call<SiteModel> call, Throwable t) {
-                Utilities.showLogcatMessage("error " + t.toString());
-            }
-        });
-    }*/
 }

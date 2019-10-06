@@ -12,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.opus_bd.pilot.Activity.PilotActivity.MainActivity;
 import com.opus_bd.pilot.Adapter.PendingCheckinListAdapter;
+import com.opus_bd.pilot.Model.ScheduleByIDModel.ScheduleByIDModel;
 import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.Model.UserModel;
 import com.opus_bd.pilot.R;
@@ -36,7 +38,7 @@ public class PendingSalesActivity extends AppCompatActivity {
     @BindView(R.id.tvUserName)
     TextView tvUserName;
     PendingCheckinListAdapter pendingListAdapter;
-    private ArrayList<ScheduleModel> locationNameArrayList = new ArrayList<>();
+    private ArrayList<ScheduleByIDModel> locationNameArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,19 +99,20 @@ public class PendingSalesActivity extends AppCompatActivity {
         String token = SharedPrefManager.getInstance(this).getUser();
 
         if (token != null) {
-            Call<List<ScheduleModel>> registrationRequest = retrofitService.GETScheduleByPilotID(token, id);
-            registrationRequest.enqueue(new Callback<List<ScheduleModel>>() {
+            Call<List<ScheduleByIDModel>> registrationRequest = retrofitService.GETScheduleByPilotID(token, id);
+            registrationRequest.enqueue(new Callback<List<ScheduleByIDModel>>() {
                 @Override
-                public void onResponse(Call<List<ScheduleModel>> call, @NonNull Response<List<ScheduleModel>> response) {
+                public void onResponse(Call<List<ScheduleByIDModel>> call, @NonNull Response<List<ScheduleByIDModel>> response) {
                     if (response.body() != null) {
                         locationNameArrayList.clear();
                         locationNameArrayList.addAll(response.body());
                         pendingListAdapter.notifyDataSetChanged();
+                        Utilities.showLogcatMessage(" List Count"+pendingListAdapter.getItemCount());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<List<ScheduleModel>> call, Throwable t) {
+                public void onFailure(Call<List<ScheduleByIDModel>> call, Throwable t) {
                     Utilities.showLogcatMessage("error " + t.toString());
                 }
             });
@@ -150,12 +153,7 @@ public class PendingSalesActivity extends AppCompatActivity {
             finish();
             startActivity(intent);
         }
-        if (id == R.id.salesList) {
-            Intent intent = new Intent(this, SalesActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
+
         return super.onOptionsItemSelected(item);
     }
 }

@@ -10,6 +10,7 @@ import com.opus_bd.pilot.Model.RequisationListModel;
 import com.opus_bd.pilot.Model.RequisationPostModel;
 import com.opus_bd.pilot.Model.SalesModel;
 import com.opus_bd.pilot.Model.ScheduleByDateModel;
+import com.opus_bd.pilot.Model.ScheduleByIDModel.ScheduleByIDModel;
 import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.Model.SiteModel;
 import com.opus_bd.pilot.Model.TokenBuyModel;
@@ -31,8 +32,8 @@ public interface RetrofitService {
     @POST("global/api/AppsLoginPost")
     Call<UserModel> login(@Body UserModel userModel);
 
-    @GET("global/api/GETScheduleByPilotID/{id}")
-    Call<List<ScheduleModel>> GETScheduleByPilotID(@Header("Authorization") String token, @Path("id") int id);
+    @GET("global/api/GETScheduleBypilotid/{id}")
+    Call<List<ScheduleByIDModel>> GETScheduleByPilotID(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("global/api/GetPortListApi")
     Call<List<PortModel>> GetPortListApi();
@@ -58,15 +59,6 @@ public interface RetrofitService {
 
     @GET("api/PilotCheckApi/{id}")
     Call<List<PilotCheckBodyM>> getCheckIn(@Header("Authorization") String token, @Path("id") int id);
-    /*@POST("global/api/GetRequisitionSave")
-    Call<MessageResponse> GetRequisitionSave(@Body RequisationPostModel requisationPostModel);*/
-
-
-
-
-
-
-
 
     @GET("global/api/GetAspNetUsersDataByApi/{scheduleID}")
     Call<ScheduleByDateModel> gETScheduleByshipName(@Header("Authorization") String token, @Path("scheduleID") int id);
@@ -77,7 +69,7 @@ public interface RetrofitService {
     @POST("global/api/PilotCheckApi")
     Call<String> postPilotCheckApi(@Header("Authorization") String token, @Body PilotCheckBodyM pilotCheckIn);
 
-    @GET(" {scheduleDate}")
+    @GET("global/api/GETScheduleByscheduleDate/{scheduleDate}")
     Call<List<ScheduleByDateModel>> gETScheduleByscheduleDate(@Header("Authorization") String token, @Path("scheduleDate") String scheduleDate);
 
     @GET("global/api/GetAspNetUsersDataByApi/{userName}")
@@ -87,7 +79,7 @@ public interface RetrofitService {
     Call<UserModel> getUserInfo(@Header("Authorization") String token, @Path("userName") String userName);
 
 
-   @POST("api/deleteSaleVisit/{id} ")
+  /* @POST("api/deleteSaleVisit/{id} ")
     Call<MessageResponse> deleteSaleVisit(@Header("Authorization") String token, @Path("id") int id);
 
     @POST("api/deleteSale/{id} ")
@@ -100,7 +92,7 @@ public interface RetrofitService {
     Call<SiteModel> getSiteName(@Header("Authorization") String token, @Path("id") int id);
 
     @GET("api/getProductName/{id}")
-    Call<ProductModel> getProductName(@Header("Authorization") String token, @Path("id") int id);
+    Call<ProductModel> getProductName(@Header("Authorization") String token, @Path("id") int id);*/
 }
 
 

@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 public class CheckinListAdapter extends RecyclerView.Adapter<CheckinListAdapter.ItemViewHolder> {
     private final Context context;
     private List<PilotCheckBodyM> items;
+
     public CheckinListAdapter(List<PilotCheckBodyM> items, Context context) {
         this.items = items;
         this.context = context;
@@ -34,7 +35,7 @@ public class CheckinListAdapter extends RecyclerView.Adapter<CheckinListAdapter.
     public ItemViewHolder onCreateViewHolder(ViewGroup parent,
                                              int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_pending_list, parent, false);
+                .inflate(R.layout.item_route_list, parent, false);
         return new ItemViewHolder(v);
     }
 
@@ -55,12 +56,17 @@ public class CheckinListAdapter extends RecyclerView.Adapter<CheckinListAdapter.
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tvEntryDate)
+        TextView tvEntryDate;
+        @BindView(R.id.tvEntryTime)
+        TextView tvEntryTime;
+        @BindView(R.id.tvShipName)
+        TextView tvShipName;
         @BindView(R.id.tvBitName)
         TextView tvBitName;
-        @BindView(R.id.tvLocationName)
-        TextView tvLocationName;
-        @BindView(R.id.tvShipName)
-        TextView tvShipName; @BindView(R.id.tvCheckType)
+        @BindView(R.id.tvLocation)
+        TextView tvLocation;
+        @BindView(R.id.tvCheckType)
         TextView tvCheckType;
         @BindView(R.id.btnCheckIn)
         Button btnCheckIn;
@@ -73,10 +79,11 @@ public class CheckinListAdapter extends RecyclerView.Adapter<CheckinListAdapter.
         }
 
         public void set(final PilotCheckBodyM item) {
-            //getSiteName(item.getSiteId());
+            tvEntryDate.setText(item.getEntryDate());
+            tvEntryTime.setText(item.getEntryTime());
             tvBitName.setText(item.getBeatName());
-            tvLocationName.setText(item.getLocation());
             tvShipName.setText(item.getShipName());
+            tvLocation.setText(item.getLocation());
             tvCheckType.setText(item.getCheckType());
             btnCheckIn.setOnClickListener(new View.OnClickListener() {
                 @Override

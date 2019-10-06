@@ -14,10 +14,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.opus_bd.pilot.Activity.LoginActivity;
-import com.opus_bd.pilot.Activity.MainActivity;
-import com.opus_bd.pilot.Activity.NewCheckINActivity;
+import com.opus_bd.pilot.Activity.PilotActivity.MainActivity;
 import com.opus_bd.pilot.Activity.PendingSalesActivity;
-import com.opus_bd.pilot.Activity.RouteActivity;
+import com.opus_bd.pilot.Activity.PilotActivity.RouteActivity;
 import com.opus_bd.pilot.Adapter.RunningReqListAdapter;
 import com.opus_bd.pilot.Model.OrganizationModel;
 import com.opus_bd.pilot.Model.RequisationListModel;

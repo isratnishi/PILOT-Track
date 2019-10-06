@@ -28,24 +28,18 @@
         <activity
             android:name=".Activity.NewCheckINActivity"
             android:label="Check In" />
-        <activity android:name=".Activity.RouteActivity" />
-        <activity
-            android:name=".Activity.SalesActivity"
-            android:label="Sales List" />
+        <activity android:name=".Activity.PilotActivity.RouteActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.PilotActivity.MainActivity"
             android:label="Home" />
         <activity
             android:name=".Activity.CheckInActivity"
             android:label="Check In" />
-        <activity
-            android:name=".Activity.NewEntryActivity"
-            android:label="Entry" />
         <activity
             android:name=".Activity.PendingSalesActivity"
             android:label="Pending List" />

@@ -1,4 +1,4 @@
-package com.opus_bd.pilot.Activity;
+package com.opus_bd.pilot.Activity.PilotActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.opus_bd.pilot.Activity.LoginActivity;
 import com.opus_bd.pilot.Adapter.CheckinListAdapter;
 import com.opus_bd.pilot.Adapter.PendingCheckinListAdapter;
 import com.opus_bd.pilot.Model.CheckinModel;
