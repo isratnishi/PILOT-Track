@@ -15,6 +15,7 @@ import com.opus_bd.pilot.Model.ScheduleByIDModel.ScheduleByIDModel;
 import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
+import com.opus_bd.pilot.Utils.Utilities;
 
 import java.util.List;
 
@@ -71,6 +72,7 @@ public class PendingCheckinListAdapter extends RecyclerView.Adapter<PendingCheck
         }
 
         public void set(final ScheduleByIDModel item) {
+            Utilities.showLogcatMessage(" Check in");
             tvScheduleDate.setText(item.getSchedule().getScheduleDate());
             tvScheduleNo.setText(item.getSchedule().getScheduleNo());
             tvGroupName.setText(item.getSchedule().getGroupName());
@@ -78,10 +80,13 @@ public class PendingCheckinListAdapter extends RecyclerView.Adapter<PendingCheck
             btnCheckIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //SharedPrefManager.getInstance(context).saveVisit(item);
-
                     Intent intent = new Intent(context, CheckInActivity.class);
-                    intent.putExtra("Location", tvScheduleNo.getText());
+                    intent.putExtra("Location", item.getSchedule().getStartPort());
+                    intent.putExtra("SCID", item.getScheduleID());
+                    Utilities.showLogcatMessage("SCID pending" + item.getScheduleID());
+                    intent.putExtra("ShipName", item.getShipName());
+                    intent.putExtra("Check", "Check In");
+                    intent.putExtra("beatName", item.getSchedule().getStartPort() + "-" + item.getSchedule().getEndPort());
                     context.startActivity(intent);
                 }
             });

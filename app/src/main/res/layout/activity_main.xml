@@ -1,137 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/appbar_padding_top"
     android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:gravity="center">
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:src="@drawable/biwta_logo"/>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        app:cardBackgroundColor="#9C27B0"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="5dp">
-
-        <TextView
-            android:id="@+id/tvUserName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="20dp"
-            android:text="Welcome"
-            android:textColor="@android:color/white"
-            android:textSize="20dp" />
-    </android.support.v7.widget.CardView>
-
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnCount="2"
+        android:layout_marginTop="@dimen/appbar_padding_top"
+        android:orientation="vertical">
 
-        >
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
+            android:src="@drawable/biwta_logo" />
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cvCheckIN"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:layout_margin="30dp"
-            app:cardBackgroundColor="#FF5252"
-            app:cardCornerRadius="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#FF6E40"
+
             app:cardElevation="5dp">
 
             <TextView
-
+                android:id="@+id/tvUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:padding="20dp"
-                android:text="Pending Checkin"
+                android:layout_margin="20dp"
+                android:text="Welcome"
                 android:textColor="@android:color/white"
-                android:textSize="15dp" />
+                android:textSize="20dp" />
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cvCheckOUT"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:layout_margin="30dp"
-            app:cardBackgroundColor="#E040FB"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="5dp">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="30dp"
+            android:columnCount="2"
+            android:background="#2DFFAB40"
+            android:rowCount="3">
 
-            <TextView
-android:id="@+id/tvCompleteTrip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="20dp"
-                android:text="Complete Trip"
-                android:textColor="@android:color/white"
-                android:textSize="15dp"
-                />
-        </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvCheckIN"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_gravity="start"
+                app:cardCornerRadius="14dp"
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cvRoute"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:layout_margin="30dp"
-            app:cardBackgroundColor="#FFAB40"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="5dp">
+                app:cardElevation="5dp">
 
-            <TextView
+                <TextView
+                    android:id="@+id/tvPendingCheckin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="Pending Trip"
+                    android:textColor="#9C27B0"
+                    android:textSize="15dp" />
+            </android.support.v7.widget.CardView>
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="20dp"
-                android:text="Route list"
-                android:textColor="@android:color/white"
-                android:textSize="15dp" />
-        </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvRunning"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_gravity="end"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="5dp">
+
+                <TextView
+                    android:id="@+id/tvRunningTrip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="Running Trip"
+                    android:textColor="#9C27B0"
+                    android:textSize="15dp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvCompleteTrip"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_gravity="start"
+
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="5dp">
+
+                <TextView
+                    android:id="@+id/tvCompleteTrip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="Complete Trip"
+                    android:textColor="#9C27B0"
+                    android:textSize="15dp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvRoute"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="5dp">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="Route list"
+                    android:textColor="#9C27B0"
+                    android:textSize="15dp" />
+            </android.support.v7.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cvNewEntry"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:layout_margin="30dp"
-            app:cardBackgroundColor="#536DFE"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="5dp">
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvNewEntry"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="5dp">
 
-            <TextView
+                <TextView
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="20dp"
-                android:text="New Entry"
-                android:textColor="@android:color/white"
-                android:textSize="15dp" />
-        </android.support.v7.widget.CardView>
-    </GridLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="New Entry"
+                    android:textColor="#9C27B0"
+                    android:textSize="15dp" />
+            </android.support.v7.widget.CardView>
+        </GridLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>

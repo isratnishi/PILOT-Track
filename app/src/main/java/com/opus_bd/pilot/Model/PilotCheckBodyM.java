@@ -104,4 +104,19 @@ this.location = location;
         this.entryTime = entryTime;
         this.location = location;
     }
+
+
+    @Override
+    public String toString() {
+        return "PilotCheckBodyM{" +
+                "pilotID=" + pilotID +
+                ", scheduleID=" + scheduleID +
+                ", checkType='" + checkType + '\'' +
+                ", shipName='" + shipName + '\'' +
+                ", beatName='" + beatName + '\'' +
+                ", entryDate='" + entryDate + '\'' +
+                ", entryTime='" + entryTime + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

@@ -49,8 +49,9 @@ public class PendingSalesActivity extends AppCompatActivity {
         String token = SharedPrefManager.getInstance(this).getUser();
         UserModel obj = gson.fromJson(token, UserModel.class);
         String email = obj.getUserName();
+        int id = obj.getPilotID();
       //  getUser(email);
-        getAllList(2);
+        getAllList(id);
         intRecyclerView();
 
     }

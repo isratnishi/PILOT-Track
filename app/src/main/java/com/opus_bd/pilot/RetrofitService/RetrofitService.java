@@ -78,21 +78,6 @@ public interface RetrofitService {
     @GET("global/api/GetAspNetUsersDataByApi/{userName}")
     Call<UserModel> getUserInfo(@Header("Authorization") String token, @Path("userName") String userName);
 
-
-  /* @POST("api/deleteSaleVisit/{id} ")
-    Call<MessageResponse> deleteSaleVisit(@Header("Authorization") String token, @Path("id") int id);
-
-    @POST("api/deleteSale/{id} ")
-    Call<MessageResponse> deleteSale(@Header("Authorization") String token, @Path("id") int id);
-
-    @GET("api/getSaleVisit/{id}")
-    Call<List<SalesModel>> getSaleVisit(@Header("Authorization") String token, @Path("id") int id);
-
-    @GET("api/getSiteName/{id}")
-    Call<SiteModel> getSiteName(@Header("Authorization") String token, @Path("id") int id);
-
-    @GET("api/getProductName/{id}")
-    Call<ProductModel> getProductName(@Header("Authorization") String token, @Path("id") int id);*/
 }
 
 

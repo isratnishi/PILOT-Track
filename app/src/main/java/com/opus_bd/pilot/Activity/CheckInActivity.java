@@ -42,6 +42,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.opus_bd.pilot.Activity.PilotActivity.MainActivity;
 import com.opus_bd.pilot.Model.GeocodingLocation;
 import com.opus_bd.pilot.Model.PilotCheckBodyM;
@@ -50,6 +52,8 @@ import com.opus_bd.pilot.RetrofitService.ApiClient;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
 import com.opus_bd.pilot.Utils.Utilities;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -80,9 +84,11 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     @BindView(R.id.tvYourLocation)
     TextView tvYourLocation;
     String location, date,time,Check;
-    String loc, shipName;
+    String loc, shipName, beatName;
     int scheduleName;
-
+    Calendar receiverDateCalender = Calendar.getInstance();
+    String datefromate, timeFormate;
+    private Gson gson1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,11 +98,14 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
+
+
             location = bundle.getString("Location");
             scheduleName = bundle.getInt("SCID");
             date = bundle.getString("Date");
             shipName = bundle.getString("ShipName");
             time = bundle.getString("Time");
+            beatName = bundle.getString("beatName");
             Check = bundle.getString("Check");
             Utilities.showLogcatMessage(" SCID  c" + scheduleName + location + date);
 
@@ -144,8 +153,27 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
             }
         };
         getPeriodicLocationUpdates();
+        initializeGson();
+        initializeFromDate();
     }
 
+    private void initializeGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("M/d/yy hh:mm a");
+        gson1 = gsonBuilder.create();
+    }
+
+    public void initializeFromDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd hh mm ss a", Locale.ENGLISH);
+        String[] dateValues = formatter.format(receiverDateCalender.getTime()).split(" ");
+        if (dateValues.length >= 3) {
+            datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
+            Utilities.showLogcatMessage(" Date " + datefromate);
+            Utilities.showLogcatMessage(" time " + dateValues[3] + "" + dateValues[4] + "" + dateValues[5]);
+            timeFormate = dateValues[3] + ":" + dateValues[4];
+
+        }
+    }
     public static String getAddressFromLatLong(Context context, double lat, double lng) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
@@ -345,7 +373,8 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
         String token = SharedPrefManager.getInstance(CheckInActivity.this).getUser();
         int pilot = SharedPrefManager.getInstance(CheckInActivity.this).getID();
-        PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, Check, shipName, "CTG-Payra", date, time, loc);
+        final PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, Check, shipName, beatName, datefromate, timeFormate, loc);
+        Utilities.showLogcatMessage(" BODY" + body.toString());
         ApiClient.getApiInterface().postPilotCheckApi(token, body).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -354,6 +383,8 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
                     Toast.makeText(CheckInActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CheckInActivity.this, MainActivity.class));
                 }
+                Utilities.showLogcatMessage(" BODY" + body.toString());
+                Utilities.showLogcatMessage("Responce BODY " + response.body().toString());
 
             }
 
