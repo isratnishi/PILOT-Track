@@ -68,15 +68,13 @@ public class CompleteTripActivity extends AppCompatActivity {
                     if (response.body() != null) {
                         requisationListModels.clear();
                         for(int i=0;i<response.body().size();i++){
-                            Utilities.showLogcatMessage("response " + response.body().size());
+
                             if(response.body().get(i).getReq().getRequisitionStatusId()==3){
 
                                 requisationListModels.add(response.body().get(i));
                             }
                         }
                         runningReqListAdapter.notifyDataSetChanged();
-                        Utilities.showLogcatMessage(" runningReqListAdapter.getItemCount() "+runningReqListAdapter.getItemCount());
-
                     }
                 }
 

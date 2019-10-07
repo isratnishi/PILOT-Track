@@ -87,8 +87,7 @@ public class CouponBuyActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<OrganizationModel>> call, @NonNull Response<List<OrganizationModel>> response) {
                     if (response.body() != null) {
-                        Utilities.showLogcatMessage("response " + response.body().get(0).getNoOfTokenbalance());
-                       tvOrganizationName.setText(response.body().get(0).getOrganizationName());
+                        tvOrganizationName.setText(response.body().get(0).getOrganizationName());
                        tvCouponLeft.setText(String.valueOf(response.body().get(0).getNoOfTokenbalance()));
                     }
                 }
@@ -116,19 +115,17 @@ public class CouponBuyActivity extends AppCompatActivity {
     }
 
     private void submitToServer() {
-        Utilities.showLogcatMessage(" Button ");
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         TokenBuyModel tokenBuyModel = new TokenBuyModel(orgid,Integer.parseInt(etNoofCoupon.getText().toString()),
                 etpaymentRef.getText().toString(),
                 400,  Integer.parseInt(tvTotalPrice.getText().toString()));
 
-        Utilities.showLogcatMessage(" requisationPostModel " + tokenBuyModel.toString());
 
         Call<String> registrationRequest = retrofitService.GetTokenSave(tokenBuyModel);
         registrationRequest.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Utilities.showLogcatMessage(" response.body() " + response.body());
+
                 if (response.body() != null) {
                     Toast.makeText(CouponBuyActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CouponBuyActivity.this, RequisatorHomeActivity.class));
@@ -139,7 +136,6 @@ public class CouponBuyActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(CouponBuyActivity.this, "failed response.body()", Toast.LENGTH_SHORT).show();
-                Utilities.showLogcatMessage("failed response.body()");
 
             }
         });

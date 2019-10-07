@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.opus_bd.pilot.Activity.CheckInActivity;
 import com.opus_bd.pilot.Model.ScheduleByIDModel.ScheduleByIDModel;
-import com.opus_bd.pilot.Model.ScheduleModel;
 import com.opus_bd.pilot.R;
-import com.opus_bd.pilot.Utils.SharedPrefManager;
 import com.opus_bd.pilot.Utils.Utilities;
 
 import java.util.List;

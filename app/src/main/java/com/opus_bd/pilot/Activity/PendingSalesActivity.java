@@ -63,38 +63,6 @@ public class PendingSalesActivity extends AppCompatActivity {
         rvPendingList.setAdapter(pendingListAdapter);
     }
 
-  /*  public void getUser(String userName) {
-        RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
-        String token = SharedPrefManager.getInstance(this).getUser();
-        Call<UserInfo> registrationRequest = retrofitService.getUserInfo(token, userName);
-        registrationRequest.enqueue(new Callback<UserInfo>() {
-            @Override
-            public void onResponse(Call<UserInfo> call, @NonNull Response<UserInfo> response) {
-
-                try {
-                    if(response.body()!=null)
-                    {
-                        Utilities.showLogcatMessage(" Email " + response.body().getEmail());
-                        Utilities.showLogcatMessage(" Id" + response.body().getId());
-
-                        int id = response.body().getPilotID();
-                      // getAllList(id);
-                        tvUserName.setText(response.body().getUserName());
-                    }
-
-                    else Utilities.showLogcatMessage(" Responce Null");
-                }
-                catch (Exception e){}
-
-            }
-
-            @Override
-            public void onFailure(Call<UserInfo> call, Throwable t) {
-                Utilities.showLogcatMessage("error " + t.toString());
-            }
-        });
-    }*/
-
     public void getAllList(int id) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
@@ -108,13 +76,13 @@ public class PendingSalesActivity extends AppCompatActivity {
                         locationNameArrayList.clear();
                         locationNameArrayList.addAll(response.body());
                         pendingListAdapter.notifyDataSetChanged();
-                        Utilities.showLogcatMessage(" List Count"+pendingListAdapter.getItemCount());
+
                     }
                 }
 
                 @Override
                 public void onFailure(Call<List<ScheduleByIDModel>> call, Throwable t) {
-                    Utilities.showLogcatMessage("error " + t.toString());
+
                 }
             });
         } else {

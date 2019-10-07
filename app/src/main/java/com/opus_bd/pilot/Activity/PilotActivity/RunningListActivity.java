@@ -37,7 +37,9 @@ public class RunningListActivity extends AppCompatActivity {
     @BindView(R.id.rvPendingList)
     RecyclerView rvPendingList;
     RunningCheckinListAdapter pendingListAdapter;
-    private ArrayList<PilotCheckBodyM> locationNameArrayList = new ArrayList<>();
+    private ArrayList<PilotCheckBodyM> RunningListArrayList = new ArrayList<>();
+    private ArrayList<PilotCheckBodyM> CheckinArrayList = new ArrayList<>();
+    private ArrayList<PilotCheckBodyM> CheckOUtArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class RunningListActivity extends AppCompatActivity {
     }
 
     public void intRecyclerView() {
-        pendingListAdapter = new RunningCheckinListAdapter(locationNameArrayList, this);
+        pendingListAdapter = new RunningCheckinListAdapter(RunningListArrayList, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
@@ -76,17 +78,17 @@ public class RunningListActivity extends AppCompatActivity {
 
                     try {
                         if (response.body() != null) {
-                            locationNameArrayList.clear();
+                            CheckinArrayList.clear();
+                            CheckOUtArrayList.clear();
+
                             for (int i = 0; i < response.body().size(); i++) {
-                                Utilities.showLogcatMessage("response " + response.body().size());
+
                                 try {
-                                    if (!response.body().get(i).getCheckType().equals("Check Out")) {
-                                        if (response.body().get(i).getCheckType().equals("Check In")) {
-                                            Utilities.showLogcatMessage("response " + response.body().get(i));
-                                            locationNameArrayList.add(response.body().get(i));
-                                        } else {
-                                            Utilities.showLogcatMessage("response " + response.body().get(i));
-                                        }
+                                    if (response.body().get(i).getCheckType().equals("Check In")) {
+                                        CheckinArrayList.add(response.body().get(i));
+
+                                    } else {
+                                        CheckOUtArrayList.add(response.body().get(i));
                                     }
 
                                 } catch (Exception e) {
@@ -95,6 +97,8 @@ public class RunningListActivity extends AppCompatActivity {
                             }
 
                             pendingListAdapter.notifyDataSetChanged();
+
+
                         }
 
                     } catch (Exception e) {

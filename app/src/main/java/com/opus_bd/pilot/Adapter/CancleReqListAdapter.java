@@ -65,43 +65,11 @@ public class CancleReqListAdapter extends RecyclerView.Adapter<CancleReqListAdap
         }
 
         public void set(final RequisationListModel item) {
-            //getSiteName(item.getSiteId());
             tvshipNo.setText(item.getShipNo());
             tvtripStartDate.setText(item.getReq().getTripStartDate());
             tvstartPort.setText(item.getReq().getStartPort());
             tvendPort.setText(item.getReq().getEndPort());
-
-            /*btnCheckIn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //SharedPrefManager.getInstance(context).saveVisit(item);
-
-              *//*      Intent intent = new Intent(context, CheckInActivity.class);
-                    intent.putExtra("Location", tvScheduleNo.getText());
-                    context.startActivity(intent);*//*
-                }
-            });*/
-
-
         }
     }
 
-   /* public void getSiteName(int id) {
-        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
-        String token = SharedPrefManager.getInstance(context).getUser();
-        Call<SiteModel> getSiteName = retrofitService.getSiteName(token, id);
-        getSiteName.enqueue(new Callback<SiteModel>() {
-            @Override
-            public void onResponse(Call<SiteModel> call, @NonNull Response<SiteModel> response) {
-                tvPendingSalesSite.setText(response.body().getSiteName());
-
-                Utilities.showLogcatMessage(" Site Name : " + tvPendingSalesSite.getText());
-            }
-
-            @Override
-            public void onFailure(Call<SiteModel> call, Throwable t) {
-                Utilities.showLogcatMessage("error " + t.toString());
-            }
-        });
-    }*/
 }

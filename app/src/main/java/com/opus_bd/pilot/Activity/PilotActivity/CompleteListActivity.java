@@ -18,7 +18,6 @@ import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.RetrofitService.RetrofitClientInstance;
 import com.opus_bd.pilot.RetrofitService.RetrofitService;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
-import com.opus_bd.pilot.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +63,7 @@ public class CompleteListActivity extends AppCompatActivity {
     }
 
     public void getAllList(int id) {
-        Utilities.showLogcatMessage("Responce");
+
         RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
         if (token != null) {
@@ -77,10 +76,9 @@ public class CompleteListActivity extends AppCompatActivity {
                         if (response.body() != null) {
                             locationNameArrayList.clear();
                             for (int i = 0; i < response.body().size(); i++) {
-                                Utilities.showLogcatMessage("response " + response.body().size());
+
                                 try {
                                     if (response.body().get(i).getCheckType().equals("Check Out")) {
-                                        Utilities.showLogcatMessage("response " + response.body().get(i).getCheckType());
                                         locationNameArrayList.add(response.body().get(i));
                                     }
                                 } catch (Exception e) {
@@ -99,7 +97,7 @@ public class CompleteListActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<List<PilotCheckBodyM>> call, Throwable t) {
-                    Utilities.showLogcatMessage("error " + t.toString());
+
                 }
             });
         } else {

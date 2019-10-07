@@ -45,11 +45,9 @@ public class MainActivity extends AppCompatActivity {
     TextView tvRunningTrip;
     @BindView(R.id.tvPendingCheckin)
     TextView tvPendingCheckin;
-    private ArrayList<PilotCheckBodyM> locationNameArrayList = new ArrayList<>();
     int ongoging = 0;
     int Cancle = 0;
     int Complete = 0;
-    public static int SCHEID, SCHEID1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
                         if (response.body() != null) {
 
                             for (int i = 0; i < response.body().size(); i++) {
-                                Utilities.showLogcatMessage(" !  " + response.body().get(i));
-                                Utilities.showLogcatMessage(" getCheckType  " + response.body().get(i).getCheckType());
 
                                 try {
                                     if (response.body().get(i).getCheckType().equals("Check Out")) {

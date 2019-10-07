@@ -101,51 +101,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         getLoaderManager().initLoader(0, null, this);
     }
 
-  /*  private void submitToServer() {
-        //showProgressBar(true);
-        final UserModel userModel = new UserModel(mEmailView.getText().toString(),
-                mPasswordView.getText().toString());
 
-        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
-        Call<UserResponse> registrationRequest = retrofitService.login(userModel);
-        registrationRequest.enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                try {
-                    if (response.body() != null) {
-                        UserResponse userResponse = response.body();
-                        if (userResponse.getError() != null) {
-                            if (userResponse.getError().equalsIgnoreCase(Constants.USER_NOT_FOUND)
-                                    || userResponse.getError().equalsIgnoreCase(Constants.TOKEN_INVALID)) {
-                                Toast.makeText(LoginActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else if (response.body().getError() == null) {
-
-                            SharedPrefManager.getInstance(LoginActivity.this).clearID();
-                            SharedPrefManager.getInstance(LoginActivity.this).saveUser(userModel);
-                            Utilities.showLogcatMessage(" email" +  response.body().getUser());
-                            Toast.makeText(LoginActivity.this, "Successfully Logged in!", Toast.LENGTH_SHORT).show();
-                            finish();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        }
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(LoginActivity.this, "Something went Wrong! Please try again later", Toast.LENGTH_SHORT).show();
-
-                    Utilities.showLogcatMessage("response " + e.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                // showProgressBar(false);
-                Toast.makeText(LoginActivity.this, "Fail to connect " + t.toString(), Toast.LENGTH_SHORT).show();
-                Utilities.showLogcatMessage("response " + t.toString());
-            }
-        });
-    }*/
   private void submitToServer() {
       //showProgressBar(true);
       final UserModel userModel = new UserModel(mEmailView.getText().toString(),
@@ -178,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
               } catch (Exception e) {
                   Toast.makeText(LoginActivity.this, "Something went Wrong! Please try again later", Toast.LENGTH_SHORT).show();
 
-                  Utilities.showLogcatMessage("response " + e.toString());
+
               }
           }
 
@@ -186,7 +142,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
           public void onFailure(Call<UserModel> call, Throwable t) {
               // showProgressBar(false);
               Toast.makeText(LoginActivity.this, "Fail to connect " + t.toString(), Toast.LENGTH_SHORT).show();
-              Utilities.showLogcatMessage("response " + t.toString());
           }
       });
   }

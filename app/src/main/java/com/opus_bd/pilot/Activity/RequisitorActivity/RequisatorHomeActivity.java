@@ -96,11 +96,8 @@ public class RequisatorHomeActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<OrganizationModel>> call, @NonNull Response<List<OrganizationModel>> response) {
                     if (response.body() != null) {
-                        Utilities.showLogcatMessage("response " + response.body().get(0).getNoOfTokenbalance());
-                      ///  tvTotalCoupon.setText(String.valueOf(response.body().get(0).getNoOfTokenbalance()));
-                        /*tvOrganization.setText(response.body().get(0).getOrganizationName());
-                        shipmodel.addAll(response.body().get(0).getShips());
-                        addShipNameSpinnerData(shipmodel);*/
+
+                        tvTotalCoupon.setText(String.valueOf(response.body().get(0).getNoOfTokenbalance()));
                     }
                 }
 
@@ -129,8 +126,7 @@ public class RequisatorHomeActivity extends AppCompatActivity {
                     if (response.body() != null ) {
 
                         for(int i=0;i<response.body().size();i++){
-                            Utilities.showLogcatMessage("response " + response.body().get(i).getReqID());
-                            if(response.body().get(i).getReq().getRequisitionStatusId()==1){
+                            if (response.body().get(i).getReq().getRequisitionStatusId() == 1) {
                                 ongoging=ongoging+1;
 
                             }
@@ -145,7 +141,7 @@ public class RequisatorHomeActivity extends AppCompatActivity {
 
                             }
                         }
-                        Utilities.showLogcatMessage(" ongoging"+ongoging);
+
                         tvRunningRequisation.setText(String.valueOf(ongoging));
                         tvCancleRequisation.setText(String.valueOf(Cancle));
                         tvTotalRequisation.setText(String.valueOf(Complete));

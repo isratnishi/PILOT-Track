@@ -50,8 +50,6 @@ import com.opus_bd.pilot.Model.PilotCheckBodyM;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.RetrofitService.ApiClient;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
-import com.opus_bd.pilot.Utils.Utilities;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -107,7 +105,6 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
             time = bundle.getString("Time");
             beatName = bundle.getString("beatName");
             Check = bundle.getString("Check");
-            Utilities.showLogcatMessage(" SCID  c" + scheduleName + location + date);
 
         }
 
@@ -168,8 +165,6 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         String[] dateValues = formatter.format(receiverDateCalender.getTime()).split(" ");
         if (dateValues.length >= 3) {
             datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
-            Utilities.showLogcatMessage(" Date " + datefromate);
-            Utilities.showLogcatMessage(" time " + dateValues[3] + "" + dateValues[4] + "" + dateValues[5]);
             timeFormate = dateValues[3] + ":" + dateValues[4];
 
         }
@@ -331,7 +326,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         tvYourLocation.setText(checkInLocation);
         loc = tvYourLocation.getText().toString();
         updateLocationCamera();
-        //Utils.showLogMessage(msg);
+
     }
 
     private void updateLocationCamera() {
@@ -363,8 +358,6 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
-        Utilities.showLogcatMessage(" Button ");
-
         submitToServer();
 
     }
@@ -374,7 +367,6 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         String token = SharedPrefManager.getInstance(CheckInActivity.this).getUser();
         int pilot = SharedPrefManager.getInstance(CheckInActivity.this).getID();
         final PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, Check, shipName, beatName, datefromate, timeFormate, loc);
-        Utilities.showLogcatMessage(" BODY" + body.toString());
         ApiClient.getApiInterface().postPilotCheckApi(token, body).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -383,8 +375,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
                     Toast.makeText(CheckInActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CheckInActivity.this, MainActivity.class));
                 }
-                Utilities.showLogcatMessage(" BODY" + body.toString());
-                Utilities.showLogcatMessage("Responce BODY " + response.body().toString());
+
 
             }
 
@@ -475,10 +466,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
             startActivity(intent);
         }
         if (id == R.id.salesList) {
-           /* Intent intent = new Intent(this, SalesActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);*/
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,18 +1,12 @@
 package com.opus_bd.pilot.RetrofitService;
 
-
-import com.opus_bd.pilot.Model.MessageResponse;
 import com.opus_bd.pilot.Model.OrganizationModel;
 import com.opus_bd.pilot.Model.PilotCheckBodyM;
 import com.opus_bd.pilot.Model.PortModel;
-import com.opus_bd.pilot.Model.ProductModel;
 import com.opus_bd.pilot.Model.RequisationListModel;
 import com.opus_bd.pilot.Model.RequisationPostModel;
-import com.opus_bd.pilot.Model.SalesModel;
 import com.opus_bd.pilot.Model.ScheduleByDateModel;
 import com.opus_bd.pilot.Model.ScheduleByIDModel.ScheduleByIDModel;
-import com.opus_bd.pilot.Model.ScheduleModel;
-import com.opus_bd.pilot.Model.SiteModel;
 import com.opus_bd.pilot.Model.TokenBuyModel;
 import com.opus_bd.pilot.Model.UserModel;
 
@@ -46,7 +40,6 @@ public interface RetrofitService {
     Call<List<RequisationListModel>> GETRequisationListModelByOrgID(@Path("orgid") int id);
 
 
-
     @POST("global/api/GetRequisitionSave")
     Call<String> GetRequisitionSave(@Body RequisationPostModel requisationPostModel);
 
@@ -62,9 +55,6 @@ public interface RetrofitService {
 
     @GET("global/api/GetAspNetUsersDataByApi/{scheduleID}")
     Call<ScheduleByDateModel> gETScheduleByshipName(@Header("Authorization") String token, @Path("scheduleID") int id);
-
-
-
 
     @POST("global/api/PilotCheckApi")
     Call<String> postPilotCheckApi(@Header("Authorization") String token, @Body PilotCheckBodyM pilotCheckIn);

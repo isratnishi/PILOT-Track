@@ -79,7 +79,7 @@ public class RunningReqListAdapter extends RecyclerView.Adapter<RunningReqListAd
         }
 
         public void set(final RequisationListModel item) {
-            //getSiteName(item.getSiteId());
+
             tvshipNo.setText(item.getShipNo());
             tvtripStartDate.setText(item.getReq().getTripStartDate());
             tvstartPort.setText(item.getReq().getStartPort());
@@ -88,7 +88,6 @@ public class RunningReqListAdapter extends RecyclerView.Adapter<RunningReqListAd
            btnCancle.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   Utilities.showLogcatMessage("item.getReqID() "+item.getReqID());
                    submitToServer(item.getReqID());
                }
            });
@@ -104,7 +103,6 @@ public class RunningReqListAdapter extends RecyclerView.Adapter<RunningReqListAd
         registrationRequest.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Utilities.showLogcatMessage(" response.body() " + response.body());
                 if (response.body() != null) {
                     Toast.makeText(context, "" + response.body(), Toast.LENGTH_SHORT).show();
                     context.startActivity(new Intent(context, RequisatorHomeActivity.class));
@@ -115,28 +113,9 @@ public class RunningReqListAdapter extends RecyclerView.Adapter<RunningReqListAd
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(context, "failed response.body()", Toast.LENGTH_SHORT).show();
-                Utilities.showLogcatMessage("failed response.body()");
 
             }
         });
     }
 
-   /* public void getSiteName(int id) {
-        RetrofitService retrofitService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitService.class);
-        String token = SharedPrefManager.getInstance(context).getUser();
-        Call<SiteModel> getSiteName = retrofitService.getSiteName(token, id);
-        getSiteName.enqueue(new Callback<SiteModel>() {
-            @Override
-            public void onResponse(Call<SiteModel> call, @NonNull Response<SiteModel> response) {
-                tvPendingSalesSite.setText(response.body().getSiteName());
-
-                Utilities.showLogcatMessage(" Site Name : " + tvPendingSalesSite.getText());
-            }
-
-            @Override
-            public void onFailure(Call<SiteModel> call, Throwable t) {
-                Utilities.showLogcatMessage("error " + t.toString());
-            }
-        });
-    }*/
 }

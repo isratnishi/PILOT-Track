@@ -77,7 +77,6 @@ public class RunningCheckinListAdapter extends RecyclerView.Adapter<RunningCheck
         }
 
         public void set(final PilotCheckBodyM item) {
-            //    Utilities.showLogcatMessage(" Check in");
             tvEntryDate.setText(item.getEntryDate());
             tvEntryTime.setText(item.getEntryTime());
             tvBitName.setText(item.getBeatName());

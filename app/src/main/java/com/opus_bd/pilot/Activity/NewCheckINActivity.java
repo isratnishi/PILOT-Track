@@ -193,8 +193,6 @@ public class NewCheckINActivity extends AppCompatActivity {
             fromDateButton.setText(dateValues[2]);
             fromYearMonthMonthButton.setText(dateValues[1] + "\n" + dateValues[0]);
             datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
-            Utilities.showLogcatMessage(" Date " + datefromate);
-            Utilities.showLogcatMessage(" time " + dateValues[3] + "" + dateValues[4] + "" + dateValues[5]);
             timeFormate = dateValues[3] + ":" + dateValues[4];
             getScheduleAllList(datefromate);
             getShipAllList(datefromate);
@@ -298,30 +296,26 @@ public class NewCheckINActivity extends AppCompatActivity {
     public void getScheduleAllList(String date) {
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(this).getUser();
-        Utilities.showLogcatMessage("getScheduleAllList 1");
+
         if (token != null) {
             Call<List<ScheduleByDateModel>> registrationRequest = retrofitService.gETScheduleByscheduleDate(token, date);
             registrationRequest.enqueue(new Callback<List<ScheduleByDateModel>>() {
                                             @Override
                                             public void onResponse(Call<List<ScheduleByDateModel>> call, @NonNull Response<List<ScheduleByDateModel>> response) {
-                                                Utilities.showLogcatMessage("getScheduleAllList 2"+response.body());
 
 
                                                 if (response.body() != null) {
-                                                    Utilities.showLogcatMessage("getScheduleAllList 3");
                                                     shipmodel.clear();
                                                     shipmodel.addAll(response.body());
                                                     addScheduleNameSpinnerData(response.body());
                                                 }
                                                 else {
 
-                                                    Utilities.showLogcatMessage("Responce Body null");
                                                 }
                                             }
 
                                             @Override
                                             public void onFailure(Call<List<ScheduleByDateModel>> call, Throwable t) {
-                                                Utilities.showLogcatMessage("error " + t.toString());
                                             }
                                         }
 
@@ -344,13 +338,11 @@ public class NewCheckINActivity extends AppCompatActivity {
                                             public void onResponse(Call<ScheduleByDateModel> call, @NonNull Response<ScheduleByDateModel> response) {
                                                 if (response.body() != null) {
                                                     tvStartPort.setText(response.body().getStartPort());
-                                                    Utilities.showLogcatMessage(tvStartPort.getText().toString());
                                                 }
                                             }
 
                                             @Override
                                             public void onFailure(Call<ScheduleByDateModel> call, Throwable t) {
-                                                Utilities.showLogcatMessage("error " + t.toString());
                                             }
                                         }
 

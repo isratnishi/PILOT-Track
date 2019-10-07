@@ -67,12 +67,6 @@ public class RequisationEntryActivity extends AppCompatActivity {
     @BindView(R.id.from_year_month_button)
     Button fromYearMonthMonthButton;@BindView(R.id.from_Time_layout)
     ImageView from_Time_layout;
-    /*@BindView(R.id.tvUserName)
-    TextView tvUserName;
-    @BindView(R.id.tvUserName)
-    TextView tvUserName;
-    @BindView(R.id.tvUserName)
-    TextView tvUserName;*/
     ArrayList<Ship> shipmodel = new ArrayList<>();
     ArrayList<PortModel> portmodel = new ArrayList<>();
 
@@ -84,7 +78,6 @@ public class RequisationEntryActivity extends AppCompatActivity {
     Calendar receiverDateCalender = Calendar.getInstance();
     String datefromate, timeFormate;
     int orgid;
-    private Gson gson1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +137,7 @@ public class RequisationEntryActivity extends AppCompatActivity {
     private void initializeGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
-        gson1 = gsonBuilder.create();
+        Gson gson = gsonBuilder.create();
     }
 
     private void changeFromDate() {
@@ -169,7 +162,6 @@ public class RequisationEntryActivity extends AppCompatActivity {
                         fromDateButton.setText(dateValues[2]);
                         fromYearMonthMonthButton.setText(dateValues[1] + "\n" + dateValues[0]);
                         datefromate = dateValues[0] + "/" + dateValues[1] + "/" + dateValues[2];
-                        Utilities.showLogcatMessage(" datefromate" + datefromate);
                         tvSelectDate.setText(datefromate);
                           /*  Utilities.showLogcatMessage(" time " + dateValues[3] + "" + dateValues[4] + "" + dateValues[5]);
                             timeFormate = dateValues[3] + ":" + dateValues[4];*/
@@ -192,10 +184,6 @@ public class RequisationEntryActivity extends AppCompatActivity {
         fromDateButton.setText(dateValues[0]);
         fromYearMonthMonthButton.setText(dateValues[1] + "\n" + dateValues[2]);
         datefromate = dateValues[0] + "/" + dateValues[1] + "/" + dateValues[2];
-        Utilities.showLogcatMessage(" Date " + datefromate);
-            /*Utilities.showLogcatMessage(" time " + dateValues[3] + "" + dateValues[4] + "" + dateValues[5]);
-            timeFormate = dateValues[3] + ":" + dateValues[4];
-*/
 
     }
 
@@ -209,7 +197,6 @@ public class RequisationEntryActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<OrganizationModel>> call, @NonNull Response<List<OrganizationModel>> response) {
                     if (response.body() != null) {
-                        Utilities.showLogcatMessage("response " + response.body().get(0).getNoOfTokenbalance());
                         tvOrganization.setText(response.body().get(0).getOrganizationName());
                         shipmodel.addAll(response.body().get(0).getShips());
                         addShipNameSpinnerData(shipmodel);
@@ -246,7 +233,6 @@ public class RequisationEntryActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i > 0) {
                     SELECTED_SHIP_ID = body.get(i - 1).getId();
-                    Utilities.showLogcatMessage("SELECTED_SHIP_ID " + SELECTED_SHIP_ID);
                 } else {
                     SELECTED_SHIP_ID = 0;
                 }
@@ -307,7 +293,6 @@ public class RequisationEntryActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i > 0) {
                     SELECTED_START_PORT_ID = body.get(i - 1).getId();
-                    Utilities.showLogcatMessage("SELECTED_START_PORT_ID " + SELECTED_START_PORT_ID);
 
                 } else {
                     SELECTED_START_PORT_ID = 0;
@@ -325,7 +310,7 @@ public class RequisationEntryActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i > 0) {
                     SELECTED_END_PORT_ID = body.get(i - 1).getId();
-                    Utilities.showLogcatMessage("SELECTED_END_PORT_ID " + SELECTED_END_PORT_ID);
+
                 } else {
                     SELECTED_END_PORT_ID = 0;
                 }
@@ -348,34 +333,15 @@ public class RequisationEntryActivity extends AppCompatActivity {
     }
 
     private void submitToServer() {
-        Utilities.showLogcatMessage(" Button ");
         RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         RequisationPostModel requisationPostModel = new RequisationPostModel(orgid, timeFormate, SELECTED_START_PORT_ID,
                 SELECTED_END_PORT_ID, datefromate, tvSelectTime.getText().toString(), SELECTED_SHIP_ID);
 
-        Utilities.showLogcatMessage(" requisationPostModel " + requisationPostModel.toString());
-        /*ApiClient.getApiInterface().GetRequisitionSave(requisationPostModel).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Utilities.showLogcatMessage(" Responce " + response.body());
-                if (response.body() != null) {
-                    Toast.makeText(RequisationEntryActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RequisationEntryActivity.this, MainActivity.class));
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(RequisationEntryActivity.this, "failed Responce", Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
         Call<String> registrationRequest = retrofitService.GetRequisitionSave(requisationPostModel);
         registrationRequest.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Utilities.showLogcatMessage(" response.body() " + response.body());
+
                 if (response.body() != null) {
                     Toast.makeText(RequisationEntryActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RequisationEntryActivity.this, RequisatorHomeActivity.class));
@@ -386,40 +352,8 @@ public class RequisationEntryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(RequisationEntryActivity.this, "failed response.body()", Toast.LENGTH_SHORT).show();
-                Utilities.showLogcatMessage("failed response.body()");
-
             }
         });
     }
-/*   private void submitToServer() {
-        Utilities.showLogcatMessage(" Button ");
-        String token = SharedPrefManager.getInstance(RequisationEntryActivity.this).getUser();
-        int pilot = SharedPrefManager.getInstance(RequisationEntryActivity.this).getID();
-        RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
-        RequisationPostModel requisationPostModel = new RequisationPostModel(orgid, timeFormate, SELECTED_START_PORT_ID,
-                SELECTED_END_PORT_ID, datefromate, "3:45", SELECTED_SHIP_ID);
-
-        Utilities.showLogcatMessage(" requisationPostModel " + requisationPostModel.toString());
-        Call<MessageResponse> registrationRequest = retrofitService.GetRequisitionSave(requisationPostModel);
-        registrationRequest.enqueue(new Callback<MessageResponse>() {
-            @Override
-            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
-                Utilities.showLogcatMessage(" response.body() " + response.body());
-                if (response.body() != null) {
-                    Toast.makeText(RequisationEntryActivity.this, "" + response.body().getStatus(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RequisationEntryActivity.this, MainActivity.class));
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<MessageResponse> call, Throwable t) {
-                Toast.makeText(RequisationEntryActivity.this, "failed response.body()", Toast.LENGTH_SHORT).show();
-                Utilities.showLogcatMessage("failed response.body()");
-
-            }
-        });
-    }*/
-
 
 }
