@@ -110,18 +110,7 @@ public class PendingSalesActivity extends AppCompatActivity {
             finish();
             startActivity(intent);
         }
-        if (id == R.id.home) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
-        if (id == R.id.pendingList) {
-            Intent intent = new Intent(this, PendingSalesActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

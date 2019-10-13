@@ -1,12 +1,16 @@
 package com.opus_bd.pilot.RetrofitService;
 
+import com.opus_bd.pilot.Model.Organization.BoatStatusForORG;
+import com.opus_bd.pilot.Model.Organization.TokenforOrgModel;
 import com.opus_bd.pilot.Model.OrganizationModel;
 import com.opus_bd.pilot.Model.PilotCheckBodyM;
 import com.opus_bd.pilot.Model.PortModel;
 import com.opus_bd.pilot.Model.RequisationListModel;
 import com.opus_bd.pilot.Model.RequisationPostModel;
+import com.opus_bd.pilot.Model.Organization.ScheduleAssignForORG;
 import com.opus_bd.pilot.Model.ScheduleByDateModel;
 import com.opus_bd.pilot.Model.ScheduleByIDModel.ScheduleByIDModel;
+import com.opus_bd.pilot.Model.SuperVisor.RequisitionCancleModel;
 import com.opus_bd.pilot.Model.TokenBuyModel;
 import com.opus_bd.pilot.Model.UserModel;
 
@@ -39,6 +43,17 @@ public interface RetrofitService {
     @GET("global/api/GetRequisitionInfoApi/{orgid}")
     Call<List<RequisationListModel>> GETRequisationListModelByOrgID(@Path("orgid") int id);
 
+    @GET("global/api/GetScheduleAssignForCheckINOrg/{orgId}")
+    Call<List<ScheduleAssignForORG>> GetScheduleAssignForCheckINOrg(@Path("orgId") int id);
+
+
+    @GET("global/api/GetBalanceTokenOrg/{orgid}")
+    Call<List<TokenforOrgModel>> GetBalanceTokenOrg(@Path("orgid") int id);
+
+
+    @GET("global/api/GetShipStatusOrg/{orgId}")
+    Call<List<BoatStatusForORG>> GetShipStatusOrg(@Path("orgId") int id);
+
 
     @POST("global/api/GetRequisitionSave")
     Call<String> GetRequisitionSave(@Body RequisationPostModel requisationPostModel);
@@ -67,6 +82,37 @@ public interface RetrofitService {
 
     @GET("global/api/GetAspNetUsersDataByApi/{userName}")
     Call<UserModel> getUserInfo(@Header("Authorization") String token, @Path("userName") String userName);
+
+
+    //SuperVisor
+    @GET("global/api/GetAllRequisitionDetailsPending")
+    Call<List<RequisationListModel>> GetAllRequisitionDetailsPending();
+
+
+    @GET("global/api/GetAllScheduleAssignLog/")
+    Call<List<ScheduleByIDModel>> GetAllScheduleAssignLog();
+
+    @GET("global/api/GetAllPilotCheckIncheckOut/")
+    Call<List<PilotCheckBodyM>> GetAllPilotCheckIncheckOut();
+
+
+    @GET("global/api/GetAllRequisitionDetailsForScheduleAdmin/")
+    Call<List<RequisationListModel>> GetAllRequisitionDetailsForScheduleAdmin();//it has to be change
+
+
+    @GET("global/api/GetAllRequisitionMasterCancelAdmin/")
+    Call<List<RequisitionCancleModel>> GetAllRequisitionMasterCancelAdmin();
+
+
+    @GET("global/api/GetAllRequisitionDetailsCompleteAdmin/")
+    Call<List<RequisitionCancleModel>> GetAllRequisitionDetailsCompleteAdmin();//it has to be change
+
+
+    @GET("global/api/GetBalanceTokenByAdmin/")
+    Call<List<TokenforOrgModel>> GetBalanceTokenByAdmin();
+
+    //admin
+
 
 }
 

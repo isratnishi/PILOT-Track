@@ -7,14 +7,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-/**
- * Created by TAOHID on 1/21/2018.
- */
 
 public class ApiClient {
 
     private static final String BASE_URL = "http://103.106.237.12:85/";
-    //private static final String BASE_URL = "http://57524caa.ngrok.io/";
+    /*private static final String BASE_URL = "http://811ca741.ngrok.io/";*/
 
     private static Retrofit retrofit = null;
 

@@ -3,27 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/home"
-        android:orderInCategory="100"
-        android:title="@string/home"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/pendingList"
-        android:orderInCategory="100"
-        android:title="@string/pending_list"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/newEntry"
-        android:orderInCategory="100"
-        android:title="@string/newEntry"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/salesList"
-        android:orderInCategory="100"
-        android:title="@string/route_list"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/logout"
         android:orderInCategory="100"
         android:title="@string/logout"

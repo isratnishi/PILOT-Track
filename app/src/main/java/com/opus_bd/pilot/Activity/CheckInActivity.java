@@ -50,6 +50,8 @@ import com.opus_bd.pilot.Model.PilotCheckBodyM;
 import com.opus_bd.pilot.R;
 import com.opus_bd.pilot.RetrofitService.ApiClient;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
+import com.opus_bd.pilot.Utils.Utilities;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -358,6 +360,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
     @OnClick(R.id.attendance_button)
     public void attendance_button() {
+        Utilities.showLogcatMessage("Buton");
         submitToServer();
 
     }
@@ -366,7 +369,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
         String token = SharedPrefManager.getInstance(CheckInActivity.this).getUser();
         int pilot = SharedPrefManager.getInstance(CheckInActivity.this).getID();
-        final PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, Check, shipName, beatName, datefromate, timeFormate, loc);
+        final PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, Check, shipName, beatName, datefromate, timeFormate, "1000 Shahbag Foot Over Bridge, Dhaka");
         ApiClient.getApiInterface().postPilotCheckApi(token, body).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -453,21 +456,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
             finish();
             startActivity(intent);
         }
-        if (id == R.id.home) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
-        if (id == R.id.pendingList) {
-            Intent intent = new Intent(this, PendingSalesActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            finish();
-            startActivity(intent);
-        }
-        if (id == R.id.salesList) {
 
-        }
         return super.onOptionsItemSelected(item);
     }
 }

@@ -16,7 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.PilotActivity.CompleteListActivity"></activity>
+        <activity android:name=".Activity.ChairMan.CancleRequizationforSVActivity"></activity>
+        <activity android:name=".Activity.ChairMan.PendingRequizationforSVActivity" />
+        <activity android:name=".Activity.ChairMan.ChairManHomeActivity" />
+        <activity android:name=".Activity.SuperVisor.ScheduleforSVActivity" />
+        <activity android:name=".Activity.SuperVisor.PendingScheduleforSVActivity" />
+        <activity android:name=".Activity.SuperVisor.RunningBoatForSVActivity" />
+        <activity android:name=".Activity.SuperVisor.SuperVisorActivity" />
+        <activity android:name=".Activity.RequisitorActivity.PendingScheduleActivity" />
+        <activity android:name=".Activity.RequisitorActivity.RunningBoatStatusActivity" />
+        <activity android:name=".Activity.PilotActivity.CompleteListActivity" />
         <activity android:name=".Activity.PilotActivity.RunningListActivity" />
         <activity android:name=".Activity.RequisitorActivity.CompleteTripActivity" />
         <activity android:name=".Activity.RequisitorActivity.CancleReqActivity" />

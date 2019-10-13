@@ -81,6 +81,7 @@ public class RunningCheckinListAdapter extends RecyclerView.Adapter<RunningCheck
             tvEntryTime.setText(item.getEntryTime());
             tvBitName.setText(item.getBeatName());
             tvShipName.setText(item.getShipName());
+            tvLocation.setText(item.getLocation());
             tvCheckType.setText(item.getCheckType());
             if (item.getCheckType().equals("Check Out")) {
                 btnCheckIn.setVisibility(View.GONE);

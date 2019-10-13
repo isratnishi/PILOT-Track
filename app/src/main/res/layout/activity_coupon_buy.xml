@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.RequisitorActivity.CouponBuyActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="15dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,19 +15,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:orientation="vertical">
 
             <TextView
-                style="@style/ItemPendingList"
-                android:layout_weight="1"
+                style="@style/ItemPendingList1"
                 android:text="Organization Name"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
                 android:id="@+id/tvOrganizationName"
-                style="@style/ItemPendingList"
-                android:layout_weight="2" />
+                style="@style/ItemPendingList1"
+                android:textSize="25dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         </LinearLayout>
 
@@ -48,27 +48,6 @@
                 android:layout_weight="2" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <TextView
-                style="@style/ItemPendingList"
-                android:layout_weight="1"
-                android:text="No. of Coupon"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <EditText
-                android:id="@+id/etNoofCoupon"
-                style="@style/ItemPendingList"
-                android:layout_weight="2"
-                android:inputType="number"/>
-
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,40 +68,59 @@
 
         </LinearLayout>
 
-        <LinearLayout
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_marginTop="@dimen/appbar_padding_top"
+            app:errorEnabled="true">
 
-            <TextView
-                style="@style/ItemPendingList"
-                android:layout_weight="1"
-                android:text="Total Price"
-                android:textColor="@color/colorPrimaryDark" />
-            <TextView
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/etNoofCoupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+
+                android:textColor="@android:color/black"
+                android:hint="No. of Coupon"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/tvTotalPrice"
-                style="@style/ItemPendingList"
-                android:text="400"
-                android:layout_weight="2" />
-        </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:hint="Total Price"
+                android:textColor="@android:color/black"
+                android:enabled="false"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            app:errorEnabled="true">
 
-            <TextView
-                style="@style/ItemPendingList"
-                android:layout_weight="1"
-                android:text="Payment Ref"
-                android:textColor="@color/colorPrimaryDark" />
-            <EditText
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/etpaymentRef"
-                style="@style/ItemPendingList"
-                android:layout_weight="2" />
-        </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:hint="Payment Ref"
+
+                android:textColor="@android:color/black"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
 
 
     </LinearLayout>
@@ -132,6 +130,8 @@
         android:id="@+id/btnCheckIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/capsule_shape"
         android:text="@string/submit" />
 </LinearLayout>

@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class CancleReqListAdapter extends RecyclerView.Adapter<CancleReqListAdapter.ItemViewHolder> {
     private final Context context;
     private List<RequisationListModel> items;
+
     public CancleReqListAdapter(List<RequisationListModel> items, Context context) {
         this.items = items;
         this.context = context;
@@ -53,8 +54,11 @@ public class CancleReqListAdapter extends RecyclerView.Adapter<CancleReqListAdap
         TextView tvshipNo;
         @BindView(R.id.tvtripStartDate)
         TextView tvtripStartDate;
+        @BindView(R.id.tvnoOfToken)
+        TextView tvnoOfToken;
         @BindView(R.id.tvstartPort)
-        TextView tvstartPort; @BindView(R.id.tvendPort)
+        TextView tvstartPort;
+        @BindView(R.id.tvendPort)
         TextView tvendPort;
 
 
@@ -67,6 +71,7 @@ public class CancleReqListAdapter extends RecyclerView.Adapter<CancleReqListAdap
         public void set(final RequisationListModel item) {
             tvshipNo.setText(item.getShipNo());
             tvtripStartDate.setText(item.getReq().getTripStartDate());
+            tvnoOfToken.setText(String.valueOf(item.getReq().getNoOfToken()));
             tvstartPort.setText(item.getReq().getStartPort());
             tvendPort.setText(item.getReq().getEndPort());
         }

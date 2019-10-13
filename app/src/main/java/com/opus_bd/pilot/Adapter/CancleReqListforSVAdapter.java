@@ -1,0 +1,89 @@
+package com.opus_bd.pilot.Adapter;
+
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.opus_bd.pilot.Model.RequisationListModel;
+import com.opus_bd.pilot.Model.SuperVisor.RequisitionCancleModel;
+import com.opus_bd.pilot.R;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class CancleReqListforSVAdapter extends RecyclerView.Adapter<CancleReqListforSVAdapter.ItemViewHolder> {
+    private final Context context;
+    private List<RequisitionCancleModel> items;
+
+    public CancleReqListforSVAdapter(List<RequisitionCancleModel> items, Context context) {
+        this.items = items;
+        this.context = context;
+    }
+
+    @Override
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent,
+                                             int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_canreq_for_sv_list, parent, false);
+        return new ItemViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(ItemViewHolder holder, int position) {
+        RequisitionCancleModel item = items.get(position);
+        holder.set(item);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (items == null) {
+            return 0;
+        }
+        return items.size();
+    }
+
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.tvreqNo)
+        TextView tvreqNo;
+        @BindView(R.id.tvtripStartDate)
+        TextView tvtripStartDate;
+        @BindView(R.id.tvnoOfToken)
+        TextView tvnoOfToken;
+        @BindView(R.id.tvstartPort)
+        TextView tvstartPort;
+        @BindView(R.id.tvendPort)
+        TextView tvendPort;
+        @BindView(R.id.tvreqDate)
+        TextView tvreqDate;
+        @BindView(R.id.tvduration)
+        TextView tvduration;
+        @BindView(R.id.tvnoOfShip)
+        TextView tvnoOfShip;
+
+
+        public ItemViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+
+        }
+
+        public void set(final RequisitionCancleModel item) {
+            tvreqNo.setText(item.getReqNo());
+            tvtripStartDate.setText(item.getTripStartDate());
+            tvnoOfToken.setText(String.valueOf(item.getNoOfToken()));
+            tvstartPort.setText(item.getStartPort());
+            tvendPort.setText(item.getEndPort());
+            tvreqDate.setText(item.getReqDate());
+            tvduration.setText(item.getDuration());
+            tvnoOfShip.setText(String.valueOf(item.getNoOfShip()));
+        }
+    }
+
+}

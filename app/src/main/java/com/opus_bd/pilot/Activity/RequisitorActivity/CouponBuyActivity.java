@@ -2,10 +2,13 @@ package com.opus_bd.pilot.Activity.RequisitorActivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +46,7 @@ public class CouponBuyActivity extends AppCompatActivity {
     @BindView(R.id.tvCouponUnitPrice)
     TextView tvCouponUnitPrice;
     @BindView(R.id.tvTotalPrice)
-    TextView tvTotalPrice;
+    TextInputEditText tvTotalPrice;
 
     int orgid, Total;
     @Override
@@ -140,4 +143,25 @@ public class CouponBuyActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.logout) {
+            SharedPrefManager.getInstance(this).clearToken();
+            Toast.makeText(this, "Logged out successfully!!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
