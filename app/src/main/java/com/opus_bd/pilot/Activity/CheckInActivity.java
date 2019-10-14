@@ -45,10 +45,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.opus_bd.pilot.Activity.PilotActivity.MainActivity;
+import com.opus_bd.pilot.Activity.RequisitorActivity.CouponBuyActivity;
+import com.opus_bd.pilot.Activity.RequisitorActivity.RequisatorHomeActivity;
 import com.opus_bd.pilot.Model.GeocodingLocation;
 import com.opus_bd.pilot.Model.PilotCheckBodyM;
+import com.opus_bd.pilot.Model.UserModel;
 import com.opus_bd.pilot.R;
+import com.opus_bd.pilot.RetrofitService.APIClientInterface;
 import com.opus_bd.pilot.RetrofitService.ApiClient;
+import com.opus_bd.pilot.RetrofitService.RetrofitService;
 import com.opus_bd.pilot.Utils.SharedPrefManager;
 import com.opus_bd.pilot.Utils.Utilities;
 
@@ -86,6 +91,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     String location, date,time,Check;
     String loc, shipName, beatName;
     int scheduleName;
+    int id;
     Calendar receiverDateCalender = Calendar.getInstance();
     String datefromate, timeFormate;
     private Gson gson1;
@@ -109,7 +115,16 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
             Check = bundle.getString("Check");
 
         }
+        Gson gson = new Gson();
+        String token = SharedPrefManager.getInstance(this).getUser();
+        UserModel obj = gson.fromJson(token, UserModel.class);
 
+        String email = obj.getUserName();
+        try {
+            id = obj.getPilotID();
+
+        } catch (Exception e) {
+        }
         attendButton.setText(Check);
         GeocodingLocation locationAddress = new GeocodingLocation();
         locationAddress.getAddressFromLocation(location,
@@ -166,7 +181,7 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd hh mm ss a", Locale.ENGLISH);
         String[] dateValues = formatter.format(receiverDateCalender.getTime()).split(" ");
         if (dateValues.length >= 3) {
-            datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
+            datefromate = dateValues[1] + "/" + dateValues[2] + "/" + dateValues[0];
             timeFormate = dateValues[3] + ":" + dateValues[4];
 
         }
@@ -366,11 +381,31 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void submitToServer() {
-
+        RetrofitService retrofitService = APIClientInterface.getClient().create(RetrofitService.class);
         String token = SharedPrefManager.getInstance(CheckInActivity.this).getUser();
         int pilot = SharedPrefManager.getInstance(CheckInActivity.this).getID();
-        final PilotCheckBodyM body = new PilotCheckBodyM(pilot, scheduleName, Check, shipName, beatName, datefromate, timeFormate, "1000 Shahbag Foot Over Bridge, Dhaka");
-        ApiClient.getApiInterface().postPilotCheckApi(token, body).enqueue(new Callback<String>() {
+        final PilotCheckBodyM body = new PilotCheckBodyM(id, scheduleName, Check, shipName, beatName, datefromate, timeFormate, location);
+        Utilities.showLogcatMessage(" " + body.toString());
+
+        Call<String> registrationRequest = retrofitService.postPilotCheckApi(token, body);
+        registrationRequest.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.body() != null) {
+                    Toast.makeText(CheckInActivity.this, "" + response.body(), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CheckInActivity.this, MainActivity.class));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(CheckInActivity.this, "failed response.body()", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+       /* ApiClient.getApiInterface().postPilotCheckApi(token, body).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
@@ -384,10 +419,10 @@ public class CheckInActivity extends AppCompatActivity implements OnMapReadyCall
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(CheckInActivity.this, "failed mkl", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(CheckInActivity.this, "failed "+t.toString(), Toast.LENGTH_SHORT).show();
+                Utilities.showLogcatMessage(" "+t.toString());
             }
-        });
+        });*/
     }
 
     private boolean isValidated() {

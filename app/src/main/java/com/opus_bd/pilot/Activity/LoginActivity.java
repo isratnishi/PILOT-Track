@@ -120,6 +120,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         SharedPrefManager.getInstance(LoginActivity.this).saveUser(response.body());
                         Utilities.showLogcatMessage(" email  " + SharedPrefManager.getInstance(LoginActivity.this).getUser());
                         Utilities.showLogcatMessage(" getUserTypeId  " + response.body().getUserTypeId());
+                        Utilities.showLogcatMessage(" getPilotID  " + response.body().getPilotID());
+                        SharedPrefManager.getInstance(LoginActivity.this).saveID(response.body().getPilotID());
                         Toast.makeText(LoginActivity.this, "Successfully Logged in!", Toast.LENGTH_SHORT).show();
                         finish();
                         if (response.body().getUserTypeId() == 2) {

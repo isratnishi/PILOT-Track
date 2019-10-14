@@ -60,9 +60,13 @@ public class MainActivity extends AppCompatActivity {
         UserModel obj = gson.fromJson(token, UserModel.class);
 
         String email = obj.getUserName();
-        int id = obj.getPilotID();
-        getAllList(id);
-        getAllList1(id);
+        try {
+            int id = obj.getPilotID();
+            getAllList(id);
+            getAllList1(id);
+        } catch (Exception e) {
+        }
+
         tvUserName.setText("Welcome\n" + email);
     }
 

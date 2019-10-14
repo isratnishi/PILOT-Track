@@ -194,7 +194,7 @@ public class NewCheckINActivity extends AppCompatActivity {
         if (dateValues.length >= 3) {
             fromDateButton.setText(dateValues[2]);
             fromYearMonthMonthButton.setText(dateValues[1] + "\n" + dateValues[0]);
-            datefromate = dateValues[0] + "" + dateValues[1] + "" + dateValues[2];
+            datefromate = dateValues[1] + "/" + dateValues[2] + "/" + dateValues[0];
             timeFormate = dateValues[3] + ":" + dateValues[4];
             getScheduleAllList(datefromate);
             getShipAllList(datefromate);

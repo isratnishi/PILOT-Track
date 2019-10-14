@@ -71,7 +71,8 @@ public interface RetrofitService {
     @GET("global/api/GetAspNetUsersDataByApi/{scheduleID}")
     Call<ScheduleByDateModel> gETScheduleByshipName(@Header("Authorization") String token, @Path("scheduleID") int id);
 
-    @POST("global/api/PilotCheckApi")
+
+    @POST("api/PilotCheckApi")
     Call<String> postPilotCheckApi(@Header("Authorization") String token, @Body PilotCheckBodyM pilotCheckIn);
 
     @GET("global/api/GETScheduleByscheduleDate/{scheduleDate}")
